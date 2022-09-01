@@ -22,6 +22,13 @@ species_key <- readRDS(file.path(keydir, "CDFW_species_key.Rds"))
 # Merge data
 ################################################################################
 
+# Block key
+block_key <- wcfish::blocks
+
+
+# Merge data
+################################################################################
+
 # Files to merge
 files2merge <- list.files(indir)
 
@@ -83,6 +90,8 @@ data <- data_orig %>%
   mutate(trip_type=stringr::str_to_sentence(trip_type)) %>% 
   # Format block
   mutate(block_id=as.numeric(block_id)) %>% 
+  # Block info
+  left_join(block_key %>% select(block_id, block_state, block_type), by="block_id") %>% 
   # Format depth/temperature
   mutate(depth_ft=as.numeric(depth_ft)) %>% 
   mutate(temp_f=as.numeric(temp_f)) %>% 
@@ -111,7 +120,7 @@ data <- data_orig %>%
          port_complex, port_code, port,
          no_activity_month,
          trip_type, non_paying,
-         block_id, 
+         block_id, block_type, block_state,
          depth_ft, temp_f, 
          departure_time, return_time, hm_fished, hrs_fished, n_fishers, n_crew_fished,
          species_code, comm_name_orig, comm_name, sci_name,
@@ -152,10 +161,18 @@ port_key_check <- data %>%
   select(port_complex, port_code, port) %>% 
   unique() %>% 
   arrange(port_code)
+port_key_check$port_code[port_key_check$port=="Invalid"]
+
+# Block
+block_key_check <- data %>% 
+  select(block_id, block_type, block_state) %>% 
+  unique()
+sort(block_key_check$block_id[is.na(block_key_check$block_type)])
 
 # Trip type
 sort(unique(data$trip_type))
 table(data$non_paying) # N, Y
+table(data$no_activity_month)
 
 # Descending device
 table(data$descending_device) # B, N, Y
@@ -167,9 +184,41 @@ sort(unique(data$species))
 species_key_check <- data %>% 
   select(species_code, comm_name_orig, comm_name, sci_name) %>% 
   unique()
+sort(species_key_check$species_code[is.na(species_key_check$comm_name)])
 
 # Temperature
 boxplot(data$depth)
+
+# Times
+sort(unique(data$departure_time))
+sort(unique(data$return_time))
+sort(unique(data$hm_fished))
+
+# Log key
+log_key <- data %>% 
+  count(logbook_id, vessel_id, vessel_name, date, trip_type, non_paying, 
+        departure_time, return_time, block_id, depth_ft, temp_f)
+freeR::which_duplicated(log_key$logbook_id)
+
+# Target species
+table(data$target_species_lingcod)
+table(data$target_species_other)
+table(data$target_species_rockfishes)
+table(data$target_species_salmon)
+table(data$target_species_sharks)
+table(data$target_species_striped_bass)
+table(data$target_species_sturgeon)
+table(data$target_species_tuna)
+table(data$target_species_potluck)
+table(data$target_species_misc_coastal)
+table(data$target_species_misc_bay)
+table(data$target_species_misc_offshore)
+
+# Fishing method
+
+# Bait used
+
+
 
 
 # Export data
