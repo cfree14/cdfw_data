@@ -284,6 +284,11 @@ spp_key3_use <- spp_key_chris %>%
   
 # Merge
 spp_key_out <- bind_rows(spp_key1_use, spp_key2_use, spp_key3_use) %>% 
+  # Add character
+  mutate(spp_code_chr=stringr::str_pad(spp_code_num, width=3, side="left", pad="0")) %>% 
+  # Arrange
+  arrange(spp_code_num) %>%
+  select(spp_code_num, spp_code_chr, everything()) %>% 
   # Fix scientific names
   mutate(sci_name=recode(sci_name, 
                          "NA spp."="Invertebrate spp.",
@@ -349,6 +354,7 @@ freeR::which_duplicated(spp_key_out$comm_name)
 
 # Export
 saveRDS(spp_key_out, file=file.path(outdir, "CDFW_species_key.Rds"))
+write.csv(spp_key_out, file=file.path(outdir, "CDFW_species_key.csv"), row.names=F)
 
 
 

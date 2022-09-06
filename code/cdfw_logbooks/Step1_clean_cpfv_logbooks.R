@@ -52,7 +52,8 @@ conv_hm_to_hr <- function(x){
 # Clean data
 ################################################################################
 
-# Does Oarfish (Regalecus glesne) have a code?
+# Mark months w/out fishing correctly
+# Merge target species, method, baits used
 
 # Clean data
 data <- data_orig %>% 
@@ -87,8 +88,8 @@ data <- data_orig %>%
   mutate(port_code=as.numeric(port_code)) %>% 
   # Add port details
   left_join(port_key %>% select(port_code, port, port_complex), by="port_code") %>% 
-  mutate(port=ifelse(is.na(port), "Invalid", port)) %>% 
-  mutate(port_complex=ifelse(is.na(port_complex), "Invalid", port_complex)) %>% 
+  # mutate(port=ifelse(is.na(port), "Invalid", port)) %>% 
+  # mutate(port_complex=ifelse(is.na(port_complex), "Invalid", port_complex)) %>% 
   # Format trip type
   mutate(trip_type=stringr::str_to_sentence(trip_type)) %>% 
   # Add block info
@@ -208,7 +209,7 @@ port_key_check <- data %>%
   select(port_complex, port_code, port) %>% 
   unique() %>% 
   arrange(port_code)
-port_key_check$port_code[port_key_check$port=="Invalid"]
+port_key_check$port_code[is.na(port_key_check$port)]
 
 # Block
 block_key_check <- data %>% 

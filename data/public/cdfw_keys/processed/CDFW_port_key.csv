@@ -1,0 +1,490 @@
+"port_complex","port_complex_code","port","port_code","county_code","discontinued_date"
+"Bodega Bay",3,"Acampo",359,39,1996-01-01
+"Bodega Bay",3,"Antioch",356,7,1996-01-01
+"Bodega Bay",3,"Antioch Bridge",360,7,1996-01-01
+"Bodega Bay",3,"Arbuckle",276,6,1996-01-01
+"Bodega Bay",3,"Auburn",260,31,1996-01-01
+"Bodega Bay",3,"Birds Landing",329,48,1996-01-01
+"Bodega Bay",3,"Bodega Bay",473,49,NA
+"Bodega Bay",3,"Bolinas",487,21,NA
+"Bodega Bay",3,"Brentwood",323,7,1996-01-01
+"Bodega Bay",3,"Broderick",362,57,1996-01-01
+"Bodega Bay",3,"Bryte",350,57,1996-01-01
+"Bodega Bay",3,"Byron",318,7,1996-01-01
+"Bodega Bay",3,"Camp Connell",303,5,1996-01-01
+"Bodega Bay",3,"Ceres",501,50,1996-01-01
+"Bodega Bay",3,"Citrus Heights",258,34,1996-01-01
+"Bodega Bay",3,"Clear Lake",361,17,1996-01-01
+"Bodega Bay",3,"Collinsville",342,48,1996-01-01
+"Bodega Bay",3,"Colusa",365,6,1996-01-01
+"Bodega Bay",3,"Concord",259,7,1996-01-01
+"Bodega Bay",3,"Cordelia",398,48,1996-01-01
+"Bodega Bay",3,"Corning",269,52,1996-01-01
+"Bodega Bay",3,"Danville",304,7,1996-01-01
+"Bodega Bay",3,"Davis",319,57,1996-01-01
+"Bodega Bay",3,"Denverton",328,48,1996-01-01
+"Bodega Bay",3,"Dillon Beach",441,21,NA
+"Bodega Bay",3,"Dixon",302,48,1996-01-01
+"Bodega Bay",3,"Drakes Bay",437,21,NA
+"Bodega Bay",3,"El Dorado Hills",396,9,1996-01-01
+"Bodega Bay",3,"Elk Grove",364,34,1996-01-01
+"Bodega Bay",3,"Fair Oaks",317,34,1996-01-01
+"Bodega Bay",3,"Fairfield",266,48,1996-01-01
+"Bodega Bay",3,"Galt",267,34,1996-01-01
+"Bodega Bay",3,"Glenn",313,11,1997-01-01
+"Bodega Bay",3,"Gridley",373,4,1996-01-01
+"Bodega Bay",3,"Gustine",311,24,1996-01-01
+"Bodega Bay",3,"Hood",368,34,1996-01-01
+"Bodega Bay",3,"Inverness",474,21,NA
+"Bodega Bay",3,"Isleton",349,34,1996-01-01
+"Bodega Bay",3,"Lakeport",358,17,1996-01-01
+"Bodega Bay",3,"Lathrop",338,39,1996-01-01
+"Bodega Bay",3,"Lee Vining",394,26,1996-01-01
+"Bodega Bay",3,"Livermore",413,1,1996-01-01
+"Bodega Bay",3,"Lodi",347,39,1996-01-01
+"Bodega Bay",3,"Los Molinos",264,52,1996-01-01
+"Bodega Bay",3,"Lucerne",371,17,1996-01-01
+"Bodega Bay",3,"Manteca",379,39,1996-01-01
+"Bodega Bay",3,"Marconi Cove",488,21,NA
+"Bodega Bay",3,"Marshall",462,21,NA
+"Bodega Bay",3,"Marysville",315,53,1996-01-01
+"Bodega Bay",3,"Middle River",372,39,1996-01-01
+"Bodega Bay",3,"Modesto",376,50,1996-01-01
+"Bodega Bay",3,"Montezuma Slough",326,48,1996-01-01
+"Bodega Bay",3,"Nice",327,17,1996-01-01
+"Bodega Bay",3,"Nicolaus",395,51,1996-01-01
+"Bodega Bay",3,"Oakley",387,7,1996-01-01
+"Bodega Bay",3,"Old River",339,7,1996-01-01
+"Bodega Bay",3,"Olivehurst",310,58,1996-01-01
+"Bodega Bay",3,"Orangevale",256,34,1996-01-01
+"Bodega Bay",3,"Orland",271,11,1996-01-01
+"Bodega Bay",3,"Oroville",257,4,1996-01-01
+"Bodega Bay",3,"Patterson",370,50,1996-01-01
+"Bodega Bay",3,"Pittsburg",345,7,NA
+"Bodega Bay",3,"Placerville",306,9,1996-01-01
+"Bodega Bay",3,"Pleasant Hill",307,7,1996-01-01
+"Bodega Bay",3,"Pleasanton",308,1,1996-01-01
+"Bodega Bay",3,"Point Reyes",476,21,NA
+"Bodega Bay",3,"Port Costa",367,7,1996-01-01
+"Bodega Bay",3,"Rio Linda",393,34,1996-01-01
+"Bodega Bay",3,"Ripon",316,39,1996-01-01
+"Bodega Bay",3,"Roseville",265,31,1996-01-01
+"Bodega Bay",3,"Rough & Ready",253,29,1996-01-01
+"Bodega Bay",3,"Sacramento Area",300,99,1997-01-01
+"Bodega Bay",3,"Smartsville",309,58,1996-01-01
+"Bodega Bay",3,"Snelling",321,24,1996-01-01
+"Bodega Bay",3,"Sonora",301,55,1996-01-01
+"Bodega Bay",3,"Steamboat Slough",332,34,1996-01-01
+"Bodega Bay",3,"Suisun City",325,48,NA
+"Bodega Bay",3,"Tahoe City",312,31,1996-01-01
+"Bodega Bay",3,"Tahoe Keys",254,9,1996-01-01
+"Bodega Bay",3,"Three Mile Slough",331,34,1996-01-01
+"Bodega Bay",3,"Timber Cove",424,49,NA
+"Bodega Bay",3,"Tomales Bay",477,21,NA
+"Bodega Bay",3,"Tracy",378,39,1996-01-01
+"Bodega Bay",3,"Truckee",388,29,1996-01-01
+"Bodega Bay",3,"Turlock",320,50,1996-01-01
+"Bodega Bay",3,"Upper Lake",377,17,1996-01-01
+"Bodega Bay",3,"Vacaville",262,48,1996-01-01
+"Bodega Bay",3,"Verona",369,51,1996-01-01
+"Bodega Bay",3,"Walnut Creek",314,7,1996-01-01
+"Bodega Bay",3,"Walnut Grove",354,34,1996-01-01
+"Bodega Bay",3,"West Sacramento",305,57,1996-01-01
+"Bodega Bay",3,"Willits",275,23,1996-01-01
+"Bodega Bay",3,"Willows",273,11,1996-01-01
+"Bodega Bay",3,"Woodbridge",337,39,1996-01-01
+"Bodega Bay",3,"Woodland",390,57,1996-01-01
+"Bodega Bay",3,"Yolo",397,57,1996-01-01
+"Bodega Bay",3,"Yuba City",374,51,1996-01-01
+"Eureka",1,"Arcata",212,12,NA
+"Eureka",1,"Crescent City",201,8,NA
+"Eureka",1,"Eureka",220,12,NA
+"Eureka",1,"Fields Landing",217,12,NA
+"Eureka",1,"Humboldt Bay",219,12,NA
+"Eureka",1,"King Salmon",246,12,NA
+"Eureka",1,"Klamath",210,8,NA
+"Eureka",1,"Orick",204,12,NA
+"Eureka",1,"Shelter Cove",215,12,NA
+"Eureka",1,"Trinidad",231,12,NA
+"Fort Bragg",2,"Albion",211,23,NA
+"Fort Bragg",2,"Almanor",240,32,1996-01-01
+"Fort Bragg",2,"Anchor Bay",427,23,NA
+"Fort Bragg",2,"Bayside",236,12,1996-01-01
+"Fort Bragg",2,"Bieber",249,18,1996-01-01
+"Fort Bragg",2,"Blue Lake",208,12,1996-01-01
+"Fort Bragg",2,"Carlotta",255,12,1996-01-01
+"Fort Bragg",2,"Caspar",226,23,1996-01-01
+"Fort Bragg",2,"Centerville",207,1,1996-01-01
+"Fort Bragg",2,"Chester",206,32,1996-01-01
+"Fort Bragg",2,"Cloverdale",247,49,1996-01-01
+"Fort Bragg",2,"Crannell",209,12,1996-01-01
+"Fort Bragg",2,"Douglas City",278,53,1996-01-01
+"Fort Bragg",2,"Elk",222,23,NA
+"Fort Bragg",2,"Eureka Area",200,99,1996-01-01
+"Fort Bragg",2,"Fall River Mills",251,45,1996-01-01
+"Fort Bragg",2,"Ferndale",214,12,1996-01-01
+"Fort Bragg",2,"Fieldbrook",216,12,1996-01-01
+"Fort Bragg",2,"Fort Bragg",223,23,NA
+"Fort Bragg",2,"Fort Dick",229,8,1996-01-01
+"Fort Bragg",2,"Fortuna",221,12,1996-01-01
+"Fort Bragg",2,"Garberville",230,12,1996-01-01
+"Fort Bragg",2,"Happy Camp",277,47,1996-01-01
+"Fort Bragg",2,"Honeydew",274,12,1996-01-01
+"Fort Bragg",2,"Little River",227,23,NA
+"Fort Bragg",2,"Loleta",224,12,1996-01-01
+"Fort Bragg",2,"Mccloud",250,47,1996-01-01
+"Fort Bragg",2,"Mckinleyville",234,12,1996-01-01
+"Fort Bragg",2,"Mendocino",228,23,1996-01-01
+"Fort Bragg",2,"Miranda",232,12,1996-01-01
+"Fort Bragg",2,"Moonstone Beach",235,12,1996-01-01
+"Fort Bragg",2,"Petrolia",239,12,1996-01-01
+"Fort Bragg",2,"Point Arena",213,23,NA
+"Fort Bragg",2,"Red Bluff",245,52,1996-01-01
+"Fort Bragg",2,"Redding",244,45,1996-01-01
+"Fort Bragg",2,"Requa",202,8,1996-01-01
+"Fort Bragg",2,"Ruth",225,53,1996-01-01
+"Fort Bragg",2,"Scotia",218,12,1996-01-01
+"Fort Bragg",2,"Smith River",203,8,1996-01-01
+"Fort Bragg",2,"Thorn",238,12,1996-01-01
+"Fort Bragg",2,"Ukiah",243,23,1996-01-01
+"Fort Bragg",2,"Weaverville",270,53,1996-01-01
+"Fort Bragg",2,"Weed",272,47,1996-01-01
+"Fort Bragg",2,"Weott",237,12,1996-01-01
+"Fort Bragg",2,"Westport",233,23,NA
+"Fort Bragg",2,"Whitehorn",263,12,1996-01-01
+"Fort Bragg",2,"Yreka",205,47,1996-01-01
+"Inland Waters",11,"Lake Isabella",652,15,NA
+"Inland Waters",11,"Mono Lake",391,26,NA
+"Los Angeles",8,"Alhambra",763,19,1996-01-01
+"Los Angeles",8,"Anaheim",721,30,1996-01-01
+"Los Angeles",8,"Avalon",741,19,NA
+"Los Angeles",8,"Balboa",764,30,NA
+"Los Angeles",8,"Beaumont",775,33,1996-01-01
+"Los Angeles",8,"Bell Gardens",724,19,1996-01-01
+"Los Angeles",8,"Bishop",783,14,1996-01-01
+"Los Angeles",8,"Bloomington",792,36,1996-01-01
+"Los Angeles",8,"Camarillo",787,56,1996-01-01
+"Los Angeles",8,"Capistrano",772,30,1996-01-01
+"Los Angeles",8,"Carson",711,19,1996-01-01
+"Los Angeles",8,"Catalina Island",733,19,NA
+"Los Angeles",8,"Chatsworth",805,19,1996-01-01
+"Los Angeles",8,"Corona Del Mar",765,30,1996-01-01
+"Los Angeles",8,"Costa Mesa",759,30,1996-01-01
+"Los Angeles",8,"Covina",708,19,1996-01-01
+"Los Angeles",8,"Dana Point",767,30,NA
+"Los Angeles",8,"El Segundo",709,19,1996-01-01
+"Los Angeles",8,"Elsinore",754,33,1996-01-01
+"Los Angeles",8,"Fountain Valley",704,30,1996-01-01
+"Los Angeles",8,"Fullerton",780,30,1996-01-01
+"Los Angeles",8,"Gardena",773,19,1996-01-01
+"Los Angeles",8,"Glendale",701,19,1996-01-01
+"Los Angeles",8,"Granada Hills",705,19,1996-01-01
+"Los Angeles",8,"Harbor City",779,19,1996-01-01
+"Los Angeles",8,"Hawaiian Gardens",710,19,1996-01-01
+"Los Angeles",8,"Hemet",854,33,1996-01-01
+"Los Angeles",8,"Hermosa Beach",756,19,NA
+"Los Angeles",8,"Huntington Beach",768,30,NA
+"Los Angeles",8,"Inglewood",774,19,1996-01-01
+"Los Angeles",8,"Irvine",790,30,1996-01-01
+"Los Angeles",8,"La Canada",794,19,1996-01-01
+"Los Angeles",8,"Laguna",749,30,1996-01-01
+"Los Angeles",8,"Lake Crowley",799,26,1996-01-01
+"Los Angeles",8,"Lancaster",703,19,1996-01-01
+"Los Angeles",8,"Long Beach",743,19,NA
+"Los Angeles",8,"Los Alamitos",736,30,1996-01-01
+"Los Angeles",8,"Los Angeles",744,19,NA
+"Los Angeles",8,"Los Angeles Area",700,99,1996-01-01
+"Los Angeles",8,"Lynwood",777,19,1996-01-01
+"Los Angeles",8,"Malibu",729,19,NA
+"Los Angeles",8,"Manhattan Beach",762,19,1996-01-01
+"Los Angeles",8,"Marina Del Rey",776,19,NA
+"Los Angeles",8,"Mission Viejo",712,30,1996-01-01
+"Los Angeles",8,"Newberry Springs",788,36,1996-01-01
+"Los Angeles",8,"Newhall",802,19,1996-01-01
+"Los Angeles",8,"Newport Beach",748,30,NA
+"Los Angeles",8,"Norco",755,33,1996-01-01
+"Los Angeles",8,"Norwalk",728,19,1996-01-01
+"Los Angeles",8,"Ocean Park",752,19,1996-01-01
+"Los Angeles",8,"Ontario",804,36,1996-01-01
+"Los Angeles",8,"Orange",726,30,1996-01-01
+"Los Angeles",8,"Pacific Palisades",738,19,1996-01-01
+"Los Angeles",8,"Palm City",874,33,1996-01-01
+"Los Angeles",8,"Palm Springs",856,33,1996-01-01
+"Los Angeles",8,"Paramount",778,19,1996-01-01
+"Los Angeles",8,"Pasadena",796,19,1996-01-01
+"Los Angeles",8,"Point Dume",757,19,1996-01-01
+"Los Angeles",8,"Rancho Palos Verdes",706,19,1996-01-01
+"Los Angeles",8,"Redondo Beach",742,19,NA
+"Los Angeles",8,"Reseda",803,19,1996-01-01
+"Los Angeles",8,"Riverside",769,33,1996-01-01
+"Los Angeles",8,"San Bernardino",784,36,1996-01-01
+"Los Angeles",8,"San Clemente",766,30,1996-01-01
+"Los Angeles",8,"San Clemente Island",734,37,1996-01-01
+"Los Angeles",8,"San Pedro",770,19,NA
+"Los Angeles",8,"Santa Ana",771,30,1996-01-01
+"Los Angeles",8,"Santa Monica",747,19,NA
+"Los Angeles",8,"Seal Beach",760,30,NA
+"Los Angeles",8,"South Gate",702,19,1996-01-01
+"Los Angeles",8,"Sunset Beach",739,30,1996-01-01
+"Los Angeles",8,"Tecopa",857,14,1996-01-01
+"Los Angeles",8,"Terminal Island",745,19,NA
+"Los Angeles",8,"Topanga Canyon",751,19,1996-01-01
+"Los Angeles",8,"Torrance",730,19,1996-01-01
+"Los Angeles",8,"Upland",789,36,1996-01-01
+"Los Angeles",8,"Venice",753,19,1996-01-01
+"Los Angeles",8,"Vernon",785,19,1996-01-01
+"Los Angeles",8,"Victorville",782,36,1996-01-01
+"Los Angeles",8,"Walnut",781,19,1996-01-01
+"Los Angeles",8,"West Los Angeles",750,19,1996-01-01
+"Los Angeles",8,"Westminister",707,30,1996-01-01
+"Los Angeles",8,"Whittier",727,19,1996-01-01
+"Los Angeles",8,"Wilmington",746,19,NA
+"Los Angeles",8,"Yucca Valley",791,36,1996-01-01
+"Monterey",5,"Aptos",599,44,1996-01-01
+"Monterey",5,"Big Creek",515,27,NA
+"Monterey",5,"Big Sur",511,27,1996-01-01
+"Monterey",5,"Capitola",591,44,1996-01-01
+"Monterey",5,"Carmel",589,27,1996-01-01
+"Monterey",5,"Chowchilla",559,20,1996-01-01
+"Monterey",5,"Clovis",504,10,1996-01-01
+"Monterey",5,"Coalinga",514,10,1996-01-01
+"Monterey",5,"Davenport",596,44,1996-01-01
+"Monterey",5,"Dos Palos",560,24,1996-01-01
+"Monterey",5,"Felton",506,44,1996-01-01
+"Monterey",5,"Fort Ord",549,27,1996-01-01
+"Monterey",5,"Freedom",268,44,1996-01-01
+"Monterey",5,"Fresno",558,10,1996-01-01
+"Monterey",5,"Gilroy",552,43,1996-01-01
+"Monterey",5,"Hollister",581,35,1996-01-01
+"Monterey",5,"Kerman",551,10,1996-01-01
+"Monterey",5,"Kingsburg",503,10,1996-01-01
+"Monterey",5,"Lindsay",509,54,1996-01-01
+"Monterey",5,"Los Banos",505,24,1996-01-01
+"Monterey",5,"Lucia",584,27,1996-01-01
+"Monterey",5,"Madera",557,20,1996-01-01
+"Monterey",5,"Marina",598,27,1996-01-01
+"Monterey",5,"Mill Creek",516,27,NA
+"Monterey",5,"Monterey",550,27,NA
+"Monterey",5,"Monterey Area",500,99,1996-01-01
+"Monterey",5,"Morgan Hill",553,43,1996-01-01
+"Monterey",5,"Moss Landing",592,27,NA
+"Monterey",5,"Pacific Grove",587,27,1996-01-01
+"Monterey",5,"Paso Robles",513,40,1996-01-01
+"Monterey",5,"Pebble Beach",585,27,1996-01-01
+"Monterey",5,"Pixley",556,54,1996-01-01
+"Monterey",5,"Point Lobos",586,27,1996-01-01
+"Monterey",5,"Salinas",590,27,1996-01-01
+"Monterey",5,"San Juan Bautista",507,35,1996-01-01
+"Monterey",5,"San Miguel",512,40,1996-01-01
+"Monterey",5,"Santa Cruz",593,44,NA
+"Monterey",5,"Seaside",588,27,1996-01-01
+"Monterey",5,"Soquel",502,44,1996-01-01
+"Monterey",5,"Visalia",508,54,1996-01-01
+"Monterey",5,"Watsonville",594,44,1996-01-01
+"Monterey",5,"Willow Creek",517,27,NA
+"Morro Bay",6,"Arroyo Grande",601,40,1996-01-01
+"Morro Bay",6,"Atascadero",653,40,1996-01-01
+"Morro Bay",6,"Avila/Port San Luis",602,40,NA
+"Morro Bay",6,"Bakersfield",643,15,1996-01-01
+"Morro Bay",6,"Baywood Park",648,40,1996-01-01
+"Morro Bay",6,"Cambria",632,40,1996-01-01
+"Morro Bay",6,"Cayucos",603,40,1996-01-01
+"Morro Bay",6,"Delano",642,15,1996-01-01
+"Morro Bay",6,"Grover City",638,40,1996-01-01
+"Morro Bay",6,"Kernville",644,15,1996-01-01
+"Morro Bay",6,"Morro Bay",606,40,NA
+"Morro Bay",6,"Oceano",607,40,1996-01-01
+"Morro Bay",6,"Oildale",649,15,1996-01-01
+"Morro Bay",6,"Ojai",650,56,1996-01-01
+"Morro Bay",6,"Pismo Beach",610,40,1996-01-01
+"Morro Bay",6,"Porterville",641,54,1996-01-01
+"Morro Bay",6,"Ridgecrest",654,15,1996-01-01
+"Morro Bay",6,"San Luis Obispo",609,40,1996-01-01
+"Morro Bay",6,"San Simeon",615,40,NA
+"Morro Bay",6,"Santa Maria",612,42,1996-01-01
+"Morro Bay",6,"Santa Paula",655,56,1996-01-01
+"Morro Bay",6,"Shafter",647,15,1996-01-01
+"Morro Bay",6,"Simi Valley",640,56,1996-01-01
+"Morro Bay",6,"Solimar",634,56,1996-01-01
+"Morro Bay",6,"Solvang",645,42,1996-01-01
+"Morro Bay",6,"Summerland",616,42,1996-01-01
+"Morro Bay",6,"Taft",656,15,1996-01-01
+"Morro Bay",6,"Thousand Oaks",801,56,1996-01-01
+"Morro Bay",6,"Tulare",646,54,1996-01-01
+"Morro Bay",6,"West Lake Village",651,56,1996-01-01
+"Oregon",12,"Brookings",199,99,NA
+"Sacramento Delta",10,"Bethel Island",324,7,NA
+"Sacramento Delta",10,"Clarksburg",363,57,NA
+"Sacramento Delta",10,"Cottonwood",252,45,NA
+"Sacramento Delta",10,"Courtland",343,34,NA
+"Sacramento Delta",10,"Freeport",322,34,NA
+"Sacramento Delta",10,"Knights Landing",366,57,NA
+"Sacramento Delta",10,"Locke",346,34,NA
+"Sacramento Delta",10,"Rio Vista",351,48,NA
+"Sacramento Delta",10,"Sacramento",330,34,NA
+"Sacramento Delta",10,"Stockton",352,39,NA
+"San Diego",9,"Bonita",864,37,1996-01-01
+"San Diego",9,"Cardiff",893,37,1996-01-01
+"San Diego",9,"Carlsbad",891,37,1996-01-01
+"San Diego",9,"Chula Vista",889,37,NA
+"San Diego",9,"Coronado",884,37,NA
+"San Diego",9,"Del Mar",890,37,1996-01-01
+"San Diego",9,"Earp",853,36,1996-01-01
+"San Diego",9,"El Cajon",879,37,1996-01-01
+"San Diego",9,"El Centro",878,13,1996-01-01
+"San Diego",9,"Encinitas",894,37,1996-01-01
+"San Diego",9,"Escondido",899,37,1996-01-01
+"San Diego",9,"Fallbrook",861,37,1996-01-01
+"San Diego",9,"Imperial",866,13,1996-01-01
+"San Diego",9,"Imperial Beach",868,37,NA
+"San Diego",9,"La Jolla",888,37,NA
+"San Diego",9,"La Mesa",898,37,1996-01-01
+"San Diego",9,"Lemon Grove",877,37,1996-01-01
+"San Diego",9,"Leucadia",867,37,1996-01-01
+"San Diego",9,"Mission Bay",869,37,NA
+"San Diego",9,"Mission Beach",886,37,1996-01-01
+"San Diego",9,"National City",882,37,NA
+"San Diego",9,"Niland",875,13,1996-01-01
+"San Diego",9,"North Shore",863,33,1996-01-01
+"San Diego",9,"Ocean Beach",885,37,1996-01-01
+"San Diego",9,"Oceanside",883,37,NA
+"San Diego",9,"Palo Verde",858,13,1996-01-01
+"San Diego",9,"Point Loma",881,37,NA
+"San Diego",9,"Poway",852,37,1996-01-01
+"San Diego",9,"Salton Sea",873,13,1996-01-01
+"San Diego",9,"San Diego",880,37,NA
+"San Diego",9,"San Diego Area",800,99,1996-01-01
+"San Diego",9,"San Marcos",862,37,1996-01-01
+"San Diego",9,"San Ysidro",870,37,NA
+"San Diego",9,"Santee",860,37,1996-01-01
+"San Diego",9,"Solana Beach",895,37,1996-01-01
+"San Diego",9,"Spring Valley",865,37,1996-01-01
+"San Diego",9,"Thermal",855,33,1996-01-01
+"San Diego",9,"Valley Center",859,37,1996-01-01
+"San Diego",9,"Vista",897,37,1996-01-01
+"San Diego",9,"Winterhaven",872,13,1996-01-01
+"San Francisco",4,"Alameda",471,1,NA
+"San Francisco",4,"Alamo",402,7,1996-01-01
+"San Francisco",4,"Albany",484,1,1996-01-01
+"San Francisco",4,"Alviso",449,43,NA
+"San Francisco",4,"Benicia",341,48,NA
+"San Francisco",4,"Berkeley",472,1,NA
+"San Francisco",4,"Burlingame",410,41,1996-01-01
+"San Francisco",4,"California City",495,45,1996-01-01
+"San Francisco",4,"Campbell",446,43,1996-01-01
+"San Francisco",4,"China Camp",455,21,NA
+"San Francisco",4,"Corte Madera",491,21,1996-01-01
+"San Francisco",4,"Crockett",357,7,NA
+"San Francisco",4,"Daly City",448,41,1996-01-01
+"San Francisco",4,"El Cerrito",428,7,1996-01-01
+"San Francisco",4,"El Sobrante",422,7,1996-01-01
+"San Francisco",4,"Emeryville",425,1,NA
+"San Francisco",4,"Farallone Is",485,38,1996-01-01
+"San Francisco",4,"Forrest Knolls",404,21,1996-01-01
+"San Francisco",4,"Foster City",409,41,NA
+"San Francisco",4,"Fremont",401,1,NA
+"San Francisco",4,"Glen Cove",412,48,NA
+"San Francisco",4,"Greenbrae",408,21,1996-01-01
+"San Francisco",4,"Guerneville",420,49,1996-01-01
+"San Francisco",4,"Hamlet",490,21,1996-01-01
+"San Francisco",4,"Hayward",436,1,1996-01-01
+"San Francisco",4,"Healdsburg",435,49,1996-01-01
+"San Francisco",4,"Jenner",489,49,1996-01-01
+"San Francisco",4,"Kentfield",426,21,1996-01-01
+"San Francisco",4,"Lafayette",432,7,1996-01-01
+"San Francisco",4,"Los Altos",411,43,1996-01-01
+"San Francisco",4,"Los Gatos",403,43,1996-01-01
+"San Francisco",4,"Martinez",348,7,NA
+"San Francisco",4,"Martins Beach",445,41,1996-01-01
+"San Francisco",4,"Mcnears Point",463,21,1996-01-01
+"San Francisco",4,"Mill Valley",431,21,1996-01-01
+"San Francisco",4,"Millerton",486,21,1996-01-01
+"San Francisco",4,"Monte Vista",406,43,1996-01-01
+"San Francisco",4,"Moss Beach",443,41,1996-01-01
+"San Francisco",4,"Mountain View",434,43,1996-01-01
+"San Francisco",4,"Muir Beach",423,21,1996-01-01
+"San Francisco",4,"Napa",429,28,1996-01-01
+"San Francisco",4,"Newark",417,1,NA
+"San Francisco",4,"Nicasio",415,21,1996-01-01
+"San Francisco",4,"Novato",457,21,1996-01-01
+"San Francisco",4,"Oakhurst",510,20,1996-01-01
+"San Francisco",4,"Oakland",464,1,NA
+"San Francisco",4,"Occidental",261,49,1996-01-01
+"San Francisco",4,"Pacifica",439,41,NA
+"San Francisco",4,"Palo Alto",494,43,1996-01-01
+"San Francisco",4,"Pedro Valley",458,41,1996-01-01
+"San Francisco",4,"Pescadero",482,41,1996-01-01
+"San Francisco",4,"Petaluma",459,49,NA
+"San Francisco",4,"Pigeon Point",479,12,1996-01-01
+"San Francisco",4,"Pinole",450,7,NA
+"San Francisco",4,"Point Montara",481,41,1996-01-01
+"San Francisco",4,"Point San Pedro",483,41,1996-01-01
+"San Francisco",4,"Princeton-Half Moon",452,41,NA
+"San Francisco",4,"Redwood City",442,41,NA
+"San Francisco",4,"Richmond",478,7,NA
+"San Francisco",4,"Rockaway Beach",498,41,1996-01-01
+"San Francisco",4,"Rodeo",451,7,NA
+"San Francisco",4,"Rohnert Park",407,49,1996-01-01
+"San Francisco",4,"Saint Helena",405,28,1996-01-01
+"San Francisco",4,"San Bruno",414,41,1996-01-01
+"San Francisco",4,"San Carlos",444,41,1996-01-01
+"San Francisco",4,"San Francisco",440,38,NA
+"San Francisco",4,"San Francisco Area",400,99,1997-01-01
+"San Francisco",4,"San Jose",454,43,1996-01-01
+"San Francisco",4,"San Leandro",430,1,NA
+"San Francisco",4,"San Mateo",465,41,1996-01-01
+"San Francisco",4,"San Quentin",466,21,1996-01-01
+"San Francisco",4,"San Rafael",468,21,NA
+"San Francisco",4,"Santa Rosa",475,49,1996-01-01
+"San Francisco",4,"Sausalito",469,21,NA
+"San Francisco",4,"Sebastopol",492,49,1996-01-01
+"San Francisco",4,"Sonoma",419,49,1996-01-01
+"San Francisco",4,"South San Francisco",470,38,NA
+"San Francisco",4,"Stewarts Point",447,49,1996-01-01
+"San Francisco",4,"Stinson Beach",497,21,1996-01-01
+"San Francisco",4,"Sunnyvale",438,43,1996-01-01
+"San Francisco",4,"Tiburon",496,21,1996-01-01
+"San Francisco",4,"Vallejo",453,48,NA
+"San Francisco",4,"Windsor",499,49,1996-01-01
+"San Francisco",4,"Yountville",416,28,1996-01-01
+"Santa Barbara",7,"Carpenteria",635,42,NA
+"Santa Barbara",7,"Conception",619,42,1996-01-01
+"Santa Barbara",7,"Gaviota Beach",604,42,NA
+"Santa Barbara",7,"Goleta Beach",614,42,NA
+"Santa Barbara",7,"Guadalupe Beach",618,42,NA
+"Santa Barbara",7,"Lompoc",639,42,1996-01-01
+"Santa Barbara",7,"Mojave",657,15,1996-01-01
+"Santa Barbara",7,"Nipomo",631,40,1996-01-01
+"Santa Barbara",7,"Oxnard",608,56,NA
+"Santa Barbara",7,"Point Arguello",620,42,1996-01-01
+"Santa Barbara",7,"Point Mugu",628,56,1996-01-01
+"Santa Barbara",7,"Port Hueneme",605,56,NA
+"Santa Barbara",7,"Rincon",630,42,1996-01-01
+"Santa Barbara",7,"Santa Barbara Area",600,99,1996-01-01
+"Santa Barbara",7,"Santa Barbara Harbor",611,42,NA
+"Santa Barbara",7,"Santa Cruz Island",623,42,1996-01-01
+"Santa Barbara",7,"Shell Beach",629,40,1996-01-01
+"Santa Barbara",7,"Surf Beach",621,42,NA
+"Santa Barbara",7,"Ventura",613,56,NA
+"Unknown Major Port",99,"All Other Ports",999,99,1996-01-01
+"Unknown Major Port",99,"Bodega Bay Area",3,99,1996-01-01
+"Unknown Major Port",99,"East Of California (Home Port)",1000,99,1996-01-01
+"Unknown Major Port",99,"Eureka 2",1002,99,1996-01-01
+"Unknown Major Port",99,"Eureka Area 2",1,99,1996-01-01
+"Unknown Major Port",99,"Fort Bragg Area",2,99,1996-01-01
+"Unknown Major Port",99,"Inland Waters Area",11,99,1996-01-01
+"Unknown Major Port",99,"Invalid Or Unknown Port",0,99,NA
+"Unknown Major Port",99,"Los Angeles 2",1007,99,1996-01-01
+"Unknown Major Port",99,"Los Angeles Area 2",8,99,1996-01-01
+"Unknown Major Port",99,"Monterey 2",1005,99,1996-01-01
+"Unknown Major Port",99,"Monterey Area 2",5,99,1996-01-01
+"Unknown Major Port",99,"Morro Bay Area",6,99,1996-01-01
+"Unknown Major Port",99,"North Of California (Home Port)",100,99,1996-01-01
+"Unknown Major Port",99,"Sacramento Delta Area",10,99,1996-01-01
+"Unknown Major Port",99,"San Diego Area 2",9,99,1996-01-01
+"Unknown Major Port",99,"San Francisco Area 2",4,99,1996-01-01
+"Unknown Major Port",99,"Santa Barbara",1006,99,1996-01-01
+"Unknown Major Port",99,"Santa Barbara Area 2",7,99,1996-01-01
+"Unknown Major Port",99,"South Of California (Home Port)",900,99,1996-01-01
+"Unknown Major Port",99,"Unknown",111,99,1996-01-01
+"Unknown Major Port",99,"Upper Sf Bay & Sacramento River",1003,99,1996-01-01

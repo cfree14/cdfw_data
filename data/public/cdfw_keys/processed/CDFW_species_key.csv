@@ -1,0 +1,475 @@
+"spp_code_num","spp_code_chr","comm_name","sci_name","level","pacfin_code","discontinue_date"
+1,"001","Yellowfin tuna","Thunnus albacares","species","YTNA",NA
+2,"002","Skipjack tuna","Katsuwonus pelamis","species","STNA",NA
+3,"003","Pacific bonito","Sarda chiliensis","species","PBNT",NA
+4,"004","Bluefin tuna","Thunnus orientalis","species","BTNA",NA
+5,"005","Albacore tuna","Thunnus alalunga","species","ALBC",NA
+6,"006","Unspecified tuna","Scombridae spp.","group","UTNA",NA
+7,"007","Oriental tuna","Thunnus orientalis","species",NA,1964-12-31
+8,"008","Bigeye tuna","Thunnus obesus","species","OTNA",NA
+9,"009","Black skipjack tuna","Euthynnus lineatus","species","BSJK",NA
+10,"010","Atlantic bluefin tuna","Thunnus thynnus","species",NA,1966-12-31
+11,"011","Longtail tuna","Thunnus tonggol","species","OTNA",2019-02-12
+12,"012","Blackfin tuna","Thunnus atlanticus","species","OTNA",2019-02-12
+15,"015","Escolar","Lepidocybium flavobrunneum","species","MSC2",NA
+17,"017","Oilfish","Ruvettus pretiosus","species","MSC2",NA
+19,"019","Bullet mackerel","Auxis rochei","species","MSC2",NA
+40,"040","Yellowtail","Seriola lalandi","species","YLTL",NA
+41,"041","Pacific crevalle jack","Caranx caninus","species","MSC2",NA
+42,"042","Unspecified jacks","Carangidae spp.","group","MSC2",NA
+43,"043","Almaco jack","Seriola rivoliana","species","MSC2",NA
+50,"050","Unspecified mackerel","Scomber/Trachurus spp.","group","UMCK",NA
+51,"051","Pacific mackerel","Scomber japonicus","species","CMCK",NA
+52,"052","Pacific sierra","Scomberomorus sierra","species","MSC2",NA
+55,"055","Jack mackerel","Trachurus symmetricus","species","JMCK",NA
+56,"056","Large jack mackerel","Trachurus symmetricus","species",NA,1968-01-01
+57,"057","Wahoo","Acanthocybium solandri","species","WHOO",NA
+58,"058","New Zealand mackerel","Scomber australasicus","species",NA,NA
+80,"080","Pacific pompano","Peprilus simillimus","species","PBTR",NA
+81,"081","Pomfret","Bramidae spp.","group","POMF",NA
+90,"090","Swordfish","Swordfish spp.","group",NA,1974-01-01
+91,"091","Swordfish","Xiphias gladius","species","SWRD",NA
+92,"092","Striped marlin","Kajikia audax","species","MRLN",NA
+93,"093","Shortbill spearfish","Tetrapturus angustirostris","species","SSPF",NA
+95,"095","Sailfish","Istiophorus platypterus","species","SAIL",NA
+96,"096","White shark","Carcharodon carcharias","species","OSRK",NA
+97,"097","Bigeye thresher shark","Alopias superciliosus","species","ISRK",NA
+98,"098","Pelagic thresher shark","Alopias pelagicus","species","PSRK",NA
+100,"100","Pacific sardine","Sardinops sagax","species","PSDN",NA
+101,"101","Juvenile sardine","Sardinops sagax","species","PSDN",NA
+102,"102","New Zealand pilchard","Sardinops sagax","species","MSC2",NA
+105,"105","Round herring","Etrumeus teres","species","RHRG",NA
+110,"110","Northern anchovy","Engraulis mordax","species","NANC",NA
+111,"111","Deepbody anchovy","Anchoa compressa","species","OANC",NA
+112,"112","Northern anchovy","Engraulis mordax","species",NA,1974-01-01
+113,"113","Slough anchovy","Anchoa delicatissima","species","OANC",NA
+120,"120","Herring","Herring spp.","group",NA,1951-01-01
+121,"121","Pacific herring","Clupea pallasii pallasii","species","PHRG",NA
+122,"122","Pacific herring roe","Clupea pallasii pallasii","species","PHRG",NA
+130,"130","California barracuda","Sphyraena argentea","species","CUDA",NA
+135,"135","Striped mullet","Mugil cephalus","species","MSC2",NA
+144,"144","Senorita","Oxyjulis californica","species","MSC2",NA
+145,"145","California sheephead","Semicossyphus pulcher","species","SHPD",NA
+146,"146","Rock wrasse","Halichoeres semicinctus","species","MSC2",NA
+147,"147","Longnose skate","Raja rhina","species","LSKT",NA
+149,"149","Blacktip shark","Carcharhinus limbatus","species","OSRK",NA
+150,"150","Unspecified shark","Selachii spp.","group","USRK",NA
+151,"151","Shortfin mako shark","Isurus oxyrinchus","species","MAKO",NA
+152,"152","Spiny dogfish shark","Squalus acanthias","species","DSRK",NA
+153,"153","Leopard shark","Triakis semifasciata","species","LSRK",NA
+154,"154","Brown smoothhound shark","Mustelus henlei","species","OSRK",NA
+155,"155","Thresher shark","Alopias vulpinus","species","TSRK",NA
+156,"156","Basking shark","Cetorhinus maximus","species","OSRK",NA
+157,"157","Guitar fish","Rhinobatos spp.","group","MSC2",NA
+158,"158","Smooth hammerhead shark","Sphyrna zygaena","species","OSRK",NA
+159,"159","Soupfin shark","Galeorhinus galeus","species","SSRK",NA
+160,"160","Cow sharks","Hexanchidae spp.","group","OSRK",NA
+161,"161","Sixgill shark","Hexanchus griseus","species","OSRK",NA
+162,"162","Sevengill shark","Notorynchus cepedianus","species","OSRK",NA
+163,"163","Swell shark","Cephaloscyllium ventriosum","species","OSRK",NA
+164,"164","Dusky shark","Carcharhinus obscurus","species","OSRK",NA
+165,"165","Pacific angel shark","Squatina californica","species","ASRK",NA
+166,"166","Spotted ratfish","Hydrolagus colliei","species","RATF",NA
+167,"167","Blue shark","Prionace glauca","species","BSRK",NA
+168,"168","Salmon shark","Lamna ditropis","species","OSRK",NA
+169,"169","Horn shark","Heterodontus francisci","species","OSRK",NA
+170,"170","Unspecified ray","Rajiformes spp.","group","USKT",NA
+171,"171","Bat ray","Myliobatis californica","species","BTRY",NA
+172,"172","Pacific electric ray","Torpedo californica","species","OSKT",NA
+173,"173","Stingray","Dasyatidae spp.","group","OSKT",NA
+174,"174","Shovelnose guitarfish","Rhinobatos productus","species","OSKT",NA
+175,"175","Unspecified skate","Rajidae spp.","group","USKT",NA
+176,"176","Big skate","Raja binoculata","species","BSKT",NA
+177,"177","California skate","Raja inornata","species","CSKT",NA
+178,"178","Thornback skate","Platyrhinoidis triseriata","species","OSKT",NA
+179,"179","Gray smoothhound shark","Mustelus californicus","species","OSRK",NA
+180,"180","True smelts","Osmeridae spp.","group","SMLT",NA
+181,"181","California grunion","Leuresthes tenuis","species","MSC2",NA
+182,"182","Surf smelt","Hypomesus pretiosus","species","SMLT",NA
+183,"183","Bay smelt","Hypomesus transpacificus","species",NA,1974-11-30
+184,"184","Jacksmelt","Atherinopsis californiensis","species","SMLT",NA
+185,"185","Whitebait smelt","Allosmerus elongatus","species","SMLT",NA
+186,"186","Topsmelt","Atherinops affinis","species","SMLT",NA
+187,"187","Night smelt","Spirinchus starksi","species","SMLT",NA
+188,"188","Eulachon","Thaleichthys pacificus","species","EULC",NA
+189,"189","Silversides","Atherinidae spp.","group","MSC2",NA
+190,"190","Sablefish","Anoplopoma fimbria","species","SABL",NA
+191,"191","Louvar","Luvarus imperialis","species","LUVR",NA
+195,"195","Lingcod","Ophiodon elongatus","species","LCOD",NA
+196,"196","Pacific tomcod","Microgadus proximus","species","TCOD",NA
+197,"197","Pacific cod","Gadus macrocephalus","species","PCOD",NA
+198,"198","Grenadier","Macrouridae spp.","group","GRDR",NA
+200,"200","Unspecified sole","Pleuronectiformes spp.","group","UFLT",NA
+201,"201","Arrowtooth flounder","Atheresthes stomias","species","ARTH",NA
+202,"202","Bigmouth sole","Hippoglossina stomata","species","BMOL",NA
+203,"203","Rock sole","Paraplagusia bilineata","species","RSOL",NA
+204,"204","Fantail sole","Xystreurys liolepis","species","FNTS",NA
+205,"205","Sand sole","Psettichthys melanostictus","species","SSOL",NA
+206,"206","English sole","Parophrys vetulus","species","EGLS",NA
+207,"207","Rex sole","Glyptocephalus zachirus","species","REX",NA
+208,"208","Butter sole","Isopsetta isolepis","species","BSOL",NA
+209,"209","Petrale sole","Eopsetta jordani","species","PTRL",NA
+210,"210","Slender sole","Lyopsetta exilis","species","OFLT",NA
+211,"211","Dover sole","Microstomus pacificus","species","DOVR",NA
+212,"212","Tongue sole","Symphurus atricauda","species","UFLT",NA
+220,"220","Unspecified halibut","Pleuronectiformes spp.","group","UHLB",NA
+221,"221","Pacific halibut","Hippoglossus stenolepis","species","PHLB",NA
+222,"222","California halibut","Paralichthys californicus","species","CHLB",NA
+225,"225","Sanddab","Citharichthys spp.","group","UDAB",NA
+226,"226","Longfin sanddab","Citharichthys xanthostigma","species","LDAB",NA
+227,"227","Pacific sanddab","Citharichthys sordidus","species","PDAB",NA
+228,"228","Speckled sanddab","Citharichthys stigmaeus","species","SSDB",NA
+230,"230","Unspecified flounder","Pleuronectidae spp.","group","UFLT",NA
+231,"231","Starry flounder","Platichthys stellatus","species","STRY",NA
+235,"235","Curlfin sole","Pleuronichthys decurrens","species","CSOL",NA
+236,"236","Diamond turbot","Hypsopsetta guttulata","species","DTRB",NA
+237,"237","C-O sole","Pleuronichthys coenosus","species","CTRB",NA
+238,"238","Hornyhead turbot","Pleuronichthys verticalis","species","HTRB",NA
+239,"239","Spotted turbot","Pleuronichthys ritteri","species","STRB",NA
+240,"240","Turbot","Pleuronectidae spp.","group","UTRB",NA
+241,"241","Curlfin turbot","Pleuronichthys decurrens","species",NA,NA
+242,"242","Diamond turbot","Hypsopsetta guttulata","species",NA,NA
+243,"243","C-O turbot","Pleuronichthys coenosus","species",NA,NA
+244,"244","Horneyhead turbot","Pleuronichthys verticalis","species",NA,NA
+245,"245","Cowcod rockfish","Sebastes levis","species","CWC1",NA
+246,"246","Copper rockfish","Sebastes caurinus","species","COP1",NA
+247,"247","Canary rockfish","Sebastes pinniger","species","CNR1",NA
+249,"249","Vermilion rockfish","Sebastes miniatus","species","VRM1",NA
+250,"250","Unspecified rockfish","Sebastes spp.","group","URCK",2019-02-12
+251,"251","Black-and-yellow rockfish","Sebastes chrysomelas","species","BYL1",NA
+252,"252","Black rockfish","Sebastes melanops","species","BLK1",NA
+253,"253","Bocaccio rockfish","Sebastes paucispinis","species","BCC1",NA
+254,"254","Chilipepper rockfish","Sebastes goodei","species","CLP1",NA
+255,"255","Greenspotted rockfish","Sebastes chlorostictus","species","GSP1",NA
+256,"256","Starry rockfish","Sebastes constellatus","species","STR1",NA
+257,"257","Darkblotched rockfish","Sebastes crameri","species","DBR1",NA
+258,"258","China rockfish","Sebastes nebulosus","species","CHN1",NA
+259,"259","Yellowtail rockfish","Sebastes flavidus","species","YTR1",NA
+260,"260","California scorpionfish","Scorpaena guttata","species","SCR1",NA
+261,"261","Cabezon","Scorpaenichthys marmoratus","species","CBZ1",NA
+262,"262","Thornyheads","Sebastolobus spp.","group","THDS",2019-02-12
+263,"263","Gopher rockfish","Sebastes carnatus","species","GPH1",NA
+264,"264","Pinkrose rockfish","Sebastes simulator","species","PRR1",NA
+265,"265","Yelloweye rockfish","Sebastes ruberrimus","species","YEY1",NA
+266,"266","Large red rockfish","Sebastes spp.","group",NA,1968-01-01
+267,"267","Brown rockfish","Sebastes auriculatus","species","BRW1",NA
+268,"268","Rosy rockfish","Sebastes rosaceus","species","ROS1",NA
+269,"269","Widow rockfish","Sebastes entomelas","species","WDW1",NA
+270,"270","Splitnose rockfish","Sebastes diploproa","species","SNS1",NA
+271,"271","Pacific ocean perch","Sebastes alutus","species","POP",NA
+272,"272","Staghorn sculpin","Leptocottus armatus","species","SCLP",NA
+273,"273","Yellowchin sculpin","Icelinus quadriseriatus","species","SCLP",NA
+275,"275","Rock bass","Paralabrax spp.","group","OBAS",NA
+276,"276","Spotted sand bass","Paralabrax maculatofasciatus","species","OBAS",NA
+277,"277","Kelp bass","Paralabrax clathratus","species","OBAS",NA
+278,"278","Barred sand bass","Paralabrax nebulifer","species","OBAS",NA
+280,"280","Giant sea bass","Stereolepis gigas","species","GBAS",NA
+281,"281","Shortfin sea bass","Cynoscion parvipinnis","species",NA,1974-01-01
+285,"285","Pelican rockfish","Sebastes spp.","group",NA,NA
+289,"289","Rock greenling","Hexagrammos lagocephalus","species","RGL1",NA
+290,"290","Kelp greenling","Hexagrammos decagrammus","species","KGL1",NA
+291,"291","Triggerfish","Balistidae spp.","group","MSC2",NA
+292,"292","Ocean sunfish","Mola mola","species","MOLA",NA
+300,"300","Salmon","Oncorhynchus spp.","group","USMN",2022-01-20
+301,"301","Chum salmon","Oncorhynchus keta","species","CHUM",NA
+302,"302","Chinook salmon","Oncorhynchus tshawytscha","species","CHNK",NA
+303,"303","Pink salmon","Oncorhynchus gorbuscha","species","PINK",NA
+304,"304","Coho salmon","Oncorhynchus kisutch","species","COHO",NA
+305,"305","Salmon roe","Salmonidae spp.","group",NA,NA
+306,"306","Chinook/coho salmon roe","Oncorhynchus spp.","group","USMN",NA
+310,"310","Unclassified trout","Salmonidae spp.","group",NA,NA
+311,"311","Loch Leven brown trout","Salmo trutta","species",NA,NA
+312,"312","Cutthroat trout","Oncorhynchus clarkii","species",NA,NA
+313,"313","Dolly varden trout","Salvelinus malma","species",NA,NA
+314,"314","Eastern brook trout","Salvelinus fontinalis","species",NA,NA
+316,"316","Rainbow trout","Oncorhynchus mykiss","species","STLH",NA
+317,"317","Golden trout","Oncorhynchus aguabonita","species",NA,NA
+320,"320","Unspecified catfish","Siluriformes spp.","group",NA,NA
+321,"321","Fork tail catfish","Ictalurus punctatus","species",NA,1953-09-01
+322,"322","Brown bullhead","Ameiurus nebulosus","species",NA,NA
+324,"324","Threadfin shad","Dorosoma petenense","species","SHAD",NA
+325,"325","American shad","Alosa sapidissima","species","SHAD",NA
+326,"326","Roe shad","Alosa sapidissima","species",NA,1965-01-01
+327,"327","Buck shad","Alosa sapidissima","species",NA,1965-01-01
+332,"332","Freshwater trout","Salmonidae spp.","group",NA,NA
+334,"334","Freshwater rock bass","Ambloplites rupestris","species",NA,NA
+335,"335","Striped bass","Morone saxatilis","species","OBAS",NA
+336,"336","Calico bass","Paralabrax clathratus","species",NA,NA
+337,"337","Freshwater rock bass","Ambloplites rupestris","species",NA,NA
+338,"338","Small mouthed black bass","Micropterus dolomieu","species",NA,NA
+339,"339","Large mouthed black bass","Micropterus salmoides","species",NA,NA
+340,"340","Tilapia","Tilapia spp.","group","MSC2",NA
+341,"341","Red rock crab","Cancer productus","species","RCRB",NA
+342,"342","Yellow rock crab","Cancer anthonyi","species","RCRB",NA
+343,"343","Brown rock crab","Cancer antennarius","species","RCRB",NA
+345,"345","Carp","Cyprinus carpio","species",NA,NA
+346,"346","Hardhead","Mylopharodon conocephalus","species",NA,NA
+347,"347","Splittail","Pogonichthys macrolepidotus","species",NA,NA
+348,"348","Hitch","Lavinia exilicauda","species",NA,NA
+349,"349","Sacramento blackfish","Orthodon microlepidotus","species",NA,NA
+351,"351","Sacramento perch","Archoplites interruptus","species",NA,NA
+361,"361","Threespine stickleback","Gasterosteus aculeatus","species","MSC2",NA
+365,"365","Squawfish","Ptychocheilus grandis","species",NA,NA
+366,"366","Crappie","Crappie spp.","group",NA,NA
+367,"367","Bluegill","Bluegill spp.","group",NA,NA
+375,"375","Sucker","Catostomidae spp.","group",NA,NA
+400,"400","White sea bass","Atractoscion nobilis","species","WBAS",NA
+401,"401","Civache","Civache spp.","group",NA,NA
+410,"410","Totuava seabass","Totoaba macdonaldi","species","MSC2",NA
+414,"414","Robalos","Robalos spp.","group",NA,NA
+415,"415","Snapper - mexico-","Lutianidae spp.","group","MSC2",NA
+420,"420","Unspecifed croaker","Sciaenidae spp.","group","OCRK",NA
+421,"421","Black croaker","Cheilotrema saturnum","species","OCRK",NA
+422,"422","Spotfin croaker","Roncador stearnsii","species","OCRK",NA
+423,"423","Yellowfin croaker","Umbrina roncador","species","OCRK",NA
+426,"426","California corbina","Menticirrhus undulatus","species","MSC2",NA
+427,"427","Shortfin corvina","Cynoscion parvipinnis","species","MSC2",NA
+430,"430","Grouper","Mycteroperca/Epinephelus spp.","group","OBAS",NA
+431,"431","Spotted cabrilla","Epinephelus analogus","species","OBAS",NA
+432,"432","Broomtail grouper","Mycteroperca xenarcha","species","OBAS",NA
+435,"435","White croaker","Genyonemus lineatus","species","WCRK",NA
+440,"440","Queenfish","Seriphus politus","species","QFSH",NA
+445,"445","Flyingfish","Exocoetidae spp.","group","MSC2",NA
+446,"446","Pacific saury","Cololabis saira","species","SARY",NA
+450,"450","Eel","Osteichthyes spp.","group","EELS",NA
+451,"451","Blenny eel","Lumpenus sagitta","species","EELS",NA
+452,"452","California moray eel","Gymnothorax mordax","species","EELS",NA
+453,"453","Pacific lamprey","Entosphenus tridentatus","species","MSC2",NA
+454,"454","Wolf eel","Anarrhichthys ocellatus","species","WEEL",NA
+455,"455","Spotted cusk-eel","Chilara taylori","species","CEEL",NA
+456,"456","Monkeyface prickleback","Cebidichthys violaceus","species","MEEL",NA
+457,"457","Unspecified hagfish","Eptatretus spp.","group","UHAG",NA
+458,"458","Pacific hagfish","Eptatretus stoutii","species",NA,NA
+459,"459","Black hagfish","Eptatretus deani","species",NA,NA
+465,"465","Tai","Tai spp.","group",NA,NA
+467,"467","Opah","Lampris guttatus","species","MSC2",NA
+470,"470","Sturgeons","Acipenseridae spp.","group","USTG",NA
+471,"471","Green sturgeon","Acipenser medirostris","species","GSTG",NA
+472,"472","White sturgeon","Acipenser transmontanus","species","WSTG",NA
+473,"473","California lizardfish","Synodus lucioceps","species","MSC2",NA
+474,"474","Unspecified perch-like","Kyphosidae/Pomacentridae spp.","group","MSC2",NA
+475,"475","Opaleye","Girella nigricans","species","MSC2",NA
+476,"476","California needlefish","Strongylura exilis","species","MSC2",NA
+477,"477","Bonefish","Albula vulpes","species","MSC2",NA
+478,"478","Halfmoon","Medialuna californiensis","species","MSC2",NA
+479,"479","Blacksmith","Chromis punctipinnis","species","MSC2",NA
+480,"480","Sargo","Anisotremus davidsonii","species","MSC2",NA
+481,"481","Dolphinfish","Coryphaena hippurus","species","MSC2",NA
+482,"482","Garibaldi","Hypsypops rubicundus","species","MSC2",NA
+483,"483","Longjaw mudsucker","Gillichthys mirabilis","species","MSC2",NA
+484,"484","Salema","Brachygenys californiensis","species","MSC2",NA
+485,"485","Plainfin midshipman","Porichthys notatus","species","MSHP",NA
+486,"486","Bluebanded goby","Lythrypnus dalli","species","MSC2",NA
+487,"487","Yellowfin goby","Acanthogobius flavimanus","species","MSC2",NA
+488,"488","Zebra goby","Lythrypnus zebra","species","MSC2",NA
+490,"490","Ocean whitefish","Caulolatilus princeps","species","OWFS",NA
+491,"491","California killifish","Fundulus parvipinnis","species","MSC2",NA
+495,"495","Pacific whiting","Merluccius productus","species","PWHT",NA
+501,"501","Giant kelpfish","Heterostichus rostratus","species","KFSH",NA
+510,"510","Kelpfishes","Gibbonsia spp.","group","MSC2",NA
+550,"550","Unspecified surfperch","Embiotocidae spp.","group","SRFP",NA
+551,"551","Barred surfperch","Amphistichus argenteus","species","SRFP",NA
+552,"552","Black surfperch","Embiotoca jacksoni","species","SRFP",NA
+553,"553","Redtail surfperch","Amphistichus rhodoterus","species","SRFP",NA
+554,"554","Shiner surfperch","Cymatogaster aggregata","species","SRFP",NA
+555,"555","Striped seaperch","Embiotoca lateralis","species","SRFP",NA
+556,"556","White surfperch","Phanerodon furcatus","species","SRFP",NA
+557,"557","Walleye surfperch","Hyperprosopon argenteum","species","SRFP",NA
+558,"558","Rubberlip surfperch","Rhacochilus toxotes","species","SRFP",NA
+559,"559","Pile surfperch","Rhacochilus vacca","species","SRFP",NA
+560,"560","Calico surfperch","Amphistichus koelzi","species","SRFP",NA
+561,"561","Dwarf surfperch","Micrometrus minimus","species","SRFP",NA
+562,"562","Rainbow surfperch","Hypsurus caryi","species","SRFP",NA
+563,"563","Pink surfperch","Zalembius rosaceus","species","SRFP",NA
+564,"564","Silver surfperch","Hyperprosopon ellipticum","species","SRFP",NA
+601,"601","Kahawai","Arripis trutta","species","MSC2",NA
+602,"602","Zebraperch","Hermosilla azurea","species","MSC2",NA
+650,"650","Rougheye rockfish","Sebastes aleutianus","species","REYE",NA
+651,"651","Olive rockfish","Sebastes serranoides","species","OLV1",NA
+652,"652","Grass rockfish","Sebastes rastrelliger","species","GRS1",NA
+653,"653","Pink rockfish","Sebastes eos","species","PNK1",NA
+654,"654","Greenstriped rockfish","Sebastes elongatus","species","GSR1",NA
+655,"655","Copper rockfish","Sebastes caurinus","species","COP1",NA
+656,"656","Blackspotted rockfish","Sebastes melanostictus","species","BSPR",NA
+657,"657","Flag rockfish","Sebastes rubrivinctus","species","FLG1",NA
+658,"658","Treefish rockfish","Sebastes serriceps","species","TRE1",NA
+659,"659","Kelp rockfish","Sebastes atrovirens","species","KLP1",NA
+660,"660","Honeycomb rockfish","Sebastes umbrosus","species","HNY1",NA
+661,"661","Greenblotched rockfish","Sebastes rosenblatti","species","GBL1",NA
+662,"662","Bronzespotted rockfish","Sebastes gilli","species","BRZ1",NA
+663,"663","Bank rockfish","Sebastes rufus","species","BNK1",NA
+664,"664","Rosethorn rockfish","Sebastes helvomaculatus","species","RST1",NA
+665,"665","Blue rockfish","Sebastes mystinus","species","BLU1",NA
+666,"666","Squarespot rockfish","Sebastes hopkinsi","species","SQR1",NA
+667,"667","Blackgill rockfish","Sebastes melanostomus","species","BGL1",NA
+668,"668","Stripetail rockfish","Sebastes saxicola","species","STL1",NA
+669,"669","Speckled rockfish","Sebastes ovalis","species","SPK1",NA
+670,"670","Swordspine rockfish","Sebastes ensifer","species","SWS1",NA
+671,"671","Calico rockfish","Sebastes dallii","species","CLC1",NA
+672,"672","Shortbelly rockfish","Sebastes jordani","species","SBL1",NA
+673,"673","Chameleon rockfish","Sebastes phillipsi","species","CML1",NA
+674,"674","Aurora rockfish","Sebastes aurora","species","ARR1",NA
+675,"675","Redbanded rockfish","Sebastes babcocki","species","RDB1",NA
+676,"676","Mexican rockfish","Sebastes macdonaldi","species","MXR1",NA
+677,"677","Shortraker rockfish","Sebastes borealis","species","SRKR",NA
+678,"678","Longspine thornyhead","Sebastolobus altivelis","species","LSP1",NA
+679,"679","Shortspine thornyhead","Sebastolobus alascanus","species","SSP1",NA
+680,"680","Anemones","Anthozoa spp.","group",NA,NA
+681,"681","Jellyfish","Hydrozoa spp.","group","UJEL",NA
+682,"682","Sea pansy","Renilla koellikeri","species",NA,NA
+683,"683","Keyhole limpet","Megathura crenulata","species",NA,NA
+684,"684","Tegula snail","Tegula spp.","group","OMSK",NA
+685,"685","Hermit crab","Paguristes spp.","group","OCRB",NA
+686,"686","Spider/sheep claws crab","Loxorhynchus spp.","group","OCRB",NA
+687,"687","Sand dollar","Dendraster excentricus","species",NA,NA
+688,"688","Bryozoan","Ectoprocta spp.","group",NA,NA
+689,"689","Marine flatworm","Platyhelminthes spp.","group",NA,NA
+690,"690","Hornsnail","Cerithidea spp.","group",NA,NA
+699,"699","Unspecified invertebrate","Invertebrate spp.","group",NA,NA
+700,"700","Abalone","Haliotis spp.","group","UABL",NA
+701,"701","Black abalone","Haliotis cracherodii","species","BABL",NA
+702,"702","Red abalone","Haliotis rufescens","species","RABL",NA
+703,"703","Green abalone","Haliotis fulgens","species","GABL",NA
+704,"704","Pink abalone","Haliotis corrugata","species","PABL",NA
+705,"705","White abalone","Haliotis sorenseni","species","WABL",NA
+706,"706","Threaded abalone","Haliotis assimilis","species","OABL",NA
+707,"707","Pinto abalone","Haliotis kamtschatkana","species","OABL",NA
+708,"708","Flat abalone","Haliotis walallensis","species","OABL",NA
+709,"709","Unspecified limpet","Archaeogastropoda spp.","group","UMSK",NA
+710,"710","Jumbo squid","Dosidicus gigas","species","SQID",NA
+711,"711","Market squid","Doryteuthis opalescens","species","MSQD",NA
+712,"712","Unspecified octopus","Octopus spp.","group","OCTP",NA
+717,"717","Weathervane scallop","Patinopecten caurinus","species","OSCL",NA
+718,"718","Rock scallop","Crassadoma gigantea","species","OSCL",NA
+719,"719","Unspecified scallop","Pectinidae spp.","group","USCL",NA
+720,"720","Unspecified clam","Bivalvia spp.","group","UCLM",NA
+721,"721","Common littleneck clam","Leukoma staminea","species","LCLM",NA
+722,"722","Pismo clam","Tivela stultorum","species","PCLM",NA
+723,"723","Softshell clam","Mya arenaria","species","SCLM",NA
+724,"724","Venus clam","Veneridae spp.","group",NA,NA
+725,"725","Northern razor clam","Siliqua patula","species","RCLM",NA
+726,"726","Gaper clam","Tresus nuttallii","species","GCLM",NA
+727,"727","Common washington clam","Saxidomus nuttalli","species","WCLM",NA
+728,"728","California jackknife clam","Tagelus californianus","species","JCLM",NA
+729,"729","Sea slug","Opisthobranchia spp.","group","UMSK",NA
+730,"730","Mussel","Mytilus spp.","group","UCLM",NA
+731,"731","Kellet's whelk","Kelletia kelletii","species","OMSK",NA
+732,"732","Sea snail","Gastropoda spp.","group","UMSK",NA
+733,"733","Freshwater clam","Corbicula fluminea","species","OCLM",NA
+734,"734","Purple clam","Nuttallia nuttallii","species","PRCL",NA
+735,"735","Rosy razor clam","Solen sicarius","species","RZCL",NA
+736,"736","Moon snails","Polinices spp.","group","UMSK",NA
+737,"737","Northern quahog clam","Mercenaria mercenaria","species","QCLM",NA
+740,"740","Unspecified oyster","Ostreidae spp.","group","USTR",NA
+741,"741","Eastern oyster","Crassostrea virginica","species","ESTR",NA
+742,"742","California native oyster","Ostrea lurida","species","LSTR",NA
+743,"743","Giant Pacific oyster","Crassostrea gigas","species","PSTR",NA
+744,"744","Kumamoto oyster","Magallana sikamea","species",NA,NA
+745,"745","European flat oyster","Ostrea edulis","species","EURO",NA
+746,"746","Bubble snail","Bulla gouldiana","species","OMSK",NA
+747,"747","Top snail","Megastraea undosa","species","OMSK",NA
+749,"749","Sea hare","Aplysia spp.","group","UMSK",NA
+750,"750","Unspecified echinoderm","Echinodermata spp.","group","UECH",NA
+751,"751","Sea stars","Asteroidea spp.","group","UECH",NA
+752,"752","Red sea urchin","Mesocentrotus franciscanus","species","RURC",NA
+753,"753","Purple sea urchin","Strongylocentrotus purpuratus","species","OURC",NA
+754,"754","Giant red sea cucumber","Apostichopus californicus","species","USCU",NA
+755,"755","Unspecified sea cucumber","Holothuroidea spp.","group","USCU",NA
+756,"756","White sea urchin","Lytechinus anamesus","species","OURC",NA
+757,"757","Warty sea cucumber","Parastichopus parvimensis","species","USCU",NA
+758,"758","Bat star","Patiria miniata","species","UECH",NA
+759,"759","Coronado sea urchin","Centrostephanus coronatus","species","OURC",NA
+760,"760","Sponges","Porifera spp.","group","MSC2",NA
+769,"769","Colonial invertebrates","Cnidaria spp.","group","MSC2",NA
+771,"771","Purple coral","Stylaster californicus","species",NA,NA
+781,"781","Freshwater snail","Gastropoda spp.","group",NA,NA
+799,"799","Unspecified mollusk","Mollusca spp.","group","UMSK",NA
+800,"800","Dungeness crab","Metacarcinus magister","species","DCRB",NA
+801,"801","Unspecified rock crab","Cancer spp.","group","RCRB",NA
+802,"802","Claws crab","Cancer spp.","group","UCRB",NA
+803,"803","Spider crab","Loxorhynchus spp.","group","OCRB",NA
+804,"804","King crab","Paralithodes spp.","group","UKCR",NA
+805,"805","Sand crab","Emerita analoga","species","OCRB",NA
+806,"806","Shore crab","Pachygrapsus crassipes","species","OCRB",NA
+807,"807","Pelagic red crab","Pleuroncodes planipes","species","OCRB",NA
+808,"808","Tanner crab","Chionoecetes tanneri","species","BTCR",NA
+809,"809","Box crab","Lopholithodes foraminatus","species","OCRB",NA
+810,"810","Bay shrimp","Crangonidae spp.","group","BSRM",NA
+811,"811","Ghost shrimp","Neotrypaea californiensis","species","GSRM",NA
+812,"812","Pacific pink shrimp","Pandalus jordani","species","PSHP",NA
+813,"813","Ridgeback prawn","Sicyonia ingentis","species","RPRW",NA
+814,"814","Unspecified shrimp","Crustacea spp.","group","USRM",NA
+815,"815","Spot prawn","Pandalus platyceros","species","SPRW",NA
+816,"816","Golden prawn","Penaeus californiensis","species","GPRW",NA
+817,"817","Coonstriped shrimp","Pandalus danae","species","OSRM",NA
+818,"818","Red rock shrimp","Lysmata californica","species","OSRM",NA
+819,"819","Brine shrimp","Artemia salina","species","BSRM",NA
+820,"820","California spiny lobster","Panulirus interruptus","species","LOBS",NA
+821,"821","Mantis shrimp","Hemisquilla californiensis","species","OSRM",NA
+823,"823","Armed box crab","Platymera gaudichaudii","species","OCRB",NA
+825,"825","Signal crayfish","Pacifastacus leniusculus","species",NA,NA
+826,"826","Barnacle","Cirripedia spp.","group","MISC",NA
+827,"827","Red swamp crayfish","Procambarus clarkii","species",NA,NA
+828,"828","Unspecified crayfish","Astacidae spp.","group",NA,NA
+829,"829","Southern kelp crab","Taliepus nuttallii","species","OCRB",NA
+830,"830","Sea spiders","Pycnogonida spp.","group","MISC",NA
+840,"840","Tunicates","Urochordata spp.","group","MISC",NA
+850,"850","Marine worms","Polychaeta spp.","group","MISC",NA
+851,"851","Themiste","Themiste spp.","group","MISC",NA
+860,"860","Unspecified chiton","Polyplacophora spp.","group","UMSK",NA
+899,"899","Unspecified crustacean","Crustacea spp.","group","MISC",NA
+900,"900","Barracuda roe","Sphyraena argentea","species",NA,NA
+901,"901","Shad roe","Alosa sapidissima","species",NA,NA
+902,"902","Unclassified roe","Fish spp.","group",NA,NA
+903,"903","White sea bass roe","Atractoscion nobilis","species",NA,NA
+904,"904","Salmon roe","Salmonidae spp.","group",NA,NA
+905,"905","Shark fin","Selachii spp.","group",NA,NA
+906,"906","Shark liver","Selachii spp.","group",NA,NA
+907,"907","Halibut liver","Pleuronectiformes spp.","group",NA,NA
+908,"908","Miscellaneous livers","Fish spp.","group",NA,NA
+909,"909","Skate wing","Rajidae spp.","group",NA,NA
+910,"910","Whale","Whale spp.","group",NA,NA
+911,"911","Sablefish liver","Anoplopoma fimbria","species",NA,NA
+912,"912","Swordfish liver","Xiphias gladius","species",NA,NA
+913,"913","White sea bass liver","Atractoscion nobilis","species",NA,NA
+914,"914","Hake liver","Merluccius productus","species",NA,NA
+915,"915","Amphioxus lancelets","Branchiostoma californiense","species","MISC",NA
+916,"916","Tuna liver","Scombridae spp.","group",NA,NA
+917,"917","Albacore liver","Thunnus alalunga","species",NA,NA
+918,"918","Totuava liver","Totoaba macdonaldi","species",NA,NA
+919,"919","Bonito liver","Sarda lineolata","species",NA,NA
+920,"920","Frog","Rana spp.","group",NA,NA
+921,"921","Bull frog","Rana catesbeiana","species",NA,NA
+922,"922","Pacific cultus liver","Ophiodon elongatus","species",NA,NA
+923,"923","Skate liver","Rajidae spp.","group",NA,NA
+924,"924","Rockfish liver","Sebastes spp.","group",NA,NA
+930,"930","Turtle","Chelonia mydas","species",NA,NA
+931,"931","Terrapin","Malaclemys spp.","group",NA,NA
+945,"945","Snail","Snail spp.","group",NA,NA
+950,"950","Giant kelp","Macrocystis pyrifera","species","MISC",NA
+951,"951","Agar","Gelidium spp.","group","MISC",NA
+952,"952","Sea lettuce","Ulva spp.","group",NA,NA
+953,"953","Marine algae","Phycophyta spp.","group","MISC",NA
+955,"955","Marine plants","Marine plant spp.","group",NA,NA
+956,"956","Bocaccio/chilipepper rockfish group","Sebastes spp.","group","RCK1",2019-02-12
+957,"957","Bolina rockfish group","Sebastes spp.","group","RCK2",2019-02-12
+958,"958","Deepwater reds rockfish group","Sebastes spp.","group","RCK3",2020-03-23
+959,"959","Red rockfish group","Sebastes spp.","group","RCK4",2019-02-12
+960,"960","Small rockfish group","Sebastes spp.","group","RCK5",2019-02-12
+961,"961","Rosefish rockfish group","Sebastes spp.","group","RCK6",2019-02-12
+962,"962","Gopher rockfish group","Sebastes spp.","group","RCK7",2019-02-12
+964,"964","Rougheye/blackspotted rockfish group","Sebastes spp.","group","RBR1",2019-02-12
+970,"970","Quillback rockfish","Sebastes maliger","species","QLB1",NA
+971,"971","Canary/vermilion rockfish group","Sebastes spp.","group","RCK8",2019-02-12
+972,"972","Black/blue rockfish group","Sebastes spp.","group","RCK9",2019-02-12
+973,"973","Nearshore rockfish group","Sebastes spp.","group","USHR",2019-02-12
+974,"974","Shelf rockfish group","Sebastes spp.","group","USLF",NA
+975,"975","Slope rockfish group","Sebastes spp.","group","USLP",NA
+976,"976","Deep nearshore rockfish group","Sebastes spp.","group","UDNR",2019-02-12
+980,"980","Sea lion","Zalophus californianus","species",NA,NA
+981,"981","Sea elephant","Mirounga angustirostris","species",NA,NA
+992,"992","Trawled fish for animal food","Osteichthyes spp.","group","MSC2",NA
+995,"995","Pacific herring roe on kelp","Clupea/algae spp.","group","PHRG",NA
+997,"997","Unspecified trawled fish","Osteichthyes spp.","group","MSC2",NA
+998,"998","Bait","Bait spp.","group",NA,NA
+999,"999","Unspecified fish","Osteichthyes spp.","group","MISC",NA
