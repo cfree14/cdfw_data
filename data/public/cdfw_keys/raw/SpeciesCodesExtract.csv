@@ -1,0 +1,473 @@
+﻿SpeciesCode,SpeciesGroupCode,CommonName,CategorizedCommonName,ScientificName,SpeciesTypeCode,TaxCode,ReportGroupCode,Restriction,PacFinCode,DiscontinueDate
+001,1,"Tuna, Yellowfin ","Yellowfin, Tuna",Thunnus albacares,1,16,06,,YTNA,N/A
+002,1,"Tuna, Skipjack ","Skipjack, Tuna",Katsuwonus pelamis            ,1,16,06,,STNA,N/A
+003,1,"Bonito, Pacific ","Pacific, Bonito",Sarda chiliensis              ,1,16,06,,PBNT,N/A
+004,1,"Tuna, Bluefin ","Bluefin, Tuna",Thunnus orientalis,1,16,06,,BTNA,N/A
+005,1,"Tuna, Albacore ","Albacore, Tuna",Thunnus alalunga              ,1,16,06,,ALBC,N/A
+006,1,"Tuna, Unspecified ","Unspecified, Tuna",Scombridae                    ,1,16,06,,UTNA,N/A
+007,,Oriental Tuna ,Oriental Tuna,Oriental Tuna,,16,,,,12/31/1964
+008,1,"Tuna, Bigeye ","Bigeye, Tuna",Thunnus obesus                ,1,16,06,,OTNA,N/A
+009,1,"Tuna, Skipjack, Black ","Black,  Skipjack, Tuna",Euthynnus lineatus            ,1,16,06,,BSJK,N/A
+010,,Atlantic Bluefin ,Atlantic Bluefin,Atlantic Bluefin,,16,,,,12/31/1966
+011,1,"Tuna, Longtail ","Longtail, Tuna",Thunnus tonggol               ,1,16,06,,OTNA,02/12/2019
+012,1,"Tuna, Blackfin ","Blackfin, Tuna",Thunnus atlanticus            ,1,16,06,BOTH,OTNA,02/12/2019
+015,1,Escolar ,Escolar,Lepidocybium flavobrunneum    ,1,16,06,,MSC2,N/A
+017,1,Oilfish ,Oilfish,Ruvettus pretiosus            ,1,16,06,,MSC2,N/A
+019,1,"Mackerel, Bullet ","Bullet, Mackerel",Auxis rochei                  ,1,14,00,,MSC2,N/A
+040,1,Yellowtail ,Yellowtail,Seriola lalandi               ,1,12,00,,YLTL,N/A
+041,1,"Jack, Pacific Crevalle ","Pacific Crevalle, Jack",Caranx caninus                ,1,16,00,,MSC2,N/A
+042,1,"Jacks, Unspecified ","Unspecified, Jacks",Carangidae                    ,1,16,00,,MSC2,N/A
+043,1,"Jack, Almaco (amberjack) ","Almaco (amberjack), Jack",Seriola rivoliana             ,1,16,00,,MSC2,N/A
+050,1,"Mackerel, Unspecified ","Unspecified, Mackerel",Scomber / Trachurus,1,14,50,,UMCK,N/A
+051,1,"Mackerel, Pacific ","Pacific, Mackerel",Scomber japonicus,1,14,50,,CMCK,N/A
+055,1,"Mackerel, Jack ","Jack, Mackerel",Trachurus symmetricus,1,14,50,,JMCK,N/A
+056,,Large Jack Mackerel ,Large Jack Mackerel,Large Jack Mackerel,,16,,,,01/01/1968
+057,1,Wahoo ,Wahoo,Acanthocybium solanderi       ,1,16,00,,WHOO,N/A
+058,,New Zealand Mackerel ,New Zealand Mackerel,New Zealand Mackerel,,16,,,,N/A
+080,1,Butterfish (pacific Pompano) ,Butterfish (pacific Pompano),Peprilus simillimus           ,1,16,00,,PBTR,N/A
+081,1,Pomfret ,Pomfret,Bramidae,1,16,00,,POMF,N/A
+090,,Swordfish ,Swordfish,Swordfish,,16,,,,01/01/1974
+091,1,Swordfish ,Swordfish,Xiphias gladius               ,1,04,00,,SWRD,N/A
+092,1,"Marlin, Striped ","Striped, Marlin",Kajikia audax,1,16,00,COMM,MRLN,N/A
+093,1,"Spearfish, Shortbill ","Shortbill, Spearfish",Tetrapturus angustirostris,1,16,00,,SSPF,N/A
+095,1,Sailfish ,Sailfish,Istiophorus platypterus       ,1,16,,,SAIL,N/A
+096,1,"Shark, White ","White, Shark",Carcharodon carcharias,1,02,15,CPFV,OSRK,N/A
+097,1,"Shark, Bigeye Thresher ","Bigeye Thresher, Shark",Alopias superciliosus,1,01,15,,ISRK,N/A
+098,1,"Shark, Pelagic Thresher ","Pelagic Thresher, Shark",Alopias pelagicus,1,01,15,,PSRK,N/A
+100,1,"Sardine, Pacific ","Pacific, Sardine",Sardinops sagax caeruleus     ,1,15,00,,PSDN,N/A
+102,,New Zealand Pilchard ,New Zealand Pilchard,New Zealand Pilchard,,16,,,MSC2,N/A
+105,1,"Herring, Round ","Round, Herring",Etrumeus teres                ,1,06,00,,RHRG,N/A
+110,1,"Anchovy, Northern ","Northern, Anchovy",Engraulis mordax              ,1,13,00,,NANC,N/A
+111,1,"Anchovy, Deepbody ","Deepbody, Anchovy",Anchoa compressa              ,3,13,,,OANC,N/A
+112,,Northern Anchovy ,Northern Anchovy,Northern Anchovy,,16,,,,01/01/1974
+113,1,"Anchovy, Slough ","Slough, Anchovy",Anchoa delicatissima          ,3,13,,,OANC,N/A
+120,,Herring ,Herring,Herring,,16,,,,01/01/1951
+121,1,"Herring, Pacific ","Pacific, Herring",Clupea pallasi                ,1,06,00,,PHRG,N/A
+122,1,"Herring, Pacific - Roe ","Pacific - Roe, Herring",Clupea pallasi,1,06,00,,PHRG,N/A
+130,1,"Barracuda, California ","California, Barracuda",Sphyraena argentea            ,1,12,00,,CUDA,N/A
+135,1,"Mullet, Striped ","Striped, Mullet",Mugil cephalus                ,1,16,,,MSC2,N/A
+144,1,Senorita ,Senorita,Oxyjulis californica          ,1,16,,,MSC2,N/A
+145,1,"Sheephead, California ","California, Sheephead",Semicossyphus pulcher         ,1,16,,,SHPD,N/A
+146,1,"Wrasse, Rock ","Rock, Wrasse",Halichoeres semicinctus       ,1,16,00,,MSC2,N/A
+147,1,"Skate, Longnose ","Longnose, Skate",Raja rhina,1,16,17,,LSKT,N/A
+149,1,"Shark, Blacktip ","Blacktip, Shark",Carcharhinus limbatus,1,16,15,,OSRK,N/A
+150,1,"Shark, Unspecified ","Unspecified, Shark",Selachii spp.,1,16,15,,USRK,N/A
+151,1,"Shark, Shortfin Mako ","Shortfin Mako, Shark",Isurus oxyrinchus,1,02,15,,MAKO,N/A
+152,1,"Shark, Spiny Dogfish ","Spiny Dogfish, Shark",Squalus acanthias,1,16,15,,DSRK,N/A
+153,1,"Shark, Leopard ","Leopard, Shark",Triakis semifasciata,1,16,15,,LSRK,N/A
+154,1,"Shark, Brown Smoothhound ","Brown Smoothhound, Shark",Mustelus henlei,1,16,15,,OSRK,N/A
+155,1,"Shark, Thresher ","Thresher, Shark",Alopias vulpinus,1,01,15,,TSRK,N/A
+156,1,"Shark, Basking ","Basking, Shark",Cetorhinus maximus,1,16,15,,OSRK,N/A
+157,,Guitar Fish ,Guitar Fish,Guitar Fish,,16,,,MSC2,N/A
+158,1,"Shark, Smooth Hammerhead ","Smooth Hammerhead, Shark",Sphyrna zygaena,1,16,15,,OSRK,N/A
+159,1,"Shark, Soupfin ","Soupfin, Shark",Galeorhinus zyopterus,1,16,15,,SSRK,N/A
+160,1,"Sharks, Cow ","Cow, Sharks",Hexanchidae,1,16,15,,OSRK,N/A
+161,1,"Shark, Sixgill ","Sixgill, Shark",Hexanchus griseus,1,16,15,,OSRK,N/A
+162,1,"Shark, Sevengill ","Sevengill, Shark",Notorynchus cepedianus,1,16,15,,OSRK,N/A
+163,1,"Shark, Swell ","Swell, Shark",Cephaloscyllium ventriosum,1,16,15,,OSRK,N/A
+164,1,"Shark, Dusky ","Dusky, Shark",Carcharhinus obscurus,1,16,15,,OSRK,N/A
+165,1,"Shark, Pacific Angel ","Pacific Angel, Shark",Squatina californica,1,03,15,,ASRK,N/A
+166,1,"Ratfish, Spotted ","Spotted, Ratfish",Hydrolagus colliei,1,16,00,,RATF,N/A
+167,1,"Shark, Blue ","Blue, Shark",Prionace glauca,1,16,15,,BSRK,N/A
+168,1,"Shark, Salmon ","Salmon, Shark",Lamna ditropis,1,02,15,,OSRK,N/A
+169,1,"Shark, Horn ","Horn, Shark",Heterodontus francisci,1,16,15,,OSRK,N/A
+170,1,"Ray, Unspecified ","Unspecified, Ray",Rajiformes,1,16,17,,USKT,N/A
+171,1,"Ray, Bat ","Bat, Ray",Myliobatis californica,1,16,17,,BTRY,N/A
+172,1,"Ray, Pacific Electric ","Pacific Electric, Ray",Torpedo californica,1,16,17,,OSKT,N/A
+173,1,Stingray ,Stingray,Dasyatidae                    ,1,16,17,,OSKT,N/A
+174,1,"Guitarfish, Shovelnose ","Shovelnose, Guitarfish",Rhinobatos productus,1,16,17,,OSKT,N/A
+175,1,"Skate, Unspecified ","Unspecified, Skate",Rajidae,1,16,17,,USKT,N/A
+176,1,"Skate, Big ","Big, Skate",Raja binoculata,1,16,17,,BSKT,N/A
+177,1,"Skate, California ","California, Skate",Raja inornata,1,16,17,,CSKT,N/A
+178,1,"Skate, Thornback ","Thornback, Skate",Platyrhinoidis triseriata,1,16,17,,OSKT,N/A
+179,1,"Shark, Gray Smoothhound ","Gray Smoothhound, Shark",Mustelus californicus,1,16,15,,OSRK,N/A
+180,1,"Smelts, True ","True, Smelts",Osmeridae                     ,1,16,18,,SMLT,N/A
+181,1,"Grunion, California ","California, Grunion",Leuresthes tenuis             ,1,16,18,,MSC2,N/A
+182,1,"Smelt, Surf ","Surf, Smelt",Hypomesus pretiosus           ,1,16,18,,SMLT,N/A
+183,,Bay Smelt ,Bay Smelt,Bay Smelt,,16,,,,11/30/1974
+184,1,Jacksmelt ,Jacksmelt,Atherinopsis californiensis   ,1,16,18,,SMLT,N/A
+185,1,"Smelt, Whitebait ","Whitebait, Smelt",Allosmerus elongatus          ,1,16,18,,SMLT,N/A
+186,1,Topsmelt ,Topsmelt,Atherinops affinis            ,1,16,18,,SMLT,N/A
+187,1,"Smelt, Night ","Night, Smelt",Spirinchus starksi            ,1,16,18,,SMLT,N/A
+188,1,Eulachon ,Eulachon,Thaleichthys pacificus        ,1,16,18,,EULC,N/A
+189,1,Silversides ,Silversides,Atherinidae                   ,1,16,18,,MSC2,N/A
+190,1,Sablefish ,Sablefish,Anoplopoma fimbria,1,16,00,,SABL,N/A
+191,1,Louvar ,Louvar,Luvarus imperialis            ,1,16,00,,LUVR,N/A
+195,1,Lingcod ,Lingcod,Ophiodon elongatus,1,16,00,,LCOD,N/A
+196,1,"Tomcod, Pacific ","Pacific, Tomcod",Microgadus proximus,1,16,00,,TCOD,N/A
+197,1,"Cod, Pacific ","Pacific, Cod",Gadus macrocephalus,1,16,00,,PCOD,N/A
+198,1,Grenadier ,Grenadier,Macrouridae,1,16,00,,GRDR,N/A
+200,1,"Sole, Unspecified ","Unspecified, Sole",Pleuronectiformes,1,16,20,,UFLT,N/A
+201,1,"Flounder, Arrowtooth ","Arrowtooth, Flounder",Atheresthes stomias,1,16,20,,ARTH,N/A
+202,1,"Sole, Bigmouth ","Bigmouth, Sole",Hippoglossina stomata,1,16,20,,BMOL,N/A
+203,1,"Sole, Rock ","Rock, Sole",Pleuronectes bilineata,1,16,20,,RSOL,N/A
+204,1,"Sole, Fantail ","Fantail, Sole",Xystreurys liolepis,1,16,20,,FNTS,N/A
+205,1,"Sole, Sand ","Sand, Sole",Psettichthys melanostictus,1,16,20,,SSOL,N/A
+206,1,"Sole, English ","English, Sole",Pleuronectes vetulus,1,16,20,,EGLS,N/A
+207,1,"Sole, Rex ","Rex, Sole",Errex zachirus,1,16,20,,REX,N/A
+208,1,"Sole, Butter ","Butter, Sole",Pleuronectes isolepis,1,16,20,,BSOL,N/A
+209,1,"Sole, Petrale ","Petrale, Sole",Eopsetta jordani,1,16,20,,PTRL,N/A
+210,1,"Sole, Slender ","Slender, Sole",Eopsetta exilis,1,16,20,,OFLT,N/A
+211,1,"Sole, Dover ","Dover, Sole",Microstomus pacificus,1,16,20,,DOVR,N/A
+212,1,"Sole, Tongue ","Tongue, Sole",Symphurus atricauda,1,16,20,,UFLT,N/A
+220,1,"Halibut, Unspecified ","Unspecified, Halibut",Pleuronectiformes,1,12,20,,UHLB,N/A
+221,1,"Halibut, Pacific ","Pacific, Halibut",Hippoglossus stenolepis       ,1,12,20,,PHLB,N/A
+222,1,"Halibut, California ","California, Halibut",Paralichthys californicus,1,12,20,,CHLB,N/A
+225,1,Sanddab ,Sanddab,Citharichthys spp.,1,16,20,,UDAB,N/A
+226,1,"Sanddab, Longfin ","Longfin, Sanddab",Citharichthys xanthostigma,1,16,20,,LDAB,N/A
+227,1,"Sanddab, Pacific ","Pacific, Sanddab",Citharichthys sordidus,1,16,20,,PDAB,N/A
+228,1,"Sanddab, Speckled ","Speckled, Sanddab",Citharichthys stigmaeus,1,16,20,,SSDB,N/A
+230,1,"Flounder, Unspecified ","Unspecified, Flounder",Pleuronectidae,1,16,20,,UFLT,N/A
+231,1,"Flounder, Starry ","Starry, Flounder",Platichthys stellatus,1,16,20,,STRY,N/A
+235,1,"Sole, Curlfin ","Curlfin, Sole",Pleuronichthys decurrens,1,16,20,,CSOL,N/A
+236,1,"Turbot, Diamond ","Diamond, Turbot",Hypsopsetta guttulata,1,16,20,,DTRB,N/A
+237,1,"Sole, C- O ","C- O, Sole",Pleuronichthys coenosus,1,16,20,,CTRB,N/A
+238,1,"Turbot, Hornyhead ","Hornyhead, Turbot",Pleuronichthys verticalis,1,16,20,,HTRB,N/A
+239,1,"Turbot, Spotted ","Spotted, Turbot",Pleuronichthys ritteri,1,16,20,,STRB,N/A
+240,1,Turbot ,Turbot,Pleuronectidae,1,16,20,,UTRB,N/A
+241,,Curlfin Turbot ,Curlfin Turbot,Curlfin Turbot,,16,,,,N/A
+242,,Diamond Turbot ,Diamond Turbot,Diamond Turbot,,16,,,,N/A
+243,,C - O Turbot ,C - O Turbot,C & O Turbot,,16,,,,N/A
+244,,Horneyhead Turbot ,Horneyhead Turbot,Horneyhead Turbot,,16,,,,N/A
+245,1,"Rockfish, Cowcod ","Cowcod, Rockfish",Sebastes levis,1,16,25,CPFV,CWC1,N/A
+246,1,"Rockfish, Copper (whitebelly) ","Copper (whitebelly), Rockfish",Sebastes caurinus,1,16,25,BOTH,COP1,N/A
+247,1,"Rockfish, Canary ","Canary, Rockfish",Sebastes pinniger,1,16,25,CPFV,CNR1,N/A
+249,1,"Rockfish, Vermilion ","Vermilion, Rockfish",Sebastes miniatus,1,16,25,,VRM1,N/A
+250,1,"Rockfish, Unspecified ","Unspecified, Rockfish",Sebastes spp.,1,16,25,,URCK,02/12/2019
+251,1,"Rockfish, Black- And- Yellow ","Black- And- Yellow, Rockfish",Sebastes chrysomelas,1,16,25,,BYL1,N/A
+252,1,"Rockfish, Black ","Black, Rockfish",Sebastes melanops,1,16,25,,BLK1,N/A
+253,1,"Rockfish, Bocaccio ","Bocaccio, Rockfish",Sebastes paucispinis,1,16,25,,BCC1,N/A
+254,1,"Rockfish, Chilipepper ","Chilipepper, Rockfish",Sebastes goodei,1,16,25,,CLP1,N/A
+255,1,"Rockfish, Greenspotted ","Greenspotted, Rockfish",Sebastes chlorostictus,1,16,25,,GSP1,N/A
+256,1,"Rockfish, Starry ","Starry, Rockfish",Sebastes constellatus,1,16,25,,STR1,N/A
+257,1,"Rockfish, Darkblotched ","Darkblotched, Rockfish",Sebastes crameri,1,16,25,,DBR1,N/A
+258,1,"Rockfish, China ","China, Rockfish",Sebastes nebulosus,1,16,25,,CHN1,N/A
+259,1,"Rockfish, Yellowtail ","Yellowtail, Rockfish",Sebastes flavidus,1,16,25,,YTR1,N/A
+260,1,"Scorpionfish, California ","California, Scorpionfish",Scorpaena guttata,1,16,25,,SCR1,N/A
+261,1,Cabezon ,Cabezon,Scorpaenichthys marmoratus,1,16,,,CBZ1,N/A
+262,1,Thornyheads ,Thornyheads,Sebastolobus spp.,1,16,25,,THDS,02/12/2019
+263,1,"Rockfish, Gopher ","Gopher, Rockfish",Sebastes carnatus,1,16,25,,GPH1,N/A
+264,1,"Rockfish, Pinkrose ","Pinkrose, Rockfish",Sebastes simulator,1,16,25,,PRR1,N/A
+265,1,"Rockfish, Yelloweye ","Yelloweye, Rockfish",Sebastes ruberrimus,1,16,25,CPFV,YEY1,N/A
+266,,Large Red Rockfish ,Large Red Rockfish,Large Red Rockfish,,16,,,,01/01/1968
+267,1,"Rockfish, Brown ","Brown, Rockfish",Sebastes auriculatus,1,16,25,,BRW1,N/A
+268,1,"Rockfish, Rosy ","Rosy, Rockfish",Sebastes rosaceus,1,16,25,,ROS1,N/A
+269,1,"Rockfish, Widow ","Widow, Rockfish",Sebastes entomelas,1,16,25,,WDW1,N/A
+270,1,"Rockfish, Splitnose ","Splitnose, Rockfish",Sebastes diploproa,1,16,25,,SNS1,N/A
+271,1,"Rockfish, Pacific Ocean Perch ","Pacific Ocean Perch, Rockfish",Sebastes alutus,1,16,25,,POP,N/A
+272,1,"Sculpin, Staghorn ","Staghorn, Sculpin",Leptocottus armatus,1,16,00,,SCLP,N/A
+273,1,"Sculpin, Yellowchin ","Yellowchin, Sculpin",Icelinus quadriseriatus       ,1,16,,,SCLP,N/A
+275,1,"Bass, Rock ","Rock, Bass",Paralabrax spp.               ,1,16,27,BOTH,OBAS,N/A
+276,1,"Bass, Spotted Sand ","Spotted Sand, Bass",Paralabrax maculatofasciatus,1,16,27,COMM,OBAS,N/A
+277,1,"Bass, Kelp ","Kelp, Bass",Paralabrax clathratus         ,1,16,27,COMM,OBAS,N/A
+278,1,"Bass, Barred Sand ","Barred Sand, Bass",Paralabrax nebulifer          ,1,16,27,COMM,OBAS,N/A
+280,1,"Bass, Giant Sea ","Giant Sea, Bass",Stereolepis gigas,1,12,00,CPFV,GBAS,N/A
+281,,Shortfin Sea Bass ,Shortfin Sea Bass,Shortfin Sea Bass,,16,,,,01/01/1974
+285,,Pelican Rockfish ,Pelican Rockfish,Pelican Rockfish,,16,,,,N/A
+289,1,"Greenling, Rock ","Rock, Greenling",Hexagrammos lagocephalus,1,16,00,,RGL1,N/A
+290,1,"Greenling, Kelp ","Kelp, Greenling",Hexagrammos decagrammus,1,16,00,,KGL1,N/A
+291,1,Triggerfish ,Triggerfish,Balistidae                    ,1,16,,,MSC2,N/A
+292,1,"Sunfish, Ocean ","Ocean, Sunfish",Mola mola                     ,1,16,00,,MOLA,N/A
+300,1,Salmon ,Salmon,Oncorhynchus spp.             ,1,05,30,,USMN,01/20/2022
+301,1,"Salmon, Chum ","Chum, Salmon",Oncorhynchus keta             ,1,05,30,,CHUM,N/A
+302,1,"Salmon, Chinook ","Chinook, Salmon",Oncorhynchus tshawytscha,1,05,30,,CHNK,N/A
+303,1,"Salmon, Pink ","Pink, Salmon",Oncorhynchus gorbuscha        ,1,05,30,,PINK,N/A
+304,1,"Salmon, Coho ","Coho, Salmon",Oncorhynchus kisutch,1,05,30,CPFV,COHO,N/A
+305,,Salmon Roe ,Salmon Roe,Salmon Roe,,16,,,,N/A
+306,1,"Salmon, Roe (chinook, Coho) ","Coho),  Roe (chinook, Salmon",Oncorhynchus spp.,1,05,30,,USMN,N/A
+310,,Unclassified Trout ,Unclassified Trout,Unclassified Trout,,16,,,,N/A
+311,,Loch Leven Brown Trout ,Loch Leven Brown Trout,Loch Leven Brown Trout,,16,,,,N/A
+312,,Cutthroat Trout ,Cutthroat Trout,Cutthroat Trout,,16,,,,N/A
+313,,Dolly Varden Trout ,Dolly Varden Trout,Dolly Varden Trout,,16,,,,N/A
+314,,Eastern Brook Trout ,Eastern Brook Trout,Eastern Brook Trout,,16,,,,N/A
+316,1,"Trout, Rainbow ","Rainbow, Trout",Oncorhynchus mykiss,5,16,34,CPFV,STLH,N/A
+317,,Golden Trout ,Golden Trout,Golden Trout,,16,,,,N/A
+320,1,"Catfish, Unspecified ","Unspecified, Catfish",Siluriformes                  ,5,16,34,,,N/A
+321,,Fork Tail Catfish ,Fork Tail Catfish,Fork Tail Catfish,,16,,,,09/01/1953
+322,1,"Bullhead, Brown ","Brown, Bullhead",Ameiurus nebulosus            ,5,16,34,,,N/A
+324,1,"Shad, Threadfin ","Threadfin, Shad",Dorosoma petenense            ,5,16,34,,SHAD,N/A
+325,1,"Shad, American ","American, Shad",Alosa sapidissima             ,4,16,34,,SHAD,N/A
+326,,Roe Shad ,Roe Shad,Roe Shad,,16,,,,01/01/1965
+327,,Buck Shad ,Buck Shad,Buck Shad,,16,,,,01/01/1965
+332,,Freshwater Trout ,Freshwater Trout,Freshwater Trout,,16,,,,N/A
+334,,Freshwater Rock Bass ,Freshwater Rock Bass,Freshwater Rock Bass,,16,,,,N/A
+335,1,"Bass, Striped ","Striped, Bass",Morone saxatilis              ,4,16,00,COMM,OBAS,N/A
+336,,Calico Bass ,Calico Bass,Calico Bass,,16,,,,N/A
+337,,Freshwater Rock Bass ,Freshwater Rock Bass,Freshwater Rock Bass,,16,,,,N/A
+338,,Small Mouthed Black Bass ,Small Mouthed Black Bass,Small Mouthed Black Bass,,16,,,,N/A
+339,,Large Mouthed Black Bass ,Large Mouthed Black Bass,Large Mouthed Black Bass,,16,,,,N/A
+340,1,Tilapia ,Tilapia,Tilapia spp.                  ,4,16,00,,MSC2,N/A
+341,2,"Crab, Red Rock ","Red Rock, Crab",Cancer productus              ,1,10,80,,RCRB,N/A
+342,2,"Crab, Yellow Rock ","Yellow Rock, Crab",Cancer anthonyi               ,1,10,80,,RCRB,N/A
+343,2,"Crab, Brown Rock ","Brown Rock, Crab",Cancer antennarius,1,10,80,,RCRB,N/A
+345,1,Carp ,Carp,Cyprinus carpio               ,5,16,34,,,N/A
+346,1,Hardhead (freshwater) ,Hardhead (freshwater),Mylopharodon conocephalus     ,5,16,34,,,N/A
+347,1,Splittail ,Splittail,Pogonichthys macrolepidotus   ,5,16,34,,,N/A
+348,1,Hitch ,Hitch,Lavinia exilicauda            ,5,16,34,,,N/A
+349,1,"Blackfish, Sacramento ","Sacramento, Blackfish",Orthodon microlepidotus       ,5,16,34,,,N/A
+351,,Sacramento Perch ,Sacramento Perch,Sacramento Perch,,16,,,,N/A
+361,1,"Stickleback, Threespine ","Threespine, Stickleback",Gasterosteus aculeatus        ,5,16,34,,MSC2,N/A
+365,1,Squawfish ,Squawfish,Ptychocheilus grandis         ,5,16,34,,,N/A
+366,,Crappie ,Crappie,Crappie,,16,,,,N/A
+367,,Bluegill ,Bluegill,Bluegill,,16,,,,N/A
+375,1,Sucker ,Sucker,Catostomidae                  ,5,16,34,,,N/A
+400,1,"Seabass, White ","White, Seabass",Atractoscion nobilis          ,1,12,,,WBAS,N/A
+401,,Civache ,Civache,Civache,,16,,,,N/A
+410,1,"Seabass, Totuava ","Totuava, Seabass",Totoaba macdonaldi            ,1,16,00,BOTH,MSC2,N/A
+414,,Robalos ,Robalos,Robalos,,16,,,,N/A
+415,1,Snapper - Mexico- ,Snapper - Mexico-,Lutianidae                    ,1,16,,,MSC2,N/A
+420,1,"Croaker, Unspecifed ","Unspecifed, Croaker",Sciaenidae,1,16,40,,OCRK,N/A
+421,1,"Croaker, Black ","Black, Croaker",Cheilotrema saturnum,1,16,40,,OCRK,N/A
+422,1,"Croaker, Spotfin ","Spotfin, Croaker",Roncador stearnsii,1,16,40,COMM,OCRK,N/A
+423,1,"Croaker, Yellowfin ","Yellowfin, Croaker",Umbrina roncador,1,16,40,COMM,OCRK,N/A
+426,1,"Corbina, California ","California, Corbina",Menticirrhus undulatus        ,1,16,40,COMM,MSC2,N/A
+427,1,"Corvina, Shortfin ","Shortfin, Corvina",Cynoscion parvipinnis         ,1,16,40,,MSC2,N/A
+430,1,Grouper ,Grouper,Mycteroperca / Epinephelus,1,16,,CPFV,OBAS,N/A
+431,1,"Cabrilla, Spotted ","Spotted, Cabrilla",Epinephelus analogus          ,1,16,,,OBAS,N/A
+432,1,"Grouper, Broomtail ","Broomtail, Grouper",Mycteroperca xenarcha         ,1,16,00,CPFV,OBAS,N/A
+435,1,"Croaker, White ","White, Croaker",Genyonemus lineatus,1,16,40,,WCRK,N/A
+440,1,Queenfish ,Queenfish,Seriphus politus,1,16,40,,QFSH,N/A
+445,1,Flyingfish ,Flyingfish,Exocoetidae spp.              ,1,12,00,,MSC2,N/A
+446,1,"Saury, Pacific ","Pacific, Saury",Cololabis saira               ,1,16,00,,SARY,N/A
+450,1,Eel ,Eel,Osteichthyes,1,16,00,,EELS,N/A
+451,1,"Eel, Blenny ","Blenny, Eel",Lumpenus anguillaris,1,16,,,EELS,N/A
+452,1,"Eel, California Moray ","California Moray, Eel",Gymnothorax mordax,1,16,00,,EELS,N/A
+453,1,"Lamprey, Pacific ","Pacific, Lamprey",Lampetra tridentata,4,16,34,,MSC2,N/A
+454,1,"Eel, Wolf (wolf- Eel) ","Wolf (wolf- Eel), Eel",Anarrhichthys ocellatus,1,16,00,,WEEL,N/A
+455,1,"Eel, Spotted Cusk- ","Spotted Cusk-, Eel",Chilara taylori,1,16,00,,CEEL,N/A
+456,1,"Prickleback, Monkeyface (eel) ","Monkeyface (eel), Prickleback",Cebidichthys violaceus,1,16,00,,MEEL,N/A
+457,1,"Hagfish, Unspecified ","Unspecified, Hagfish",Eptatretus spp.               ,1,16,00,,UHAG,N/A
+458,1,"Hagfish, Pacific ","Pacific, Hagfish",Eptatretus stoutii,,,,,,N/A
+459,1,Black Hagfish ,Black Hagfish,Eptatretus deani,,,,,,N/A
+465,,Tai ,Tai,Tai,,16,,,,N/A
+467,1,Opah ,Opah,Lampris guttatus,1,16,00,,MSC2,N/A
+470,1,Sturgeons ,Sturgeons,Acipenseridae,4,16,00,COMM,USTG,N/A
+471,1,"Sturgeon, Green ","Green, Sturgeon",Acipenser medirostris,4,16,00,BOTH,GSTG,N/A
+472,1,"Sturgeon, White ","White, Sturgeon",Acipenser transmontanus,4,16,00,COMM,WSTG,N/A
+473,1,"Lizardfish, California ","California, Lizardfish",Synodus lucioceps,1,16,,,MSC2,N/A
+474,1,"Perch- Like, Unspecified ","Unspecified, Perch- Like",Kyphosidae/Pomacentridae,1,16,00,COMM,MSC2,N/A
+475,1,Opaleye ,Opaleye,Girella nigricans             ,1,16,00,,MSC2,N/A
+476,1,"Needlefish, California ","California, Needlefish",Strongylura exilis            ,1,16,,,MSC2,N/A
+477,1,Bonefish ,Bonefish,Albula vulpes                 ,1,16,00,,MSC2,N/A
+478,1,Halfmoon ,Halfmoon,Medialuna californiensis      ,1,16,00,,MSC2,N/A
+479,1,Blacksmith ,Blacksmith,Chromis punctipinnis          ,1,16,00,,MSC2,N/A
+480,1,Sargo ,Sargo,Anisotremus davidsonii        ,1,16,,,MSC2,N/A
+481,1,Dolphin (fish) ,Dolphin (fish),Coryphaena hippurus           ,1,16,00,,MSC2,N/A
+482,1,Garibaldi ,Garibaldi,Hypsypops rubicundus          ,1,16,00,CPFV,MSC2,N/A
+483,1,"Mudsucker, Longjaw ","Longjaw, Mudsucker",Gillichthys mirabilis         ,3,16,,,MSC2,N/A
+484,1,Salema ,Salema,Xenistius californiensis      ,1,16,,,MSC2,N/A
+485,1,"Midshipman, Plainfin ","Plainfin, Midshipman",Porichthys notatus            ,1,16,,,MSHP,N/A
+486,1,"Goby, Bluebanded ","Bluebanded, Goby",Lythrypnus dalli              ,1,16,00,,MSC2,N/A
+487,1,"Goby, Yellowfin ","Yellowfin, Goby",Acanthogobius flavimanus      ,3,16,00,,MSC2,N/A
+488,1,"Goby, Zebra ","Zebra, Goby",Lythrypnus zebra              ,1,16,00,,MSC2,N/A
+490,1,"Whitefish, Ocean ","Ocean, Whitefish",Caulolatilus princeps         ,1,16,00,,OWFS,N/A
+491,1,"Killifish, California ","California, Killifish",Fundulus parvipinnis          ,3,16,,,MSC2,N/A
+495,1,"Whiting, Pacific ","Pacific, Whiting",Merluccius productus,1,16,00,,PWHT,N/A
+501,1,"Kelpfish, Giant ","Giant, Kelpfish",Heterostichus rostratus       ,1,16,00,,KFSH,N/A
+510,1,Kelpfishes ,Kelpfishes,Gibbonsia spp.                ,1,16,00,,MSC2,N/A
+550,1,"Surfperch, Unspecified ","Unspecified, Surfperch",Embiotocidae,1,16,55,,SRFP,N/A
+551,1,"Surfperch, Barred ","Barred, Surfperch",Amphistichus argenteus        ,1,16,55,,SRFP,N/A
+552,1,"Surfperch, Black ","Black, Surfperch",Embiotoca jacksoni            ,1,16,55,,SRFP,N/A
+553,1,"Surfperch, Redtail ","Redtail, Surfperch",Amphistichus rhodoterus       ,1,16,55,,SRFP,N/A
+554,1,"Surfperch, Shiner ","Shiner, Surfperch",Cymatogaster aggregata        ,1,16,55,,SRFP,N/A
+555,1,"Seaperch, Striped ","Striped, Seaperch",Embiotoca lateralis,1,16,55,,SRFP,N/A
+556,1,"Surfperch, White ","White, Surfperch",Phanerodon furcatus           ,1,16,55,,SRFP,N/A
+557,1,"Surfperch, Walleye ","Walleye, Surfperch",Hyperprosopon argenteum       ,1,16,55,,SRFP,N/A
+558,1,"Surfperch, Rubberlip ","Rubberlip, Surfperch",Rhacochilus toxotes           ,1,16,55,,SRFP,N/A
+559,1,"Surfperch, Pile ","Pile, Surfperch",Rhacochilus vacca             ,1,16,55,,SRFP,N/A
+560,1,"Surfperch, Calico ","Calico, Surfperch",Amphistichus koelzi           ,1,16,55,,SRFP,N/A
+561,1,"Surfperch, Dwarf ","Dwarf, Surfperch",Micrometrus minimus           ,1,16,55,,SRFP,N/A
+562,1,"Surfperch, Rainbow ","Rainbow, Surfperch",Hypsurus caryi                ,1,16,55,,SRFP,N/A
+563,1,"Surfperch, Pink ","Pink, Surfperch",Zalembius rosaceus            ,1,16,55,,SRFP,N/A
+564,1,"Surfperch, Silver ","Silver, Surfperch",Hyperprosopon ellipticum,1,16,55,,SRFP,N/A
+601,1,Kahawai ,Kahawai,Arripis trutta,1,16,,,MSC2,N/A
+602,1,Zebraperch ,Zebraperch,Hermosilla azurea             ,1,16,00,,MSC2,N/A
+650,1,"Rockfish, Rougheye ","Rougheye, Rockfish",Sebastes aleutianus,1,16,25,,REYE,N/A
+651,1,"Rockfish, Olive ","Olive, Rockfish",Sebastes serranoides,1,16,25,,OLV1,N/A
+652,1,"Rockfish, Grass ","Grass, Rockfish",Sebastes rastrelliger,1,16,25,,GRS1,N/A
+653,1,"Rockfish, Pink ","Pink, Rockfish",Sebastes eos,1,16,25,,PNK1,N/A
+654,1,"Rockfish, Greenstriped ","Greenstriped, Rockfish",Sebastes elongatus,1,16,25,,GSR1,N/A
+655,1,"Rockfish, Copper ","Copper, Rockfish",Sebastes caurinus,1,16,25,,COP1,N/A
+656,1,"Rockfish, Blackspotted ","Blackspotted, Rockfish",Sebastes melanostictus,1,16,25,,BSPR,N/A
+657,1,"Rockfish, Flag ","Flag, Rockfish",Sebastes rubrivinctus,1,16,25,,FLG1,N/A
+658,1,"Rockfish, Treefish ","Treefish, Rockfish",Sebastes serriceps,1,16,25,,TRE1,N/A
+659,1,"Rockfish, Kelp ","Kelp, Rockfish",Sebastes atrovirens,1,16,25,,KLP1,N/A
+660,1,"Rockfish, Honeycomb ","Honeycomb, Rockfish",Sebastes umbrosus,1,16,25,,HNY1,N/A
+661,1,"Rockfish, Greenblotched ","Greenblotched, Rockfish",Sebastes rosenblatti,1,16,25,,GBL1,N/A
+662,1,"Rockfish, Bronzespotted ","Bronzespotted, Rockfish",Sebastes gilli,1,16,25,CPFV,BRZ1,N/A
+663,1,"Rockfish, Bank ","Bank, Rockfish",Sebastes rufus,1,16,25,,BNK1,N/A
+664,1,"Rockfish, Rosethorn ","Rosethorn, Rockfish",Sebastes helvomaculatus,1,16,25,,RST1,N/A
+665,1,"Rockfish, Blue ","Blue, Rockfish",Sebastes mystinus,1,16,25,,BLU1,N/A
+666,1,"Rockfish, Squarespot ","Squarespot, Rockfish",Sebastes hopkinsi,1,16,25,,SQR1,N/A
+667,1,"Rockfish, Blackgill ","Blackgill, Rockfish",Sebastes melanostomus,1,16,25,,BGL1,N/A
+668,1,"Rockfish, Stripetail ","Stripetail, Rockfish",Sebastes saxicola,1,16,25,,STL1,N/A
+669,1,"Rockfish, Speckled ","Speckled, Rockfish",Sebastes ovalis,1,16,25,,SPK1,N/A
+670,1,"Rockfish, Swordspine ","Swordspine, Rockfish",Sebastes ensifer,1,16,25,,SWS1,N/A
+671,1,"Rockfish, Calico ","Calico, Rockfish",Sebastes dallii,1,16,25,,CLC1,N/A
+672,1,"Rockfish, Shortbelly ","Shortbelly, Rockfish",Sebastes jordani,1,16,25,,SBL1,N/A
+673,1,"Rockfish, Chameleon ","Chameleon, Rockfish",Sebastes phillipsi,1,16,25,,CML1,N/A
+674,1,"Rockfish, Aurora ","Aurora, Rockfish",Sebastes aurora,1,16,25,,ARR1,N/A
+675,1,"Rockfish, Redbanded ","Redbanded, Rockfish",Sebastes babcocki,1,16,25,,RDB1,N/A
+676,1,"Rockfish, Mexican ","Mexican, Rockfish",Sebastes macdonaldi,1,16,25,,MXR1,N/A
+677,1,"Rockfish, Shortraker ","Shortraker, Rockfish",Sebastes borealis,1,16,25,,SRKR,N/A
+678,1,"Thornyhead, Longspine ","Longspine, Thornyhead",Sebastolobus altivelis,1,16,25,,LSP1,N/A
+679,1,"Thornyhead, Shortspine ","Shortspine, Thornyhead",Sebastolobus alascanus,1,16,25,,SSP1,N/A
+680,8,Anemones ,Anemones,Anthozoa,1,16,00,,,N/A
+681,8,Jellyfish ,Jellyfish,Hydrozoa,1,16,00,,UJEL,N/A
+682,8,Sea Pansy ,Sea Pansy,Renilla koellikeri,1,16,00,,,N/A
+683,4,"Limpet, Keyhole ","Keyhole, Limpet",Megathura crenulata,1,09,00,,,N/A
+684,4,"Snail, Tegula ","Tegula, Snail",Tegula spp.,1,09,00,,OMSK,N/A
+685,2,"Crab, Hermit ","Hermit, Crab",Paguristes sp.,1,10,80,,OCRB,N/A
+686,2,"Crab, Spider/sheep Claws ","Spider/sheep Claws, Crab",Loxorhynchus spp.,1,10,80,,OCRB,N/A
+687,3,Sand Dollar ,Sand Dollar,Dendraster excentricus,1,16,00,,,N/A
+688,3,Bryozoan ,Bryozoan,Ectoprocta,,16,00,,,N/A
+689,8,"Flatworm, Marine ","Marine, Flatworm",Platyhelminthes,3,16,00,,,N/A
+690,4,Hornsnail ,Hornsnail,Cerithidea spp.,1,09,00,,,N/A
+699,8,Invertebrate Unspecified ,Invertebrate Unspecified,,1,16,00,,,N/A
+700,4,Abalone ,Abalone,Haliotis spp.,1,08,70,,UABL,N/A
+701,4,"Abalone, Black ","Black, Abalone",Haliotis cracherodii          ,1,08,70,,BABL,N/A
+702,4,"Abalone, Red ","Red, Abalone",Haliotis rufescens            ,1,08,70,,RABL,N/A
+703,4,"Abalone, Green ","Green, Abalone",Haliotis fulgens              ,1,08,70,,GABL,N/A
+704,4,"Abalone, Pink ","Pink, Abalone",Haliotis corrugata            ,1,08,70,,PABL,N/A
+705,4,"Abalone, White ","White, Abalone",Haliotis sorenseni            ,1,08,70,,WABL,N/A
+706,4,"Abalone, Threaded ","Threaded, Abalone",Haliotis assimilis            ,1,08,70,,OABL,N/A
+707,4,"Abalone, Pinto ","Pinto, Abalone",Haliotis kamtschatkana        ,1,08,70,,OABL,N/A
+708,4,"Abalone, Flat ","Flat, Abalone",Haliotis walallensis          ,1,08,70,,OABL,N/A
+709,4,"Limpet, Unspecified ","Unspecified, Limpet",Archaeogastropoda             ,1,09,00,,UMSK,N/A
+710,4,"Squid, Jumbo ","Jumbo, Squid",Doscidicus gigas              ,1,11,00,,SQID,N/A
+711,4,"Squid, Market ","Market, Squid",Loligo opalescens             ,1,11,00,,MSQD,N/A
+712,4,"Octopus, Unspecified ","Unspecified, Octopus",Octopus spp.,1,09,00,,OCTP,N/A
+717,4,"Scallop, Weathervane ","Weathervane, Scallop",Patinopecten caurinus         ,1,09,,,OSCL,N/A
+718,4,"Scallop, Rock ","Rock, Scallop",Crassadoma gigantea           ,1,09,00,,OSCL,N/A
+719,4,"Scallop, Unspecified ","Unspecified, Scallop",Pectinidae                    ,1,09,,,USCL,N/A
+720,4,"Clam, Unspecified ","Unspecified, Clam",Bivalvia                      ,1,09,72,,UCLM,N/A
+721,4,"Clam, Common Littleneck ","Common Littleneck, Clam",Protothaca staminea           ,1,09,72,,LCLM,N/A
+722,4,"Clam, Pismo ","Pismo, Clam",Tivela stultorum              ,1,09,72,BOTH,PCLM,N/A
+723,4,"Clam, Softshell ","Softshell, Clam",Mya arenaria                  ,1,09,72,,SCLM,N/A
+724,,Venus Clam ,Venus Clam,Venus Clam,,16,,,,N/A
+725,4,"Clam, Northern Razor ","Northern Razor, Clam",Siliqua patula                ,1,09,72,,RCLM,N/A
+726,4,"Clam, Gaper ","Gaper, Clam",Tresus nuttalli               ,1,09,72,,GCLM,N/A
+727,4,"Clam, Common Washington ","Common Washington, Clam",Saxidomus nuttalli            ,1,09,72,,WCLM,N/A
+728,4,"Clam, California Jackknife ","California Jackknife, Clam",Tagelus californianus         ,1,09,72,,JCLM,N/A
+729,4,Sea Slug ,Sea Slug,Opisthobranchia               ,1,09,,,UMSK,N/A
+730,4,Mussel ,Mussel,Mytilus spp.                  ,1,09,73,,UCLM,N/A
+731,4,"Whelk, Kellet's ","Kellet's, Whelk",Kelletia Kelleti              ,1,09,00,,OMSK,N/A
+732,4,"Snail, Sea ","Sea, Snail",Gastropoda                    ,1,09,00,,UMSK,N/A
+733,4,"Clam, Freshwater ","Freshwater, Clam",Corbicula fluminea            ,5,00,34,,OCLM,N/A
+734,4,"Clam, Purple ","Purple, Clam",Nuttallia nuttallii           ,1,09,72,,PRCL,N/A
+735,4,"Clam, Rosy Razor ","Rosy Razor, Clam",Solen sicarius                ,1,09,72,,RZCL,N/A
+736,4,"Snails, Moon ","Moon, Snails",Polinices spp.                ,1,09,,,UMSK,N/A
+737,4,"Clam, Northern Quahog ","Northern Quahog, Clam",Mercenaria mercenaria         ,3,09,72,,QCLM,N/A
+740,4,"Oyster, Unspecified ","Unspecified, Oyster",Ostreidae                     ,3,09,74,,USTR,N/A
+741,4,"Oyster, Eastern ","Eastern, Oyster",Crassostrea virginica         ,3,09,74,BOTH,ESTR,N/A
+742,4,"Oyster, California Native ","California Native, Oyster",Ostrea lurida                 ,3,09,74,,LSTR,N/A
+743,4,"Oyster, Giant Pacific ","Giant Pacific, Oyster",Crassostrea gigas             ,3,09,74,BOTH,PSTR,N/A
+744,,Kumamoto Oyster ,Kumamoto Oyster,Kumamoto Oyster,,16,,,,N/A
+745,4,"Oyster, European Flat ","European Flat, Oyster",Ostrea edulis                 ,3,09,74,BOTH,EURO,N/A
+746,4,"Snail, Bubble ","Bubble, Snail",Bulla gouldiana               ,3,09,00,,OMSK,N/A
+747,4,"Snail, Top ","Top, Snail",Astraea undosa                ,1,09,00,,OMSK,N/A
+749,4,Sea Hare ,Sea Hare,Aplysia spp.                  ,1,09,,,UMSK,N/A
+750,3,"Echinoderm, Unspecified ","Unspecified, Echinoderm",Echinodermata                 ,1,16,,,UECH,N/A
+751,3,Sea Stars ,Sea Stars,Asteroidea,1,16,00,,UECH,N/A
+752,3,"Sea Urchin, Red ","Red, Sea Urchin",Strongylocentrotus franciscanu,1,07,00,,RURC,N/A
+753,3,"Sea Urchin, Purple ","Purple, Sea Urchin",Strongylocentrotus purpuratus,1,07,00,,OURC,N/A
+754,3,"Sea Cucumber, Giant Red ","Giant Red, Sea Cucumber",Parastichopus californicus,1,16,00,,USCU,N/A
+755,3,"Sea Cucumber, Unspecified ","Unspecified, Sea Cucumber",Holothuroidea,1,16,00,,USCU,N/A
+756,3,"Sea Urchin, White ","White, Sea Urchin",Lytechinus anamesus,1,07,00,,OURC,N/A
+757,3,"Sea Cucumber, Warty ","Warty, Sea Cucumber",Parastichopus parvimensis,1,16,00,,USCU,N/A
+758,3,Bat Star ,Bat Star,Patiria miniata,1,16,00,,UECH,N/A
+759,3,"Sea Urchin, Coronado ","Coronado, Sea Urchin",Centrostephanus coronatus,1,07,00,,OURC,N/A
+760,8,Sponges ,Sponges,Porifera                      ,1,16,,,MSC2,N/A
+769,8,"Invertebrates, Colonial ","Colonial, Invertebrates",Cnidaria                      ,1,16,,,MSC2,N/A
+771,,Purple Coral ,Purple Coral,Purple Coral,,16,,,,N/A
+781,4,"Snail, Freshwater ","Freshwater, Snail",Gastropoda                    ,5,09,34,,,N/A
+799,4,"Mollusk, Unspecified ","Unspecified, Mollusk",Mollusca                      ,1,09,00,,UMSK,N/A
+800,2,"Crab, Dungeness ","Dungeness, Crab",Cancer magister               ,1,10,80,,DCRB,N/A
+801,2,"Crab, Rock Unspecified ","Rock Unspecified, Crab",Cancer spp.                   ,1,10,80,,RCRB,N/A
+802,2,"Crab, Claws ","Claws, Crab",Cancer spp.                   ,1,10,80,,UCRB,N/A
+803,2,"Crab, Spider ","Spider, Crab",Loxorhynchus spp.             ,1,10,80,,OCRB,N/A
+804,2,"Crab, King ","King, Crab",Paralithodes spp.             ,1,10,80,,UKCR,N/A
+805,2,"Crab, Sand ","Sand, Crab",Emerita analoga               ,1,10,80,,OCRB,N/A
+806,2,"Crab, Shore ","Shore, Crab",Pachygrapsus crassipes        ,1,10,80,,OCRB,N/A
+807,2,"Crab, Pelagic Red ","Pelagic Red, Crab",Pleuroncodes planipes         ,1,10,80,,OCRB,N/A
+808,2,"Crab, Tanner ","Tanner, Crab",Chionoecetes tanneri          ,1,10,80,,BTCR,N/A
+809,2,"Crab, Box ","Box, Crab",Lopholithodes foraminatus     ,1,10,80,,OCRB,N/A
+810,2,"Shrimp, Bay ","Bay, Shrimp",Crangonidae                   ,3,09,81,,BSRM,N/A
+811,2,"Shrimp, Ghost ","Ghost, Shrimp",Callianassa californiensis    ,3,09,81,,GSRM,N/A
+812,2,"Shrimp, Ocean (pink) ","Ocean (pink), Shrimp",Pandalus jordani,1,09,81,,PSHP,N/A
+813,2,"Prawn, Ridgeback ","Ridgeback, Prawn",Eusicyonia ingentus           ,1,09,81,,RPRW,N/A
+814,2,"Shrimp, Unspecified ","Unspecified, Shrimp",Crustacea                     ,1,09,81,,USRM,N/A
+815,2,"Prawn, Spot ","Spot, Prawn",Pandalus platyceros           ,1,09,81,,SPRW,N/A
+816,2,"Prawn, Golden ","Golden, Prawn",Penaeus Californiensis        ,1,09,81,,GPRW,N/A
+817,2,"Shrimp, Coonstriped ","Coonstriped, Shrimp",Pandalus danae,1,09,81,,OSRM,N/A
+818,2,"Shrimp, Red Rock ","Red Rock, Shrimp",Lysmata californica           ,1,09,81,,OSRM,N/A
+819,2,"Shrimp, Brine ","Brine, Shrimp",Artemia salina                ,6,09,81,,BSRM,N/A
+820,2,"Lobster, California Spiny ","California Spiny, Lobster",Panulirus interruptus         ,1,09,,,LOBS,N/A
+821,2,"Shrimp, Mantis ","Mantis, Shrimp",Hemisquilla ensigera californiensis,1,09,81,,OSRM,N/A
+823,2,"Crab, Armed Box ","Armed Box, Crab",Platymera gaudichaudii,1,10,80,,OCRB,N/A
+825,2,"Crayfish, Signal ","Signal, Crayfish",Pacifastacus leniusculus      ,5,09,34,,,N/A
+826,2,Barnacle ,Barnacle,Cirripedia                    ,1,09,,,MISC,N/A
+827,2,"Crayfish, Red Swamp ","Red Swamp, Crayfish",Procambarus clarkii           ,5,09,34,,,N/A
+828,2,"Crayfish, Unspecified ","Unspecified, Crayfish",Astacidae                     ,5,09,34,,,N/A
+829,2,"Crab, Southern Kelp ","Southern Kelp, Crab",Taliepus nuttallii,1,10,80,,OCRB,N/A
+830,8,"Spiders, Sea ","Sea, Spiders",Pycnogonida                   ,1,16,,,MISC,N/A
+840,8,Tunicates ,Tunicates,Urochordata                   ,1,16,,,MISC,N/A
+850,8,"Worms, Marine ","Marine, Worms",Polychaeta                    ,1,12,00,,MISC,N/A
+851,8,Themiste ,Themiste,Themiste spp.                 ,3,16,,,MISC,N/A
+860,4,"Chiton, Unspecified ","Unspecified, Chiton",Polyplacophora                ,1,09,,,UMSK,N/A
+899,2,"Crustacean, Unspecified ","Unspecified, Crustacean",Crustacea                     ,1,09,00,,MISC,N/A
+900,,Barracuda Roe ,Barracuda Roe,Barracuda Roe,,16,,,,N/A
+901,,Shad Roe ,Shad Roe,Shad Roe,,16,,,,N/A
+902,,Unclassified Roe ,Unclassified Roe,Unclassified Roe,,16,,,,N/A
+903,,Whate Sea Bass Roe ,Whate Sea Bass Roe,Whate Sea Bass Roe,,16,,,,N/A
+904,,Salmon Roe ,Salmon Roe,Salmon Roe,,16,,,,N/A
+905,,Shark Fin ,Shark Fin,Shark Fin,,16,,,,N/A
+906,,Shark Liver ,Shark Liver,Shark Liver,,16,,,,N/A
+907,,Halibut Liver ,Halibut Liver,Halibut Liver,,16,,,,N/A
+908,,Miscellaneous Livers ,Miscellaneous Livers,Miscellaneous Livers,,16,,,,N/A
+909,,Skate Wing ,Skate Wing,Skate Wing,,16,,,,N/A
+910,,Whale ,Whale,Whale,,16,,,,N/A
+911,,Sablefish Liver ,Sablefish Liver,Sablefish Liver,,16,,,,N/A
+912,,Swordfish Liver ,Swordfish Liver,Swordfish Liver,,16,,,,N/A
+913,,White Sea Bass Liver ,White Sea Bass Liver,White Sea Bass Liver,,16,,,,N/A
+914,,Hake Liver ,Hake Liver,Hake Liver,,16,,,,N/A
+916,,Tuna Liver ,Tuna Liver,Tuna Liver,,16,,,,N/A
+917,,Albacore Liver ,Albacore Liver,Albacore Liver,,16,,,,N/A
+918,,Totuava Liver ,Totuava Liver,Totuava Liver,,16,,,,N/A
+919,,Bonito Liver ,Bonito Liver,Bonito Liver,,16,,,,N/A
+920,5,Frog ,Frog,Rana spp.                     ,5,12,34,,,N/A
+921,5,"Frog, Bull ","Bull, Frog",Rana catesbiana               ,5,12,,,,N/A
+922,,Pacific Cultus Liver ,Pacific Cultus Liver,Pacific Cultus Liver,,16,,,,N/A
+923,,Skate Liver ,Skate Liver,Skate Liver,,16,,,,N/A
+924,,Rockfish Liver ,Rockfish Liver,Rockfish Liver,,16,,,,N/A
+930,9,Turtle ,Turtle,Chelonia mydas                ,1,16,,,,N/A
+931,9,Terrapin ,Terrapin,Malaclemys spp.               ,1,16,,,,N/A
+945,,Snail ,Snail,Snail,,16,,,,N/A
+950,6,"Kelp, Giant ","Giant, Kelp",Macrocystis pyrifera,1,99,00,BOTH,MISC,N/A
+951,6,Agar ,Agar,Gelidium spp.                 ,1,99,00,BOTH,MISC,N/A
+952,,Sea Lettuce ,Sea Lettuce,Sea Lettuce,,16,,,,N/A
+953,6,"Algae, Marine ","Marine, Algae",Phycophyta                    ,6,99,00,BOTH,MISC,N/A
+955,,Marine Plants ,Marine Plants,Marine Plants,,16,,,,N/A
+956,1,"Rockfish, Group Bocaccio/chili ","Group Bocaccio/chili, Rockfish",Sebastes/group,1,16,26,BOTH,RCK1,02/12/2019
+957,1,"Rockfish, Group Bolina ","Group Bolina, Rockfish",Sebastes/group,1,16,26,,RCK2,02/12/2019
+958,1,"Rockfish, Group Deepwater Reds ","Group Deepwater Reds, Rockfish",Sebastes/group,1,16,26,,RCK3,03/23/2020
+959,1,"Rockfish, Group Red ","Group Red, Rockfish",Sebastes/group,1,16,26,,RCK4,02/12/2019
+960,1,"Rockfish, Group Small ","Group Small, Rockfish",Sebastes/group,1,16,26,,RCK5,02/12/2019
+961,1,"Rockfish, Group Rosefish ","Group Rosefish, Rockfish",Sebastes/group                ,1,16,26,,RCK6,02/12/2019
+962,1,"Rockfish, Group Gopher ","Group Gopher, Rockfish",Sebastes/group,1,16,26,,RCK7,02/12/2019
+964,1,"Rockfish, Group Rougheye/blackspotted ","Group Rougheye/blackspotted, Rockfish",Sebastes/group,1,16,26,,RBR1,02/12/2019
+970,1,"Rockfish, Quillback ","Quillback, Rockfish",Sebastes maliger,1,16,25,,QLB1,N/A
+971,1,"Rockfish, Group Canary/vermili ","Group Canary/vermili, Rockfish",Sebastes/group,1,16,26,,RCK8,02/12/2019
+972,1,"Rockfish, Group Black/blue ","Group Black/blue, Rockfish",Sebastes/group,1,16,26,,RCK9,02/12/2019
+973,1,"Rockfish, Group Nearshore ","Group Nearshore, Rockfish",Sebastes/group,1,16,26,,USHR,02/12/2019
+974,1,"Rockfish, Group Shelf ","Group Shelf, Rockfish",Sebastes/group,1,16,26,,USLF,N/A
+975,1,"Rockfish, Group Slope ","Group Slope, Rockfish",Sabastes/group,1,16,26,,USLP,N/A
+976,1,"Rockfish, Group Deep Nearshore ","Group Deep Nearshore, Rockfish",Sebastes/group,1,16,26,,UDNR,02/12/2019
+980,,Sea Lion ,Sea Lion,Sea Lion,,16,,,,N/A
+981,,Sea Elephant ,Sea Elephant,Sea Elephant,,16,,,,N/A
+992,1,Trawled Fish For Animal Food ,Trawled Fish For Animal Food,Osteichthyes,1,16,,,MSC2,N/A
+995,1,"Herring, Pacific - Roe On Kelp ","Pacific - Roe On Kelp, Herring",Clupea/algae,1,06,00,,PHRG,N/A
+997,1,"Trawled Fish, Unspecified ","Unspecified, Trawled Fish",Osteichthyes,1,16,,,MSC2,N/A
+998,,Bait ,Bait,Bait,,16,,,,N/A
+999,1,"Fish, Unspecified ","Unspecified, Fish",Osteichthyes                  ,1,16,00,,MISC,N/A
+

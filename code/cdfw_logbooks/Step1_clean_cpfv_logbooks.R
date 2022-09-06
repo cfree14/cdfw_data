@@ -17,12 +17,6 @@ keydir <- "data/public/cdfw_keys/processed"
 # Read keys
 port_key <- readRDS(file.path(keydir, "CDFW_port_key.Rds"))
 species_key <- readRDS(file.path(keydir, "CDFW_species_key.Rds"))
-
-
-# Merge data
-################################################################################
-
-# Block key
 block_key <- wcfish::blocks
 
 
@@ -36,7 +30,7 @@ files2merge <- list.files(indir)
 data_orig <- purrr::map_df(files2merge, function(x){
   
   # Read data
-  fdata <- read.csv(file.path(indir, x), na.strings = "") %>% 
+  fdata <- read.csv(file.path(indir, x), na.strings = c("", "NA")) %>% 
     mutate(filename=x) %>% 
     select(filename, everything()) %>% 
     mutate_all(as.character)
@@ -44,14 +38,21 @@ data_orig <- purrr::map_df(files2merge, function(x){
 })
 
 
+
+# Helper functions
+################################################################################
+
+x <- "16:34"
+conv_hm_to_hr <- function(x){
+  y <- strsplit(x, ":")[[1]] %>% as.numeric()
+  z <- y[1] + y[2]/60
+}
+
+
 # Clean data
 ################################################################################
 
 # Does Oarfish (Regalecus glesne) have a code?
-
-# Fix species
-# Confirm depth/temperature units
-# Are blanks in catch zeroes?
 
 # Clean data
 data <- data_orig %>% 
@@ -80,6 +81,8 @@ data <- data_orig %>%
          date_received=lubridate::mdy(date_received),
          date_submitted=lubridate::mdy(date_submitted)) %>% 
   mutate(across(.cols=month:year, .fns=as.numeric)) %>% 
+  # Make unique logbook id
+  mutate(logbook_id_use=paste(vessel_id, date, logbook_id, sep="-")) %>% 
   # Format port code
   mutate(port_code=as.numeric(port_code)) %>% 
   # Add port details
@@ -88,21 +91,35 @@ data <- data_orig %>%
   mutate(port_complex=ifelse(is.na(port_complex), "Invalid", port_complex)) %>% 
   # Format trip type
   mutate(trip_type=stringr::str_to_sentence(trip_type)) %>% 
-  # Format block
+  # Add block info
   mutate(block_id=as.numeric(block_id)) %>% 
-  # Block info
   left_join(block_key %>% select(block_id, block_state, block_type), by="block_id") %>% 
   # Format depth/temperature
-  mutate(depth_ft=as.numeric(depth_ft)) %>% 
+  mutate(depth_ft=as.numeric(depth_ft) %>% abs(.)) %>% 
   mutate(temp_f=as.numeric(temp_f)) %>% 
   # Format effort
   mutate(n_fishers=as.numeric(n_fishers),
          hrs_fished=as.numeric(hrs_fished)) %>% 
+  # Format HH:MM effort
+  mutate(hm_fished=stringr::str_squish(hm_fished), 
+         hm_fished=recode(hm_fished, 
+                          "800"="",
+                          "100"="",
+                          "145"="", 
+                          "600"="",  
+                          "300"="", 
+                          "830"="", 
+                          "730"="", 
+                          "330"="", 
+                          "251"="", 
+                          "615"=""), 
+           hm_fished=ifelse(hm_fished=="", NA, hm_fished)) %>% 
   # Format species
   mutate(comm_name_orig=stringr::str_squish(comm_name_orig)) %>% 
   # Format species code
   mutate(species_code=recode(species_code, 
-                             "Oarfish"="") %>% as.numeric()) %>% 
+                             "8/0"="",
+                             "Oarfish"="") %>% as.numeric(.)) %>% 
   # Add species info
   left_join(species_key %>% select(spp_code_num, comm_name, sci_name), by=c("species_code"="spp_code_num")) %>%
   # Fix oarfish
@@ -110,16 +127,18 @@ data <- data_orig %>%
          sci_name=ifelse(comm_name=="Oarfish", "Regalecus glesne", sci_name)) %>% 
   # Format catch
   mutate(across(.cols=n_kept:n_crew_fished, .fns=as.numeric)) %>% 
+  # Replace NAs with zeros
+  mutate(across(.cols=n_kept:n_crew_fished, .fns=function(x){ifelse(is.na(x), 0, x)})) %>% 
   # Format operator
   mutate(operator=operator %>% stringr::str_to_title() %>% stringr::str_squish() %>% stringr::str_trim()) %>% 
   # Arrange
-  select(filename, logbook_id, 
+  select(filename, logbook_id_use, logbook_id, 
          year, month, day, 
          date, date_submitted, date_received,
          vessel_id, vessel_name, operator,
          port_complex, port_code, port,
          no_activity_month,
-         trip_type, non_paying,
+         trip_type, non_paying, descending_device, bird_interaction,
          block_id, block_type, block_state,
          depth_ft, temp_f, 
          departure_time, return_time, hm_fished, hrs_fished, n_fishers, n_crew_fished,
@@ -128,13 +147,41 @@ data <- data_orig %>%
          everything())
 
 
+# Build logbook key
+################################################################################
+
+# Build logbook id
+log_key <- data %>% 
+  group_by(logbook_id_use, logbook_id, 
+           vessel_id, vessel_name, 
+           year, date,
+           port_complex, port, port_code, 
+           no_activity_month, trip_type, non_paying, 
+           departure_time, return_time,
+           block_id, block_type, block_state,
+           depth_ft, temp_f,
+           hm_fished, hrs_fished,
+           n_fishers, n_crew_fished) %>% 
+  summarize(n_kept=sum(n_kept)) %>% 
+  ungroup()
+
+# Are the logbook ids unique? Mine should be, there's shouldn't be
+freeR::which_duplicated(log_key$logbook_id_use)
+freeR::which_duplicated(log_key$logbook_id)
+
+# Does number of fishers always exceed number of crew?
+sum(log_key$n_crew_fished < log_key$n_fishers, na.rm=T)
+
+
+
 # Inspect data
 ################################################################################
 
 # Inspect
 head(data)
 str(data)
-# freeR::complete(data)
+# na_check <- freeR::complete(data)
+# (100 - na_check / nrow(data) * 100) %>% round(., 2)
 
 # Date
 range(data$date)
@@ -187,18 +234,38 @@ species_key_check <- data %>%
 sort(species_key_check$species_code[is.na(species_key_check$comm_name)])
 
 # Temperature
-boxplot(data$depth)
+g <- ggplot(data, aes(y=temp_f)) +
+  geom_boxplot() +
+  labs(y="Temperature (°F)") +
+  lims(y=c(0,100)) +
+  theme_bw()
+g
+
+# Depth
+g <- ggplot(data, aes(y=depth_ft)) +
+  geom_boxplot() +
+  labs(y="Depth (feet)") +
+  lims(y=c(0, 500)) +
+  theme_bw()
+g
 
 # Times
-sort(unique(data$departure_time))
-sort(unique(data$return_time))
-sort(unique(data$hm_fished))
+freeR::uniq(data$departure_time)
+freeR::uniq(data$return_time)
+freeR::uniq(data$hm_fished)
 
-# Log key
-log_key <- data %>% 
-  count(logbook_id, vessel_id, vessel_name, date, trip_type, non_paying, 
-        departure_time, return_time, block_id, depth_ft, temp_f)
-freeR::which_duplicated(log_key$logbook_id)
+# Inspect duration
+duration_key <- data %>% 
+  select(hm_fished, hrs_fished) %>% 
+  unique() %>% 
+  arrange(hrs_fished)
+duration_key_check <- duration_key %>% 
+  mutate(nchar=nchar(hm_fished),
+         colon_yn=grepl(":", hm_fished)) %>% 
+  rowwise() %>% 
+  mutate(hrs_fished2=conv_hm_to_hr(hm_fished)) %>% 
+  ungroup() %>% 
+  mutate(hrs_check=near(hrs_fished, hrs_fished2, tol=0.0001))
 
 # Target species
 table(data$target_species_lingcod)
@@ -219,10 +286,21 @@ table(data$target_species_misc_offshore)
 # Bait used
 
 
+# Final processing
+################################################################################
 
+# Final format
+data_out <- data %>% 
+  # Add HR calculated from HM
+  # (proven to be more comprehensive and identical)
+  left_join(duration_key_check %>% select(hm_fished, hrs_fished2), by="hm_fished") %>% 
+  select(-hrs_fished) %>% 
+  rename(hrs_fished=hrs_fished2) %>% 
+  select(filename:hm_fished, hrs_fished, everything()) 
 
 # Export data
 ################################################################################
 
 # Export data
-saveRDS(data, file=file.path(outdir, "CDWF_2000_2020_cpfv_logbook_data.Rds"))
+saveRDS(data_out, file=file.path(outdir, "CDWF_2000_2020_cpfv_logbook_data.Rds"))
+

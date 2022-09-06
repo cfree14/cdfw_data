@@ -18,11 +18,12 @@ outdir <- "data/public/cdfw_keys/processed"
 ################################################################################
 
 # Read species key
-spp_key_orig <- readxl::read_excel(file.path(indir, "species codes 2009.xlsx"))
+spp_key_orig1 <- readxl::read_excel(file.path(indir, "species codes 2009.xlsx")) # provided through halibut contract
+spp_key_orig2 <- readxl::read_excel(file.path(indir, "species codes 2009.xlsx")) # provided by Paulo Serpa on Sep 1, 2022
 spp_key_chris <- readxl::read_excel(file.path(indir, "species_codes_that_i_know_but_cdfw_doesnt.xlsx"))
 
 # Format species key
-spp_key <- spp_key_orig %>%
+spp_key1 <- spp_key_orig1 %>%
   # Merge
   bind_rows(spp_key_chris %>% select(-Source) %>% mutate(`EXSP text`=as.character(`EXSP text`))) %>% 
   # Rename
