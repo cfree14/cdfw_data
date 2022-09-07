@@ -195,6 +195,84 @@ ggsave(g, filename=file.path(plotdir, "cpfv_logbook_fishing_effort_dists.png"),
 boxplot(data$n_fishers-data$n_crew_fished)
 
 
+
+# Target species
+################################################################################
+
+# Target species data
+stats <- data %>% 
+  group_by(target_species) %>% 
+  summarize(n=n_distinct(logbook_id_use)) %>% 
+  ungroup() %>% 
+  arrange(desc(n)) %>% 
+  slice(1:20) %>% 
+  mutate(target_species=factor(target_species, levels=target_species))
+
+# Plot data
+g <- ggplot(stats, aes(x=n/1e3, y=target_species)) +
+  geom_bar(stat="identity") +
+  # Labels
+  labs(x="Thousands of trips", y="") +
+  # Theme
+  theme_bw() + my_theme
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "cpfv_target_species.png"), 
+       width=6.5, height=4.5, units="in", dpi=600)
+
+
+# Fishing method
+################################################################################
+
+# Fishing method data
+stats <- data %>% 
+  group_by(fishing_method) %>% 
+  summarize(n=n_distinct(logbook_id_use)) %>% 
+  ungroup() %>% 
+  arrange(desc(n)) %>% 
+  slice(1:20) %>% 
+  mutate(fishing_method=factor(fishing_method, levels=fishing_method))
+
+# Plot data
+g <- ggplot(stats, aes(x=n/1e3, y=fishing_method)) +
+  geom_bar(stat="identity") +
+  # Labels
+  labs(x="Thousands of trips", y="") +
+  # Theme
+  theme_bw() + my_theme
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "cpfv_fishing_method.png"), 
+       width=6.5, height=4.5, units="in", dpi=600)
+
+# Bait used
+################################################################################
+
+# TBait used data
+stats <- data %>% 
+  group_by(bait_used) %>% 
+  summarize(n=n_distinct(logbook_id_use)) %>% 
+  ungroup() %>% 
+  arrange(desc(n)) %>% 
+  slice(1:20) %>% 
+  mutate(bait_used=factor(bait_used, levels=bait_used))
+
+# Plot data
+g <- ggplot(stats, aes(x=n/1e3, y=bait_used)) +
+  geom_bar(stat="identity") +
+  # Labels
+  labs(x="Thousands of trips", y="") +
+  # Theme
+  theme_bw() + my_theme
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "cpfv_bait_used.png"), 
+       width=6.5, height=4.5, units="in", dpi=600)
+
+
 # Catch over time
 ################################################################################
 

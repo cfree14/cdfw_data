@@ -17,7 +17,8 @@ keydir <- "data/public/cdfw_keys/processed"
 # Read keys
 port_key <- readRDS(file.path(keydir, "CDFW_port_key.Rds"))
 species_key <- readRDS(file.path(keydir, "CDFW_species_key.Rds"))
-block_key <- wcfish::blocks
+block_key <- wcfish::blocks %>% 
+  sf::st_drop_geometry()
 
 
 # Merge data
@@ -38,15 +39,55 @@ data_orig <- purrr::map_df(files2merge, function(x){
 })
 
 
+# Target species, method, baid
+################################################################################
+
+# Which target species are most population
+target_n <- rev(sort(nrow(data_orig)-freeR::complete(data_orig %>% select(TargetSpeciesLingcod:TargetSpeciesMiscBay))))
+method_n <- rev(sort(nrow(data_orig)-freeR::complete(data_orig %>% select(FishingMethodTrolling:FishingMethodOther))))
+bait_n <- rev(sort(nrow(data_orig)-freeR::complete(data_orig %>% select(BaitUsedAnchoviesLive:BaitUsedOtherDead))))
+
+
+# Target species
+table(data_orig$TargetSpeciesLingcod)
+table(data_orig$TargetSpeciesOther)
+table(data_orig$TargetSpeciesRockfishes)
+table(data_orig$TargetSpeciesSalmon)
+table(data_orig$TargetSpeciesSharks)
+table(data_orig$TargetSpeciesStripedBass)
+table(data_orig$TargetSpeciesSturgeon)
+table(data_orig$TargetSpeciesTuna)
+table(data_orig$TargetSpeciesPotluck)
+table(data_orig$TargetSpeciesMiscCoastal)
+table(data_orig$TargetSpeciesMiscBay)
+table(data_orig$TargetSpeciesMiscOffshore)
+
+# Fishing method
+
+# Bait used
+
 
 # Helper functions
 ################################################################################
 
+# Function to convert HH:MM to HH.HH
 x <- "16:34"
 conv_hm_to_hr <- function(x){
   y <- strsplit(x, ":")[[1]] %>% as.numeric()
   z <- y[1] + y[2]/60
 }
+
+
+# Target species
+target_spp <- data_orig %>% 
+  select(names(target_n)) %>% 
+  slice(1:20) %>% 
+  mutate(target_spp=paste(TargetSpeciesLingcod, TargetSpeciesMiscBay, sep="-")) %>% 
+  ungroup()
+  
+table(target_spp$target_spp)
+
+
 
 
 # Clean data
@@ -128,10 +169,60 @@ data <- data_orig %>%
          sci_name=ifelse(comm_name=="Oarfish", "Regalecus glesne", sci_name)) %>% 
   # Format catch
   mutate(across(.cols=n_kept:n_crew_fished, .fns=as.numeric)) %>% 
-  # Replace NAs with zeros
-  mutate(across(.cols=n_kept:n_crew_fished, .fns=function(x){ifelse(is.na(x), 0, x)})) %>% 
+  # Replace catch NAs with zeros
+  mutate(across(.cols=n_kept:n_caught_by_crew, .fns=function(x){ifelse(is.na(x), 0, x)})) %>% 
   # Format operator
   mutate(operator=operator %>% stringr::str_to_title() %>% stringr::str_squish() %>% stringr::str_trim()) %>% 
+  # Format target species
+  mutate(target_species_rockfishes=ifelse(!is.na(target_species_rockfishes), "Rockfish", "NA"),
+         target_species_misc_coastal=ifelse(!is.na(target_species_misc_coastal), "Misc. coastal", "NA"),
+         target_species_other=ifelse(!is.na(target_species_other), "Other", "NA"),
+         target_species_lingcod=ifelse(!is.na(target_species_lingcod), "Lingcod", "NA"),
+         target_species_tuna=ifelse(!is.na(target_species_tuna), "Tuna", "NA"),
+         target_species_misc_offshore=ifelse(!is.na(target_species_misc_offshore), "Misc. offshore", "NA"),
+         target_species_salmon=ifelse(!is.na(target_species_salmon), "Salmon", "NA"),
+         target_species_potluck=ifelse(!is.na(target_species_potluck), "Potluck", "NA"),
+         target_species_striped_bass=ifelse(!is.na(target_species_striped_bass), "Striped bass", "NA"),
+         target_species_sharks=ifelse(!is.na(target_species_sharks), "Sharks", "NA"),
+         target_species_sturgeon=ifelse(!is.na(target_species_sturgeon), "Sturgeon", "NA"),
+         target_species_misc_bay=ifelse(!is.na(target_species_misc_bay), "Misc. bay", "NA")) %>% 
+  mutate(target_species=paste(target_species_rockfishes, target_species_misc_coastal, 
+                              target_species_other, target_species_lingcod, 
+                              target_species_tuna, target_species_misc_offshore, 
+                              target_species_salmon, target_species_potluck, 
+                              target_species_striped_bass, target_species_sharks, 
+                              target_species_sturgeon, target_species_misc_bay, sep=", ")) %>% 
+  mutate(target_species=gsub("NA, |, NA", "", target_species)) %>% 
+  select(-c(target_species_lingcod:target_species_misc_bay)) %>% 
+  # Format fishing method
+  mutate(fishing_method_anchored=ifelse(!is.na(fishing_method_anchored), "Anchored", "NA"),
+         fishing_method_drifting=ifelse(!is.na(fishing_method_drifting), "Drifting", "NA"),
+         fishing_method_trolling=ifelse(!is.na(fishing_method_trolling), "Trolling", "NA"),
+         fishing_method_light_tackle=ifelse(!is.na(fishing_method_light_tackle), "Light tackle", "NA"),
+         fishing_method_diving=ifelse(!is.na(fishing_method_diving), "Diving", "NA"),
+         fishing_method_other=ifelse(!is.na(fishing_method_other), "Other", "NA"),
+         fishing_method_mooching=ifelse(!is.na(fishing_method_mooching), "Mooching", "NA")) %>% 
+  mutate(fishing_method=paste(fishing_method_anchored, fishing_method_drifting, 
+                              fishing_method_trolling, fishing_method_light_tackle, 
+                              fishing_method_diving, fishing_method_other, 
+                              fishing_method_mooching, sep=", ")) %>% 
+  mutate(fishing_method=gsub("NA, |, NA", "", fishing_method)) %>% 
+  select(-c(fishing_method_trolling:fishing_method_other)) %>% 
+  # Format bait used
+  mutate(bait_used_squid_dead=ifelse(!is.na(bait_used_squid_dead), "Squid (dead)", "NA"),
+         bait_used_sardines_live=ifelse(!is.na(bait_used_sardines_live), "Sardines (live)", "NA"),
+         bait_used_anchovies_live=ifelse(!is.na(bait_used_anchovies_live), "Anchovies (live)", "NA"),
+         bait_used_squid_live=ifelse(!is.na(bait_used_squid_live), "Squid (live)", "NA"),
+         bait_used_other_dead=ifelse(!is.na(bait_used_other_dead), "Other (dead)", "NA"),
+         bait_used_anchovies_dead=ifelse(!is.na(bait_used_anchovies_dead), "Anchovies (dead)", "NA"),
+         bait_used_sardines_dead=ifelse(!is.na(bait_used_sardines_dead), "Sardines (dead)", "NA"), 
+         bait_used_other_live=ifelse(!is.na(bait_used_other_live), "Other (live)", "NA")) %>% 
+  mutate(bait_used=paste(bait_used_squid_dead, bait_used_sardines_live, 
+                         bait_used_anchovies_live, bait_used_squid_live, 
+                         bait_used_other_dead, bait_used_anchovies_dead, 
+                         bait_used_sardines_dead, bait_used_other_live, sep=", ")) %>% 
+  mutate(bait_used=gsub("NA, |, NA", "", bait_used)) %>% 
+  select(-c(bait_used_anchovies_live:bait_used_other_dead)) %>% 
   # Arrange
   select(filename, logbook_id_use, logbook_id, 
          year, month, day, 
@@ -140,12 +231,14 @@ data <- data_orig %>%
          port_complex, port_code, port,
          no_activity_month,
          trip_type, non_paying, descending_device, bird_interaction,
+         target_species, fishing_method, bait_used, 
          block_id, block_type, block_state,
          depth_ft, temp_f, 
          departure_time, return_time, hm_fished, hrs_fished, n_fishers, n_crew_fished,
          species_code, comm_name_orig, comm_name, sci_name,
          n_kept, n_released, n_lost_to_sea_lions, n_caught_by_crew,
          everything())
+
 
 
 # Build logbook key
@@ -190,7 +283,7 @@ range(data$year)
 range(data$month)
 range(data$day)
 range(data$date_received, na.rm=T)
-range(data$date_submitted, na.rm=T)
+range(data$date_submitted, na.rm=T) # 1900-01-01 = NA?
 
 # Vessels
 vessel_key <- data %>% 
@@ -268,23 +361,11 @@ duration_key_check <- duration_key %>%
   ungroup() %>% 
   mutate(hrs_check=near(hrs_fished, hrs_fished2, tol=0.0001))
 
-# Target species
-table(data$target_species_lingcod)
-table(data$target_species_other)
-table(data$target_species_rockfishes)
-table(data$target_species_salmon)
-table(data$target_species_sharks)
-table(data$target_species_striped_bass)
-table(data$target_species_sturgeon)
-table(data$target_species_tuna)
-table(data$target_species_potluck)
-table(data$target_species_misc_coastal)
-table(data$target_species_misc_bay)
-table(data$target_species_misc_offshore)
+# Target species, fishing method, bait used
+table(data$target_species)
+table(data$fishing_method)
+table(data$bait_used)
 
-# Fishing method
-
-# Bait used
 
 
 # Final processing
