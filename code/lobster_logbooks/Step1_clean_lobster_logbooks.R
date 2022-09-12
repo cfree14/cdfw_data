@@ -100,6 +100,10 @@ data <- data_orig %>%
          n_kept, n_released,
          everything())
 
+
+# Inspect data
+################################################################################
+
 # Inspect
 str(data)
 
