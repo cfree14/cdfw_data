@@ -17,6 +17,7 @@ keydir <- "data/public/cdfw_keys/processed"
 # Read keys
 port_key <- readRDS(file.path(keydir, "CDFW_port_key.Rds"))
 species_key <- readRDS(file.path(keydir, "CDFW_species_key.Rds"))
+blocks_sf <- wcfish::blocks
 
 # Read data
 data_orig <- read.csv(file.path(indir, "Dive Log Extract_cucumberONLY.csv"), as.is=T, na.strings="")
@@ -222,7 +223,7 @@ g <- ggplot() +
   geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
   geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +
   # Plot points
-  geom_point(data, mapping=aes(x=long_dd, y=lat_dd), pch=1, color="grey30", alpha=0.5) +
+  geom_point(data, mapping=aes(x=long_dd, y=lat_dd, color=comm_name), pch=1, alpha=0.5) +
   # Crop
   coord_sf(x=range(data$long_dd, na.rm=T), y=range(data$lat_dd, na.rm=T)) +
   # Theme
