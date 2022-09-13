@@ -18,6 +18,8 @@ keydir <- "data/public/cdfw_keys/processed"
 port_key <- readRDS(file.path(keydir, "CDFW_port_key.Rds"))
 species_key <- readRDS(file.path(keydir, "CDFW_species_key.Rds"))
 blocks_sf <- wcfish::blocks
+blocks <- blocks_sf %>% 
+  sf::st_drop_geometry()
 
 # Read data
 data_orig <- read.csv(file.path(indir, "Dive Log Extract_cucumberONLY.csv"), as.is=T, na.strings="")
@@ -25,11 +27,6 @@ data_orig <- read.csv(file.path(indir, "Dive Log Extract_cucumberONLY.csv"), as.
 
 # Format data
 ################################################################################
-
-# Bad locations
-bad_locations <- c("Lat.  Long.",                        
-                   "Lat. ___° __.__' Long.",
-                   "__° __.__' Lat.  Long.")
 
 # Format data
 data <- data_orig %>% 
@@ -42,11 +39,11 @@ data <- data_orig %>%
          fisher_id=permitee_id,
          fisher=permittee_name,
          date=log_date_string,
-         dive_id=dive_number,
+         # dive_id=dive_number,
          block_id=cdfw_block,
-         location=position,
-         lat_dd=latitude_dec,
-         long_dd=longitude_dec,
+         location_orig=position,
+         lat_dd_orig=latitude_dec,
+         long_dd_orig=longitude_dec,
          depth_min_ft=min_depth_feet,
          depth_max_ft=max_depth_feet,
          hours=diver_hours,
@@ -126,25 +123,28 @@ data <- data_orig %>%
          fisher=gsub("-", "", fisher) %>% stringr::str_squish()) %>% 
   # Format dealer
   mutate(dealer=dealer %>% stringr::str_trim() %>% stringr::str_to_title() ) %>% 
+  # Format landmark
+  mutate(landmark=stringr::str_to_upper(landmark) %>% stringr::str_squish() %>% stringr::str_trim()) %>% 
   # Format location
-  mutate(location=stringr::str_trim(location),
-         location=ifelse(location %in% bad_locations, "", location)) %>% 
+  mutate(location_orig=stringr::str_trim(location_orig)) %>% 
   # Format longitude
-  mutate(long_dd=long_dd*-1,
-         long_dd=ifelse(long_dd < -150, NA, long_dd),
-         long_dd=ifelse(long_dd > -100, NA, long_dd)) %>% 
+  mutate(long_dd_orig=long_dd_orig*-1) %>% 
   # Add port
   left_join(port_key %>% select(port_code, port, port_complex), by=c("port_id"="port_code")) %>%
+  # Add block info
+  left_join(blocks %>% select(block_id, block_state, block_type), by="block_id") %>% 
   # Add species
   left_join(species_key %>% select(spp_code_num, comm_name, sci_name), by=c("species_id"="spp_code_num")) %>%
+  # Create dive id
+  mutate(dive_id=paste(logbook_id,  date, vessel_id, fisher_id, port_id, block_id, depth_min_ft, depth_max_ft, sep="-")) %>% 
   # Arrange
-  select(logbook_id,
+  select(logbook_id, dive_id,
          year, month, date, 
          vessel_combo, vessel_id, vessel, 
          fisher_id, fisher, 
          dealer_id, dealer, receipt_id, 
          port_complex, port, port_id, 
-         block_id, location, lat_dd, long_dd, landmark, depth_min_ft, depth_max_ft, 
+         block_id, location_orig, lat_dd_orig, long_dd_orig, landmark, depth_min_ft, depth_max_ft, 
          species_id_lbs_combo, 
          species_id, comm_name, sci_name,
          catch_lbs, everything())
@@ -164,6 +164,12 @@ range(data$date)
 
 # Logbook id
 freeR::uniq(data$logbook_id)
+
+# Dive id
+dive_key <- data %>% 
+  select(dive_id, logbook_id, vessel_id, fisher_id, port_id, block_id, depth_min_ft, depth_max_ft) %>% 
+  unique()
+freeR::which_duplicated(dive_key$dive_id)
 
 # Vessel
 vessel_key <- data %>% 
@@ -197,6 +203,14 @@ port_key_check <- data %>%
 freeR::which_duplicated(port_key_check$port_id)
 freeR::which_duplicated(port_key_check$port)
 
+# Block
+block_key <- data %>% 
+  select(block_id, block_state, block_type) %>% 
+  unique() %>% 
+  arrange(block_id)
+freeR::which_duplicated(block_key$block_id)
+freeR::which_duplicated(block_key$block)
+
 # Species
 species_key_check <- data %>% 
   select(species_id, comm_name, sci_name) %>% 
@@ -204,15 +218,73 @@ species_key_check <- data %>%
   arrange(species_id)
 freeR::which_duplicated(species_key_check$species_id)
 
+
+# Fix locations
+################################################################################
+
+x <- "32°40.17'N"
+calc_lat_dd <- function(x){
+  lat_out <- purrr::map_dbl(x, function(x){
+    lat_list <- strsplit(x, split="°")
+    lat1 <- lat_list[[1]][1] %>% as.numeric()
+    lat2 <- lat_list[[1]][2] %>% gsub("'N", "", .) %>% as.numeric() 
+    lat_out <- lat1 +   lat2/60
+  })
+  return(lat_out)
+}
+calc_lat_dd(x)
+
+x <- "120°05.69'W"
+calc_long_dd <- function(x){
+  long_out <- purrr::map_dbl(x, function(x){
+    long_list <- strsplit(x, split="°")
+    long1 <- long_list[[1]][1] %>% as.numeric()
+    long2 <- long_list[[1]][2] %>% gsub("'W", "", .) %>% as.numeric() 
+    long_out <- (long1 +  long2/60) * -1
+  })
+  return(long_out)
+}
+calc_long_dd(x)
+
+# Bad locations
+bad_locations <- c("Lat.  Long.",                        
+                   "Lat. ___° __.__' Long.",
+                   "__° __.__' Lat.  Long.")
+
 # Location
 location_key <- data %>% 
-  select(location, lat_dd, long_dd) %>% 
+  # Unique locations
+  select(location_orig, lat_dd_orig, long_dd_orig) %>% 
   unique() %>% 
-  arrange(location)
-
-
-# Location
-###################################################
+  arrange(location_orig) %>% 
+  # Fix locations
+  mutate(location=ifelse(location_orig %in% bad_locations, "", location_orig)) %>% 
+  # Update invalid
+  mutate(location=gsub("Invalid coordina Long.", "invalid", location)) %>% 
+  mutate(location=gsub(" Lat.  Long.", "N, invalid", location)) %>% 
+  mutate(location=ifelse(stringr::str_detect(location, "^Lat. "), 
+                         gsub("Lat. ", "invalid, ", location), location)) %>% 
+  # Replace lat/long
+  mutate(location=gsub(" Long.", "W", location),
+         location=gsub(" Lat.", "N,", location)) %>% 
+  # Remove spaces
+  mutate(location=gsub("° ", "°",location)) %>% 
+  # Add missing 1 to some longitudes
+  mutate(location=recode(location,
+                         "33°00.02'N, 7°25.06'W"="33°00.02'N, 117°25.06'W", 
+                         "34°00.60'N, 19°51.60'W"="34°00.60'N, 119°51.60'W", 
+                         "34°03.50'N, 19°54.29'W"="34°03.50'N, 119°54.29'W", 
+                         "34°03.13'N, 19°54.34'W"="34°03.13'N, 119°54.34'W", 
+                         "34°03.50'N, 19°55.23'W"="34°03.50'N, 119°55.23'W", 
+                         "33°23.10'N, 33°28.47'W"="33°23.10'N, 133°28.47'W")) %>% 
+  # Split into DMS
+  separate(col=location, into=c("lat_dms", "long_dms"), remove=F, sep=", ") %>% 
+  # Convert invalids to NA
+  mutate(lat_dms=ifelse(lat_dms %in% c("", "invalid"), NA, lat_dms),
+         long_dms=ifelse(long_dms %in% c("", "invalid"), NA, long_dms)) %>% 
+  # Convert to decimial degrees
+  mutate(lat_dd=calc_lat_dd(lat_dms),
+         long_dd=calc_long_dd(long_dms))
 
 # Get land
 usa <- rnaturalearth::ne_states(country="United States of America", returnclass = "sf")
@@ -226,20 +298,29 @@ g <- ggplot() +
   geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
   geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +
   # Plot points
-  geom_point(data, mapping=aes(x=long_dd, y=lat_dd, color=comm_name), pch=1, alpha=0.5) +
+  geom_point(location_key, mapping=aes(x=long_dd, y=lat_dd), pch=1, alpha=0.5) +
   # Crop
-  coord_sf(x=range(data$long_dd, na.rm=T), y=range(data$lat_dd, na.rm=T)) +
+  coord_sf(x=range(location_key$long_dd, na.rm=T), y=range(location_key$lat_dd, na.rm=T)) +
   # Theme
   theme_bw()
 g
 
 
-# Export
-###################################################
+# Final formatting
+################################################################################
 
 # Final
 data_out <- data %>% 
-  select(-vessel_combo)
+  # Remove vessel combo
+  select(-vessel_combo) %>% 
+  # Add revised locations and lat/longs
+  left_join(location_key %>% select(location_orig, location, lat_dd, long_dd), by="location_orig") %>% 
+  # Arrange
+  select(logbook_id:long_dd_orig, location, lat_dd, long_dd, everything())
+
+
+# Export
+################################################################################
 
 # Export
 saveRDS(data_out, file=file.path(outdir, "CDFW_2000_2020_dive_logbooks.Rds"))

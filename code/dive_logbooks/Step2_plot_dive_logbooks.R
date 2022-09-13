@@ -19,6 +19,10 @@ plotdir <- "figures/dive_logbooks"
 data <- readRDS(file=file.path(outdir, "CDFW_2000_2020_dive_logbooks.Rds"))
 
 
+# Themes
+################################################################################
+
+# Theme
 bar_theme <- theme(axis.text=element_text(size=7),
                    axis.title=element_text(size=8),
                    legend.text=element_text(size=7),
@@ -31,6 +35,68 @@ bar_theme <- theme(axis.text=element_text(size=7),
                    axis.line = element_line(colour = "black"),
                    # Legend
                    legend.background = element_rect(fill=alpha('blue', 0)))
+
+# Map theme
+map_theme <- theme(axis.text=element_text(size=7),
+                   axis.text.y = element_text(angle = 90, hjust = 0.5),
+                   axis.title=element_blank(),
+                   legend.text=element_text(size=6),
+                   legend.title=element_text(size=7),
+                   plot.tag=element_text(size=8),
+                   # Gridlines
+                   panel.grid.major = element_blank(), 
+                   panel.grid.minor = element_blank(),
+                   panel.background = element_blank(), 
+                   axis.line = element_line(colour = "black"),
+                   # Legend
+                   legend.background = element_rect(fill=alpha('blue', 0)))
+
+# Plot completeness
+################################################################################
+
+# Percent NAs
+n_nas <- freeR::complete(data)
+p_nas <- 1-n_nas/nrow(data)
+
+# Build data
+p_nas_df <- tibble(column=colnames(data),
+                   prop=p_nas) %>% 
+  # Format variable
+  mutate(column=column %>% gsub("_", " ", .) %>% stringr::str_to_sentence(),
+         column=recode(column,
+                       "Depth min ft"="Depth min (ft)",
+                       "Depth max ft"="Depth max (ft)",
+                       "Sci name"="Scientific name",
+                       "Comm name"="Common name",
+                       "Catch lbs"="Catch (lbs)",
+                       "Lat dd"="Latitude (°N)",
+                       "Long dd"="Longitude (°W)")) %>% 
+  # Remove columns
+  filter(!column %in% c("Dive id", "Block state", "Block type", "Port complex", "Port", "Vessel combo", 
+                        "Species id lbs combo", "Common name", "Scientific name")) %>% 
+  # Mark
+  mutate(complete_yn=ifelse(prop==1, "Complete", "Incomplete")) %>% 
+  # Arrange
+  arrange(desc(prop)) %>% 
+  mutate(column=factor(column, column))
+
+# Plot data
+g <- ggplot(p_nas_df, aes(y=column, x=prop, fill=complete_yn)) +
+  geom_bar(stat="identity") +
+  # Labels
+  labs(x="Percent complete", y="") +
+  scale_x_continuous(labels=scales::percent) +
+  scale_fill_discrete(name="") +
+  # Themes
+  theme_bw() + bar_theme +
+  theme(legend.position = "top")
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "dive_logbook_completeness.png"), 
+       width=4.5, height=4.5, units="in", dpi=600)
+
+
 
 # Depth (ft)
 ################################################################################
@@ -61,7 +127,6 @@ ggsave(g, filename=file.path(plotdir, "dive_logbook_depth.png"),
 # Duration (hrs)
 ################################################################################
 
-
 # Plot
 g <- ggplot(data, aes(y=pmin(hours, 10))) +
   geom_boxplot() +
@@ -69,7 +134,10 @@ g <- ggplot(data, aes(y=pmin(hours, 10))) +
   labs(x="", y="Dive time (hrs)") +
   scale_y_continuous(breaks=seq(0,10,2), labels=c(seq(0,8,2), ">10")) +
   # Theme
-  theme_bw() + bar_theme
+  theme_bw() + bar_theme +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.title.x = element_blank())
 g
 
 # Export
@@ -77,7 +145,150 @@ ggsave(g, filename=file.path(plotdir, "dive_logbook_effort.png"),
        width=3.5, height=3.5, units="in", dpi=600)
 
 
+# Catch
+################################################################################
 
+# Plot 
+g <- ggplot(data %>% filter(!is.na(comm_name)), aes(y=comm_name, x=catch_lbs)) +
+  geom_boxplot() +
+  # Labels
+  labs(x="Catch (lbs)", y="") +
+  scale_x_continuous(trans="log10",
+                     breaks=c(1, 5, 10, 50, 100, 500, 1000, 5000 )) +
+  # Theme
+  theme_bw() + bar_theme
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "dive_logbook_catch.png"), 
+       width=5.5, height=3, units="in", dpi=600)
+
+
+
+# Block
+################################################################################
+
+# Get land
+usa <- rnaturalearth::ne_states(country="United States of America", returnclass = "sf")
+foreign <- rnaturalearth::ne_countries(country=c("Canada", "Mexico"), returnclass = "sf")
+
+# Build stats
+stats <- data %>% 
+  group_by(comm_name, sci_name, block_id) %>% 
+  summarize(catch_lbs=sum(catch_lbs, na.rm=T)) %>% 
+  ungroup() %>% 
+  # Spatialize
+  filter(!is.na(block_id)) %>% 
+  left_join(blocks_sf %>% select(block_id, geometry), by="block_id") %>% 
+  sf::st_as_sf()
+
+# Plot data
+g <- ggplot() +
+  # Facet
+  facet_wrap(~comm_name, ncol=3) +
+  # Plot blocks
+  geom_sf(data=stats, mapping=aes(fill=catch_lbs),
+          color="grey30", lwd=0.1) +
+  # Plot land
+  geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
+  geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +
+  # Legend
+  scale_fill_gradientn(name="Catch (lbs)", 
+                       trans="log10",
+                       breaks=10^c(0:6),
+                       labels=parse(text=paste0("10^", 0:6)),
+                       colors=RColorBrewer::brewer.pal(9, "YlOrRd")) +
+  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black")) +
+  # Crop
+  coord_sf(xlim = c(-126, -117), ylim = c(32.5, 42)) +
+  scale_x_continuous(breaks=seq(-124, -116, 4)) +
+  # Theme
+  theme_bw() + map_theme +
+  theme(legend.position = "bottom",
+        legend.key.size = unit(0.5, "cm"))
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "dive_logbooks_block_catch.png"), 
+       width=6.5, height=6.75, units="in", dpi=600)
+
+
+# Coordinates
+################################################################################
+
+# Plot data
+g <- ggplot() +
+  # Plot land
+  geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
+  geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +
+  # Plot points
+  geom_point(data=data, mapping=aes(x=long_dd, y=lat_dd, color=comm_name), pch=1) +
+  # Legend
+  scale_color_discrete(name="Species") +
+  # Crop
+  coord_sf(xlim = range(data$long_dd, na.rm=T), 
+           ylim = range(data$lat_dd, na.rm=T)) +
+  # Theme
+  theme_bw() + map_theme +
+  theme(legend.position = "bottom",
+        legend.key.size = unit(0.5, "cm"))
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "dive_logbooks_coordinates.png"), 
+       width=5.5, height=5.5, units="in", dpi=600)
+
+
+# Coordinate coverage
+################################################################################
+
+# Stats
+stats <- data %>% 
+  group_by(year) %>% 
+  summarize(n=n(),
+            ncoord=sum(!is.na(lat_dd) & !is.na(long_dd)),
+            prop=ncoord/n) %>% 
+  ungroup()
+
+# Plot
+g <- ggplot(stats, aes(x=year, y=prop)) +
+  geom_bar(stat="identity") +
+  # Labels
+  labs(x="Year", y="% of logbooks\nwith GPS coordinates") +
+  scale_y_continuous(labels=scales::percent, breaks=seq(0,0.5,0.1)) +
+  # Theme
+  theme_bw() + bar_theme
+g
+
+# Export
+# Export
+ggsave(g, filename=file.path(plotdir, "dive_logbooks_coordinates_over_time.png"), 
+       width=4.5, height=3, units="in", dpi=600)
+
+
+
+# Catch over time
+################################################################################
+
+# Stats
+stats <- data %>% 
+  group_by(year, comm_name) %>% 
+  summarize(catch_lbs=sum(catch_lbs, na.rm=T)) %>% 
+  ungroup()
+
+# Plot data
+g <- ggplot(stats, aes(x=year, y=catch_lbs/1e3, color=comm_name)) +
+  geom_line() +
+  # Labels
+  labs(y="Catch (thousands of lbs)", x="Year") +
+  scale_color_discrete(name="Species") +
+  # Theme
+  theme_bw() + bar_theme
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "dive_logbooks_catch_over_time.png"), 
+       width=6.5, height=3.5, units="in", dpi=600)
 
 
 
