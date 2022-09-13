@@ -150,6 +150,9 @@ data <- data_orig %>%
          catch_lbs, everything())
 
 
+# Inspect data
+################################################################################
+
 # Inspect
 head(data)
 str(data)
