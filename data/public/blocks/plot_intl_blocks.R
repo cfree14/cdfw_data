@@ -27,6 +27,15 @@ verts_orig <- readxl::read_excel(file.path(datadir, "CDFW_intl_block_vertices.xl
 # USA
 world <- rnaturalearth::ne_countries(scale="small", returnclass="sf")
 
+
+# Export data
+################################################################################
+
+# Export
+saveRDS(blocks_orig, file.path(datadir, "CDFW_intl_blocks.Rds"))
+sf::st_write(blocks_orig, dsn=file.path(datadir, "CDFW_intl_blocks.shp"))
+
+
 # Format vertices
 ################################################################################
 
@@ -110,6 +119,8 @@ g
 # Export
 ggsave(g, filename=file.path(plotdir, "CDFW_intl_blocks.pdf"),
        width=8.5, height=11, units="in", dpi=600)
+ggsave(g, filename=file.path(plotdir, "CDFW_intl_blocks.png"),
+       width=8.5, height=11, units="in", dpi=600)
 
 
 # Plot Central
@@ -138,6 +149,8 @@ g
 # Export
 ggsave(g, filename=file.path(plotdir, "CDFW_intl_blocks_central_america.pdf"),
        width=11, height=8.5, units="in", dpi=600)
+ggsave(g, filename=file.path(plotdir, "CDFW_intl_blocks_central_america.png"),
+       width=11, height=6.5, units="in", dpi=600)
 
 
 # Plot South
@@ -166,3 +179,5 @@ g
 # Export
 ggsave(g, filename=file.path(plotdir, "CDFW_intl_blocks_south_america.pdf"),
        width=11, height=8.5, units="in", dpi=600)
+ggsave(g, filename=file.path(plotdir, "CDFW_intl_blocks_south_america.png"),
+       width=9.75, height=8.5, units="in", dpi=600)

@@ -246,7 +246,8 @@ g <- ggplot() +
   # Plot blocks
   geom_sf(data=stats, mapping=aes(fill=nlogs), lwd=0.1, color="grey30") +
   # Plot reference line
-  geom_hline(yintercept=34.5) +
+  geom_hline(yintercept=34.5, linetype="dotted") + # most fishing is south Point Conception
+  geom_hline(yintercept=36.492225) + # fishing is not allowed north of Yankee Point
   # Plot land
   geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
   geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +

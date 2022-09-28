@@ -39,7 +39,6 @@ data <- data_orig %>%
          fisher_id=permitee_id,
          fisher=permittee_name,
          date=log_date_string,
-         # dive_id=dive_number,
          block_id=cdfw_block,
          location_orig=position,
          lat_dd_orig=latitude_dec,
@@ -133,6 +132,11 @@ data <- data_orig %>%
   left_join(port_key %>% select(port_code, port, port_complex), by=c("port_id"="port_code")) %>%
   # Add block info
   left_join(blocks %>% select(block_id, block_state, block_type), by="block_id") %>% 
+  # Format species / weight combo
+  mutate(species_id_lbs_combo=stringr::str_squish(species_id_lbs_combo),
+         species_id_lbs_combo=recode(species_id_lbs_combo,
+                                     "| , 752 | 500"="NA | NA, 752 | 500",
+                                     "683 | , 757 | 10"="683 | NA, 757 | 10")) %>% 
   # Add species
   left_join(species_key %>% select(spp_code_num, comm_name, sci_name), by=c("species_id"="spp_code_num")) %>%
   # Create dive id
@@ -144,9 +148,11 @@ data <- data_orig %>%
          fisher_id, fisher, 
          dealer_id, dealer, receipt_id, 
          port_complex, port, port_id, 
-         block_id, location_orig, lat_dd_orig, long_dd_orig, landmark, depth_min_ft, depth_max_ft, 
+         block_state, block_type, block_id, 
+         location_orig, lat_dd_orig, long_dd_orig, landmark, depth_min_ft, depth_max_ft, 
          species_id_lbs_combo, 
          species_id, comm_name, sci_name,
+         dive_number, hours,
          catch_lbs, everything())
 
 
@@ -209,7 +215,6 @@ block_key <- data %>%
   unique() %>% 
   arrange(block_id)
 freeR::which_duplicated(block_key$block_id)
-freeR::which_duplicated(block_key$block)
 
 # Species
 species_key_check <- data %>% 
@@ -306,17 +311,91 @@ g <- ggplot() +
 g
 
 
-# Final formatting
+# Add locations
 ################################################################################
 
-# Final
-data_out <- data %>% 
+# Add locations
+data_xy <- data %>% 
   # Remove vessel combo
   select(-vessel_combo) %>% 
   # Add revised locations and lat/longs
   left_join(location_key %>% select(location_orig, location, lat_dd, long_dd), by="location_orig") %>% 
   # Arrange
   select(logbook_id:long_dd_orig, location, lat_dd, long_dd, everything())
+
+
+# Split data with multiple species
+################################################################################
+
+# ID / weight combos
+freeR::uniq(data$species_id_lbs_combo)
+
+# Data with one species
+data1 <- data_xy %>% 
+  filter(!grepl(",", species_id_lbs_combo))
+freeR::uniq(data1$species_id_lbs_combo)
+
+# Data with multiple species
+data2 <- data_xy %>% 
+  filter(grepl(",", species_id_lbs_combo))
+freeR::uniq(data2$species_id_lbs_combo)
+
+# Expand data with multiple species
+x <- 1
+data2_exp <- purrr::map_df(1:nrow(data2), function(x){
+  
+  # Row do
+  row_do <- data2[x,]
+  
+  # Species id / weight combo
+  id_lbs <- row_do$species_id_lbs_combo
+  id_lbs_vec <- strsplit(id_lbs, split=", ") %>% unlist()
+  
+  # Loop through vec
+  y <- 1
+  row_out <- purrr::map_df(1:length(id_lbs_vec), function(y){
+    
+    # Get values
+    id_lbs_do <- id_lbs_vec[y]
+    id <- strsplit(id_lbs_do, split=" ")[[1]][1] %>% ifelse(.=="NA", NA, .) %>% as.numeric()
+    lbs <- strsplit(id_lbs_do, split=" ")[[1]][3] %>% ifelse(.=="NA", NA, .) %>% as.numeric()
+    
+    # Make row
+    sub_row_out <- row_do
+    sub_row_out$species_id <- id
+    sub_row_out$comm_name <- NA
+    sub_row_out$sci_name <- NA
+    sub_row_out$catch_lbs <- lbs
+    
+    # Return
+    sub_row_out
+    
+  })
+  
+  # Return
+  row_out
+  
+})
+
+# Add sci/comm names
+table(data2_exp$species_id)
+data2_exp_corr <- data2_exp %>% 
+  mutate(comm_name=recode(species_id,
+                          "683"="Keyhole limpet",
+                          "731"="Kellet's whelk",
+                          "747"="Top snail",
+                          "752"="Red sea urchin",
+                          "757"="Warty sea cucumber")) %>% 
+  mutate(sci_name=recode(comm_name, 
+                         "Keyhole limpet"="Megathura crenulata",
+                         "Kellet's whelk"="Kelletia kelletii",
+                         "Top snail"="Megastraea undosa",
+                         "Red sea urchin"="Mesocentrotus franciscanus",
+                         "Warty sea cucumber"="Parastichopus parvimensis"))
+
+# Merge data
+data_out <- bind_rows(data1, data2_exp_corr) %>% 
+  arrange(date, vessel_id, logbook_id)
 
 
 # Export
