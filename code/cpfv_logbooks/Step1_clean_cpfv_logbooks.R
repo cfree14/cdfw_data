@@ -384,5 +384,5 @@ data_out <- data %>%
 ################################################################################
 
 # Export data
-saveRDS(data_out, file=file.path(outdir, "CDWF_2000_2020_cpfv_logbook_data.Rds"))
+saveRDS(data_out, file=file.path(outdir, "CDFW_2000_2020_cpfv_logbook_data.Rds"))
 
