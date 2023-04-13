@@ -17,6 +17,7 @@ plotdir <- "figures/dive_logbooks"
 
 # Read data
 data <- readRDS(file=file.path(outdir, "CDFW_2000_2020_dive_logbooks.Rds"))
+blocks_sf <- wcfish::blocks
 
 
 # Themes
@@ -28,6 +29,7 @@ bar_theme <- theme(axis.text=element_text(size=7),
                    legend.text=element_text(size=7),
                    legend.title=element_text(size=8),
                    plot.tag=element_text(size=8),
+                   plot.subtitle = element_text(size=6, face="italic"),
                    # Gridlines
                    panel.grid.major = element_blank(), 
                    panel.grid.minor = element_blank(),
@@ -43,6 +45,7 @@ map_theme <- theme(axis.text=element_text(size=7),
                    legend.text=element_text(size=6),
                    legend.title=element_text(size=7),
                    plot.tag=element_text(size=8),
+                   plot.subtitle = element_text(size=6, face="italic"),
                    # Gridlines
                    panel.grid.major = element_blank(), 
                    panel.grid.minor = element_blank(),
@@ -111,9 +114,10 @@ stats <- data %>%
 
 # Plot
 g <- ggplot(stats, aes(x=type, y=depth_ft)) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color=NA) +
   # Labels
-  labs(x="", y="Depth (ft)") +
+  labs(x="", y="Depth (ft)",
+       subtitle="Outliers hidden to comply with rule-of-three") +
   scale_y_continuous(trans="log2", breaks=c(1,2, 5,10,20,50,100,200,500)) +
   # Theme
   theme_bw() + bar_theme
@@ -129,9 +133,10 @@ ggsave(g, filename=file.path(plotdir, "dive_logbook_depth.png"),
 
 # Plot
 g <- ggplot(data, aes(y=pmin(hours, 10))) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color=NA) +
   # Labels
-  labs(x="", y="Dive time (hrs)") +
+  labs(x="", y="Dive time (hrs)",
+       subtitle="Outliers hidden to comply with rule-of-three") +
   scale_y_continuous(breaks=seq(0,10,2), labels=c(seq(0,8,2), ">10")) +
   # Theme
   theme_bw() + bar_theme +
@@ -150,9 +155,10 @@ ggsave(g, filename=file.path(plotdir, "dive_logbook_effort.png"),
 
 # Plot 
 g <- ggplot(data %>% filter(!is.na(comm_name)), aes(y=comm_name, x=catch_lbs)) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color=NA) +
   # Labels
-  labs(x="Catch (lbs)", y="") +
+  labs(x="Catch (lbs)", y="",
+       subtitle="Outliers hidden to comply with rule-of-three") +
   scale_x_continuous(trans="log10",
                      breaks=c(1, 5, 10, 50, 100, 500, 1000, 5000 )) +
   # Theme
@@ -175,8 +181,13 @@ foreign <- rnaturalearth::ne_countries(country=c("Canada", "Mexico"), returnclas
 # Build stats
 stats <- data %>% 
   group_by(comm_name, sci_name, block_id) %>% 
-  summarize(catch_lbs=sum(catch_lbs, na.rm=T)) %>% 
+  summarize(nfishers=unique(fisher_id),
+            catch_lbs=sum(catch_lbs, na.rm=T)) %>% 
   ungroup() %>% 
+  # RUler of three
+  filter(nfishers>=3) %>% 
+  # Remove unknown species
+  filter(!is.na(comm_name)) %>% 
   # Spatialize
   filter(!is.na(block_id)) %>% 
   left_join(blocks_sf %>% select(block_id, geometry), by="block_id") %>% 
@@ -192,6 +203,8 @@ g <- ggplot() +
   # Plot land
   geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
   geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +
+  # Labels
+  labs(subtitle="A few rarely visited blocks are hidden to comply with rule-of-three") +
   # Legend
   scale_fill_gradientn(name="Catch (lbs)", 
                        trans="log10",
@@ -212,6 +225,59 @@ g
 ggsave(g, filename=file.path(plotdir, "dive_logbooks_block_catch.png"), 
        width=6.5, height=6.75, units="in", dpi=600)
 
+
+# Coordinates (generalized)
+################################################################################
+
+# Breaks and midpoints
+lat_breaks <- seq(32, 42, 0.25)
+lat_mids <- zoo::rollmean(lat_breaks, k=2)
+long_breaks <- seq(-126,-114, 0.25)
+long_mids <- zoo::rollmean(long_breaks, k=2)
+
+# XY bins
+xy_ras <- data %>% 
+  # Reduce to logboooks with XY
+  filter(!is.na(lat_dd) & !is.na(long_dd)) %>% 
+  # Add bins for XY
+  mutate(lat_dd_bin=cut(lat_dd, breaks=lat_breaks, labels=lat_mids) %>% as.character() %>%  as.numeric(),
+         long_dd_bin=cut(long_dd, breaks=long_breaks, labels=long_mids) %>% as.character() %>% as.numeric()) %>% 
+  # Summarize
+  group_by(comm_name, lat_dd_bin, long_dd_bin) %>% 
+  summarize(nfishers=n_distinct(fisher_id),
+            nlogbooks=n_distinct(logbook_id)) %>% 
+  ungroup() %>% 
+  # Rule of three
+  filter(nfishers>=3)
+
+
+# Plot data
+g <- ggplot() +
+  # Facet
+  facet_wrap(~comm_name, ncol=3) +
+  # Plot land
+  geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
+  geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +
+  # Labels
+  labs(subtitle="Coordinates are summarized in bins to comply with the rule-of-three") +
+  # Plot points
+  geom_tile(data=xy_ras, mapping=aes(x=long_dd_bin, y=lat_dd_bin, fill=nlogbooks), alpha=0.5, color="black") +
+  # Legend
+  scale_fill_gradientn(name="Number of logbooks", 
+                       colors=RColorBrewer::brewer.pal(9, "YlOrRd"), trans="log10",
+                       breaks=c(1, 5, 10, 50, 100, 500, 1000,  5000)) +
+  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black")) +
+  # Crop
+  coord_sf(xlim = c(-126, -117), ylim = c(32, 42)) +
+  # Theme
+  theme_bw() + map_theme +
+  theme(legend.position = "bottom",
+        legend.key.size = unit(0.5, "cm"))
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "dive_logbooks_coordinates_gen.png"), 
+       width=6.5, height=3.5, units="in", dpi=600)
 
 # Coordinates
 ################################################################################

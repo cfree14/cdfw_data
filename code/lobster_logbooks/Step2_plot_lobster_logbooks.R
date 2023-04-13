@@ -296,7 +296,7 @@ lat_mids <- zoo::rollmean(lat_breaks, k=2)
 long_breaks <- seq(-126,-114, 0.25)
 long_mids <- zoo::rollmean(long_breaks, k=2)
 
-# 
+# XY bins
 xy_ras <- data %>% 
   # Reduce to logboooks with XY
   filter(!is.na(lat_dd) & !is.na(long_dd)) %>% 
@@ -304,7 +304,7 @@ xy_ras <- data %>%
   mutate(lat_dd_bin=cut(lat_dd, breaks=lat_breaks, labels=lat_mids) %>% as.character() %>%  as.numeric(),
          long_dd_bin=cut(long_dd, breaks=long_breaks, labels=long_mids) %>% as.character() %>% as.numeric()) %>% 
   # Summarize
-  group_by(lat_dd_bin, long_dd_bin) %>% 
+  group_by(comm_name, lat_dd_bin, long_dd_bin) %>% 
   summarize(nvessels=n_distinct(vessel_id),
             nlogbooks=n_distinct(logbook_id)) %>% 
   ungroup() %>% 
@@ -313,6 +313,8 @@ xy_ras <- data %>%
 
 # Plot
 g <- ggplot() +
+  # Facet
+  facet_wrap(~comm_name, ncol=3) +
   # Plot reference line
   geom_hline(yintercept=34.5) +
   # Plot land
