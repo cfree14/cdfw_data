@@ -29,6 +29,7 @@ box_theme <-  theme(axis.text=element_text(size=7),
                     axis.text.x = element_blank(),
                     axis.ticks.x = element_blank(),
                     plot.tag=element_text(size=8),
+                    plot.subtitle = element_text(size=6, face="italic"),
                     # Gridlines
                     panel.grid.major = element_blank(), 
                     panel.grid.minor = element_blank(),
@@ -43,6 +44,7 @@ bar_theme <- theme(axis.text=element_text(size=7),
                    legend.text=element_text(size=7),
                    legend.title=element_text(size=8),
                    plot.tag=element_text(size=8),
+                   plot.subtitle = element_text(size=6, face="italic"),
                    # Gridlines
                    panel.grid.major = element_blank(), 
                    panel.grid.minor = element_blank(),
@@ -57,6 +59,7 @@ map_theme <- theme(axis.text=element_text(size=7),
                    legend.text=element_text(size=6),
                    legend.title=element_text(size=7),
                    plot.tag=element_text(size=8),
+                   plot.subtitle = element_text(size=6, face="italic"),
                    # Gridlines
                    panel.grid.major = element_blank(), 
                    panel.grid.minor = element_blank(),
@@ -71,11 +74,12 @@ map_theme <- theme(axis.text=element_text(size=7),
 
 # Plot nights on water
 g1 <- ggplot(data, aes(y=n_nights)) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color = NA) +
   # Scale
   scale_y_continuous(trans="log2", breaks=c(1,2,5,10, 20, 50, 100)) +
   # Labels
-  labs(y="Number of nights", tag="A") +
+  labs(y="Number of nights", tag="A",
+       subtitle="Outliers hidden to comply with rule-of-three") +
   # Thene
   theme_bw() + box_theme
 g1
@@ -83,18 +87,20 @@ g1
 
 # Plot of traps pulled
 g2 <- ggplot(data, aes(y=n_traps_pulled)) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color = NA) +
   # Labels
-  labs(y="Number of traps pulled", tag="B") +
+  labs(y="Number of traps pulled", tag="B",
+       subtitle="Outliers hidden to comply with rule-of-three") +
   # Thene
   theme_bw() + box_theme
 g2
 
 # Plot of traps current deployed
 g3 <- ggplot(data, aes(y=n_traps_set)) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color = NA) +
   # Labels
-  labs(y="Number of traps currently deployed", tag="C") +
+  labs(y="Number of traps currently deployed", tag="C",
+       subtitle="Outliers hidden to comply with rule-of-three") +
   # Thene
   theme_bw() + box_theme
 g3
@@ -113,22 +119,24 @@ ggsave(g, filename=file.path(plotdir, "lobster_logbook_effort.png"),
 
 # Plot kept
 g1 <- ggplot(data, aes(y=n_kept)) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color = NA) +
   # Scale
   scale_y_continuous(trans="log2", breaks=c(1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000)) +
   # Labels
-  labs(y="Number of lobsters retained", tag="A") +
+  labs(y="Number of lobsters retained", tag="A",
+       subtitle="Outliers hidden to comply with rule-of-three") +
   # Thene
   theme_bw() + box_theme
 g1
 
 # Plot of traps pulled
 g2 <- ggplot(data, aes(y=n_released)) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color = NA) +
   # Scale
   scale_y_continuous(trans="log2", breaks=c(1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000)) +
   # Labels
-  labs(y="Number of lobsters released", tag="B") +
+  labs(y="Number of lobsters released", tag="B",
+       subtitle="Outliers hidden to comply with rule-of-three") +
   # Thene
   theme_bw() + box_theme
 g2
@@ -180,12 +188,13 @@ ggsave(g, filename=file.path(plotdir, "lobster_logbook_catch_over_time.png"),
 
 # Depth
 g <- ggplot(data, aes(y=depth_ft)) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color = NA) +
   # Reference line
   geom_hline(yintercept = 300, linetype="dotted", color="grey30") +
   annotate(geom="text", x=-0.3, y=300, label="300 ft", color="grey30", vjust=-0.5, size=2.4) +
   # Labels
-  labs(y="Depth (ft)") +
+  labs(y="Depth (ft)",
+       subtitle="Outliers hidden to comply with rule-of-three") +
   scale_y_continuous(trans="log2", breaks=c(1, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000)) +
   # Thene
   theme_bw() + box_theme
@@ -233,8 +242,11 @@ foreign <- rnaturalearth::ne_countries(country=c("Canada", "Mexico"), returnclas
 stats <- data %>% 
   # Number of logs by block 
   group_by(block_id) %>% 
-  summarize(nlogs=n_distinct(logbook_id)) %>% 
+  summarize(nvessels=n_distinct(vessel_id),
+            nlogs=n_distinct(logbook_id)) %>% 
   ungroup() %>% 
+  # Remove rule-of-three
+  filter(nvessels>=3) %>% 
   # Reduce to valid blocks
   filter(block_id %in% blocks_sf$block_id) %>% 
   # Spatialize
@@ -251,6 +263,8 @@ g <- ggplot() +
   # Plot land
   geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
   geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +
+  # Labels
+  labs(subtitle="A few extremely rarely visited blocks are hidden to comply with the rule-of-three") +
   # Crop
   coord_sf(xlim = c(-126, -117), ylim = c(32, 42)) +
   # Legend
@@ -266,6 +280,63 @@ g
 
 # Export
 ggsave(g, filename=file.path(plotdir, "lobster_logbook_blocks.png"), 
+       width=3.5, height=4.75, units="in", dpi=600)
+
+
+# Locations (generalized)
+################################################################################
+
+get_midpoint <- function(cut_label) {
+  mean(as.numeric(unlist(strsplit(gsub("\\(|\\)|\\[|\\]", "", as.character(cut_label)), ","))))
+}
+
+# Breaks and midpoints
+lat_breaks <- seq(32, 42, 0.25)
+lat_mids <- zoo::rollmean(lat_breaks, k=2)
+long_breaks <- seq(-126,-114, 0.25)
+long_mids <- zoo::rollmean(long_breaks, k=2)
+
+# 
+xy_ras <- data %>% 
+  # Reduce to logboooks with XY
+  filter(!is.na(lat_dd) & !is.na(long_dd)) %>% 
+  # Add bins for XY
+  mutate(lat_dd_bin=cut(lat_dd, breaks=lat_breaks, labels=lat_mids) %>% as.character() %>%  as.numeric(),
+         long_dd_bin=cut(long_dd, breaks=long_breaks, labels=long_mids) %>% as.character() %>% as.numeric()) %>% 
+  # Summarize
+  group_by(lat_dd_bin, long_dd_bin) %>% 
+  summarize(nvessels=n_distinct(vessel_id),
+            nlogbooks=n_distinct(logbook_id)) %>% 
+  ungroup() %>% 
+  # Rule of three
+  filter(nvessels>=3)
+
+# Plot
+g <- ggplot() +
+  # Plot reference line
+  geom_hline(yintercept=34.5) +
+  # Plot land
+  geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
+  geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +
+  # Labels
+  labs(subtitle="Coordinates are summarized in bins to comply with the rule-of-three") +
+  # Plot points
+  geom_tile(data=xy_ras, mapping=aes(x=long_dd_bin, y=lat_dd_bin, fill=nlogbooks), alpha=0.5) +
+  # Crop
+  coord_sf(xlim = c(-126, -117), ylim = c(32, 42)) +
+  # Legend
+  scale_fill_gradientn(name="Number of logbooks", 
+                       colors=RColorBrewer::brewer.pal(9, "YlOrRd"), trans="log10",
+                       breaks=c(1, 5, 10, 50, 100, 500, 1000,  5000)) +
+  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black")) +
+  # Theme
+  theme_bw() + map_theme +
+  theme(legend.position = c(0.8, 0.8),
+        legend.key.size = unit(0.4, "cm"))
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "lobster_logbook_coordinates_gen.png"), 
        width=3.5, height=4.75, units="in", dpi=600)
 
 
@@ -285,6 +356,8 @@ g <- ggplot() +
   # Plot land
   geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
   geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +
+  # Labels
+  labs(subtitle="A few extremely rarely visited blocks are hidden to comply with the rule-of-three") +
   # Plot points
   geom_point(data=data, mapping=aes(x=long_dd, y=lat_dd), pch=1, alpha=0.5, size=0.7, color="grey30") +
   # Crop

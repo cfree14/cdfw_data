@@ -16,7 +16,7 @@ keydir <- "data/public/cdfw_keys/processed"
 plotdir <- "figures/cpfv_logbooks"
 
 # Read data
-data <- readRDS(file=file.path(outdir, "CDWF_2000_2020_cpfv_logbook_data.Rds"))
+data <- readRDS(file=file.path(outdir, "CDFW_2000_2020_cpfv_logbook_data.Rds"))
 
 # Get blocks
 blocks <- wcfish::blocks
@@ -27,6 +27,7 @@ my_theme <-  theme(axis.text=element_text(size=7),
                    legend.text=element_text(size=7),
                    legend.title=element_text(size=8),
                    strip.text=element_text(size=8),
+                   plot.subtitle = element_text(size=6, face="italic"),
                    plot.title=element_text(size=10),
                    plot.tag=element_text(size=9),
                    # Gridlines
@@ -98,13 +99,14 @@ ggsave(g, filename=file.path(plotdir, "cpfv_logbook_completeness.png"),
 
 # Depth
 g1 <- ggplot(data, aes(y=pmin(depth_ft, 500))) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color = NA) +
   # Limits
   scale_y_continuous(lim=c(NA, 500),
                      breaks=seq(0,500,100),
                      labels=c(seq(0,400, 100), "≥500")) +
   # Labels
-  labs(y="Depth (feet)", tag="A") +
+  labs(y="Depth (feet)", tag="A", 
+       subtitle="Outliers hidden to comply with rule-of-three") +
   # Theme
   theme_bw() + my_theme +
   theme(axis.text.x = element_blank(),
@@ -113,13 +115,14 @@ g1
 
 # Temperature
 g2 <- ggplot(data, aes(y=temp_f)) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color = NA) +
   # Limits
   scale_y_continuous(lim=c(NA, 100),
                      breaks=seq(0,100,20),
                      labels=c(seq(0,80, 20), "≥100")) +
   # Labels
-  labs(y="Temperature (°F)", tag="B") +
+  labs(y="Temperature (°F)", tag="B",
+       subtitle="Outliers hidden to comply with rule-of-three") +
   # Theme
   theme_bw() + my_theme +
   theme(axis.text.x = element_blank(),
@@ -140,13 +143,14 @@ ggsave(g, filename=file.path(plotdir, "cpfv_logbook_depth_temp_dists.png"),
 
 # Hours of fishing
 g1 <- ggplot(data, aes(y=pmin(hrs_fished, 24))) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color = NA) +
   # Limits
   scale_y_continuous(lim=c(NA, 24),
                      breaks=seq(0, 24, 4),
                      labels=c(seq(0, 20, 4), "≥24")) +
   # Labels
-  labs(y="Hours of fishing", tag="A") +
+  labs(y="Hours of fishing", tag="A",
+       subtitle="Outliers hidden for rule-of-three") +
   # Theme
   theme_bw() + my_theme +
   theme(axis.text.x = element_blank(),
@@ -155,13 +159,14 @@ g1
 
 # Number of fishers
 g2 <- ggplot(data, aes(y=pmin(n_fishers,100))) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color = NA) +
   # Limits
   scale_y_continuous(lim=c(NA, 100),
                      breaks=seq(0, 100, 20),
                      labels=c(seq(0, 80, 20), "≥100")) +
   # Labels
-  labs(y="Number of fishers\n(includes passengers, operators,\ncrew, and non-paying guests)", tag="B") +
+  labs(y="Number of fishers\n(includes passengers, operators,\ncrew, and non-paying guests)", tag="B",
+       subtitle="Outliers hidden for rule-of-three") +
   # Theme
   theme_bw() + my_theme +
   theme(axis.text.x = element_blank(),
@@ -170,13 +175,14 @@ g2
 
 # Number of fishers
 g3 <- ggplot(data, aes(y=n_crew_fished)) +
-  geom_boxplot() +
+  geom_boxplot(outlier.color = NA) +
   # Limits
   scale_y_continuous(lim=c(NA, 20),
                      breaks=seq(0,20,5),
                      labels=c(seq(0,15,5), "≥20")) +
   # Labels
-  labs(y="Number of crew who fished", tag="C") +
+  labs(y="Number of crew who fished", tag="C",
+       subtitle="Outliers hidden for rule-of-three") +
   # Theme
   theme_bw() + my_theme +
   theme(axis.text.x = element_blank(),
@@ -333,8 +339,11 @@ stats <- data %>%
   filter(!is.na(block_type)) %>% 
   # Summarize # of trips by block id
   group_by(port_complex, block_id, block_type) %>% 
-  summarize(n_trips=n_distinct(logbook_id)) %>% 
+  summarize(nvessels=n_distinct(vessel_id), 
+            n_trips=n_distinct(logbook_id)) %>% 
   ungroup() %>% 
+  # Remove blocks with fewer than three vessels
+  filter(nvessels>=3) %>% 
   # Remove offshore blocks
   filter(block_type!="Offshore") %>% 
   # Reduce to ports of interest
@@ -355,6 +364,8 @@ g <- ggplot() +
   # Plot land
   geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
   geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +
+  # Labels
+  labs(subtitle="A few extremely rarely visited blocks are hidden to comply with the rule-of-three") +
   # Legend
   scale_fill_gradientn(name="# of CPFV trips\n(from 2000-2020)", trans="log10",
                        colors=RColorBrewer::brewer.pal(9, "YlOrRd"),
@@ -393,8 +404,11 @@ stats1 <- data %>%
   filter(!is.na(block_type)) %>% 
   # Summarize # of fish by block id
   group_by(comm_name, block_id, block_type) %>% 
-  summarize(n_kept=sum(n_kept)) %>% 
+  summarize(nvessels=n_distinct(vessel_id),
+            n_kept=sum(n_kept)) %>% 
   ungroup() %>% 
+  # Remove blocks with fewer than three vessels
+  filter(nvessels>=3) %>% 
   # Remove offshore blocks
   filter(block_type!="Offshore") %>% 
   # Remove zeros
@@ -415,6 +429,8 @@ g <- ggplot() +
   # Plot land
   geom_sf(data=foreign, fill="grey80", color="white", lwd=0.3) +
   geom_sf(data=usa, fill="grey80", color="white", lwd=0.2) +
+  # Labels
+  labs(subtitle="A few extremely rarely visited blocks are hidden to comply with the rule-of-three") +
   # Legend
   scale_fill_gradientn(name="Number of fish caught\non CPFV trips from 2000-2020", trans="log10",
                        colors=RColorBrewer::brewer.pal(9, "YlOrRd"),
