@@ -280,7 +280,7 @@ target_spp_key <- data1 %>%
 # Caught species
 spp_key_orig <- data1 %>% 
   select(spp_code, comm_name_orig1, comm_name_orig2, comm_name) %>% unique()
-spp_key_orig$comm_name1[is.na(spp_key_orig$comm_name)] %>% unique()
+spp_key_orig$comm_name_orig1[is.na(spp_key_orig$comm_name)] %>% unique()
 
 
 # Export data
