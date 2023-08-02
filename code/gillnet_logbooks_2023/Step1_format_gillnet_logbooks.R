@@ -14,11 +14,14 @@ indir <- "data/confidential/gillnet_logbooks_2023/raw"
 outdir <- "data/confidential/gillnet_logbooks_2023/processed"
 
 # Read data
-data_orig <- readxl::read_excel(file.path(indir, "Gillnet Logs_1981-2022_sn.xlsx"), col_types = "text", na = c("N/A"))
+data_orig <- readxl::read_excel(file.path(indir, "Gillnet Logs_1981-2022_sn.xlsx"), 
+                                col_types = "text", na = c("N/A", ""))
 
 # Read species key
 spp_key <- read.csv("data/public/cdfw_keys/processed/CDFW_species_key.csv", as.is=T) %>% 
   mutate(spp_code_chr=as.character(spp_code_chr))
+
+
 
 # Format data
 ################################################################################
@@ -135,6 +138,8 @@ data1 <- data_orig %>%
                             "W"="White Seabass",
                             "W, H"="White Seabass, Halibut",
                             "W, X"="White Seabass, Soupfin Shark")) %>% 
+  # Finalize target species
+  mutate(target_spp=ifelse(!is.na(target_spp1), target_spp1, target_spp2)) %>% 
   # Format predator
   # Rules: maintain order, maybe/question mark = unknown
   mutate(predator=predator %>% stringr::str_squish(.) %>% stringr::str_to_sentence(.),
@@ -174,7 +179,7 @@ data1 <- data_orig %>%
                             comm_name1=="Rock Crabs" ~ "801",             
                             comm_name1=="Pacific Sierra" ~ "52",        
                             comm_name1=="Blt-Bullet Tuna" ~ "19",        
-                            comm_name1=="Dlp-Dolphins Nei" ~ "481",  # decided that this is dolphinfish     
+                            comm_name1=="Dlp-Dolphins Nei" ~ "481", # decided this is dolphinfish     
                             comm_name1=="Amphioxus Lancelets" ~ "915",    
                             comm_name1=="Hydrozoans" ~ "681",            
                             comm_name1=="Agars" ~ "951",                 
@@ -193,8 +198,18 @@ data1 <- data_orig %>%
                             T ~ spp_code)) %>% 
   # Add species
   left_join(spp_key %>% select(spp_code_chr, comm_name), by=c("spp_code"="spp_code_chr")) %>% 
+  # Fill in missing common names
+  mutate(comm_name=case_when(spp_code=="154/158" ~ "Brown smoothhound shark/Smooth hammerhead shark",
+                             spp_code=="154/179" ~ "Brown smoothhound shark/Gray smoothhound shark", 
+                             comm_name1=="Harbor Seal" ~ "Harbor seal",
+                             comm_name2=="SeaUrchin,unspecified" ~ "Unspecified sea urchin",
+                             T ~ comm_name)) %>% 
+  # Vessel identifier
+  mutate(vessel_id_use=ifelse(!is.na(vessel_id), vessel_id, boat_num),
+         vessel_id_use_type=ifelse(!is.na(vessel_id), "Vessel id", "Boat number")) %>% 
   # Arrange
   select(logbook_id, year, date, 
+         vessel_id_use, vessel_id_use_type, 
          vessel_id, vessel_name, boat_num, permit_id,
          block_id,
          net_type_orig1, net_type_orig2, net_type_final,
@@ -203,11 +218,15 @@ data1 <- data_orig %>%
          mesh_size_in, mesh_size_in_num,
          buoy_line_depth_ft, buoy_line_depth_ft_num, 
          soak_hr, soak_hr_num,
-         target_spp1, target_spp2,
+         target_spp1, target_spp2, target_spp, 
          spp_code, comm_name1, comm_name2, comm_name,
          status, catch_n, catch_lb, predator,
          everything()) %>% 
-  arrange(date)
+  arrange(date) %>% 
+  # Rename
+  rename(comm_name_orig1=comm_name1,
+         comm_name_orig2=comm_name2,
+         net_type=net_type_final)
 
 # Inspect
 str(data1)
@@ -221,9 +240,9 @@ range(data1$date, na.rm=T)
 # 1, 2, 3, 5, H, N, Q, W, X are unknown
 table(data1$net_type_orig1)
 table(data1$net_type_orig2)
-table(data1$net_type_final)
+table(data1$net_type)
 net_type_key <- data1 %>% 
-  count(net_type_final, net_type_orig1, net_type_orig2)
+  count(net_type, net_type_orig1, net_type_orig2)
 
 # Depth
 sort(unique(data1$depth_fa)) # sometimes there are multiple entries
@@ -256,22 +275,19 @@ table(data1$predator)
 sort(unique(data1$target_spp1))
 sort(unique(data1$target_spp2))
 target_spp_key <- data1 %>% 
-  count(target_spp1, target_spp2)
+  count(target_spp, target_spp1, target_spp2)
 
-
-# Format species
-################################################################################
-
+# Caught species
 spp_key_orig <- data1 %>% 
-  select(spp_code, comm_name1, comm_name2, comm_name) %>% unique()
+  select(spp_code, comm_name_orig1, comm_name_orig2, comm_name) %>% unique()
 spp_key_orig$comm_name1[is.na(spp_key_orig$comm_name)] %>% unique()
 
 
-# Format vessel
+# Export data
 ################################################################################
 
-vessel_key <- data1 %>% 
-  select(vessel_id, vessel_name, boat_num) %>% 
-  unique()
+# Export
+saveRDS(data1, file=file.path(outdir, "CDFW_1981_2020_gillnet_logbook_data.Rds"))
+
 
 

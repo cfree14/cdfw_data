@@ -178,6 +178,9 @@ table(data$license_status)
 table(data$permit_issue_office)
 table(data$reg_issue_office)
 
+# Export
+saveRDS(data, file=file.path(outdir, "CDFW_permit_data.Rds"))
+
 
 # Vessel key
 ################################################################################
