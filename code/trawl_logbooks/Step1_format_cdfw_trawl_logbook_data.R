@@ -13,6 +13,7 @@ library(tidyverse)
 indir <- "data/confidential/trawl_logbooks/raw"
 outdir <- "data/confidential/trawl_logbooks/processed"
 plotdir <- "figures/trawl_logbooks"
+keydir <- "data/public/cdfw_keys/processed"
 
 # Read data
 list.files(indir)

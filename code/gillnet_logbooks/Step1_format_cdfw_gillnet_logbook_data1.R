@@ -342,6 +342,20 @@ set_key <- data %>%
   arrange(desc(nsetids))
 
 
+# Vessel key
+################################################################################
+
+# Build vessel key
+n_distinct(data$vessel_id)
+vessel_key <- data %>% 
+  group_by(vessel_id) %>% 
+  summarize(vessel_num=paste(vessel_num %>% unique() %>% na.omit(), collapse=", "),
+            vessel_name=paste(vessel_name %>% unique() %>% na.omit(), collapse=", ")) %>% 
+  unique()
+freeR::which_duplicated(vessel_key$vessel_id)
+write.csv(vessel_key, file.path(outdir, "vessel_key.csv"), row.names = F)
+
+
 # Export data
 ################################################################################
 
