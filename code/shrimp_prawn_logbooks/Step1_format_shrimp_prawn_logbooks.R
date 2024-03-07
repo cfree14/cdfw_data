@@ -17,6 +17,18 @@ outdir <- "data/confidential/shrimp_prawn_logbooks/processed"
 data_orig <- read.csv(file.path(indir, "LogSummary_shrimp-prawn_2024.03.05_Free data request.csv"), 
                       na.strings = "")
 
+# High priority things to do
+# Units for head rope length?
+# Format species name
+# Finalize GPS coordinates
+# Check drag numbers 
+# Check outliers for numeric values
+# Build drag id
+# Mark lat/longs in block (derive block id)
+
+# Lower priortity things to do
+# Identify missing vessel names/ids
+
 
 # Format data
 ################################################################################
@@ -53,7 +65,11 @@ data <- data_orig %>%
          long_dd_up=-1*(up_lng_dec+up_lng_dec/60)) %>% 
   # Format port
   mutate(port=stringr::str_to_title(port), 
-         port=recode(port, "Unknown Or Missing Port (Wpd 9-14-94)"="Unknown")) %>% 
+         port=recode(port, "Unknown Or Missing Port (Wpd 9-14-94)"="Unknown"),
+         port=ifelse(is.na(port), "Unknown", port),
+         port_code=ifelse(is.na(port_code), 0, port_code)) %>% 
+  # Format vessel id
+  mutate(vessel_id=ifelse(vessel_id==".", NA, vessel_id)) %>% 
   # Arrange
   select(logbook_id, vessel_id, vessel, port_code, port, 
          date_depart, date_return, 
@@ -72,6 +88,15 @@ data <- data_orig %>%
 str(data)
 freeR::complete(data)
 
+# Vessel
+vessel_key <- data %>% 
+  count(vessel_id, vessel)
+freeR::which_duplicated(vessel_key$vessel_id)
+
+# Ports
+port_key <- data %>% 
+  count(port_code, port)
+
 # Dates
 range(data$date_drag, na.rm=T)
 range(data$date_return, na.rm=T)
@@ -80,6 +105,14 @@ range(data$date_depart)
 # Ports
 table(data$port)
 table(data$block_id)
+
+# Net type
+table(data$net_type)
+
+# Species key
+spp_key <- data %>% 
+  count(spp_catg, species_id)
+freeR::which_duplicated(spp_key$species_id)
 
 # Map
 usa <- rnaturalearth::ne_states(country="United States of America", returnclass = "sf")
@@ -94,5 +127,6 @@ ggplot(data, aes(x=long_dd_set, y=lat_dd_set, color=port)) +
 # Export data
 ################################################################################
 
-
+# Export data
+saveRDS(data, file.path(outdir, "CDFW_1994_2023_shrimp_prawn_logbook_data.Rds"))
 
