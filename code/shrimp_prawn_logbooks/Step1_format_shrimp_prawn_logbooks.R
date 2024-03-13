@@ -26,7 +26,7 @@ data_orig <- read.csv(file.path(indir, "LogSummary_shrimp-prawn_2024.03.05_Free 
 # Build drag id
 # Mark lat/longs in block (derive block id)
 
-# Lower priortity things to do
+# Lower priority things to do
 # Identify missing vessel names/ids
 
 

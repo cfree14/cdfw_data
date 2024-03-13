@@ -15,12 +15,15 @@ outdir <- "data/confidential/squid_logbooks/processed"
 
 # Read data
 data_orig <- readxl::read_excel(file.path(indir, "MarketSquidLogs_ChrisFree_UCSB_DSA_240222.xlsx"), 
-                                sheet="SquidVesselLogs", col_types = "text")
+                                sheet="SquidLightLogs", col_types = "text")
 
-# Fix data
-# Numeric outlier handling
-# Accurate GPS handling
-# Set numbers
+# High priority
+# Date
+# Location cleaning
+
+# Low priority
+# Could clean up captain names
+# Could fill in missing vessel names
 
 
 # Format data
@@ -30,42 +33,47 @@ data_orig <- readxl::read_excel(file.path(indir, "MarketSquidLogs_ChrisFree_UCSB
 data <- data_orig %>% 
   # Rename columns
   janitor::clean_names("snake") %>% 
-  rename(logbook_id=log_serial_number,
+  rename(logbook_id=serial_number,
          vessel=vessel_name,
-         vessel_permit=vessel_permit_number,
+         vessel_permit=permit_number,
+         seiner_id=seiner,
          captain=captain_name,
          date=log_date_string,
+         location1=location,
+         location2=general_location, 
+         location3=location_description,
          time_start=start_time,
          time_end=end_time,
+         birds_yn=birds_present,
+         mammals_yn=mammals_present,
          duration_min=elapsed_time,
-         position=set_position,
-         lat_dd=set_latitude,
-         long_dd=set_longitude,
-         sst_f=temperature,
          depth_fa=bottom_depth,
-         catch_t=catch_estimate, 
-         limited_yn=ltd_by_market_order,
-         lightboat_id=light_brail_set_upon,
-         bycatch=by_catch, 
-         receipt_ids=landing_receipts) %>% 
+         bycatch_lbs=by_catch, 
+         remaining_t=est_tonnage_remaining,
+         sold_t=amount_sold,
+         bait_t=amt_for_live_bait,
+         receipt_ids=landing_receipt) %>% 
   # Format date
   # mutate(date=lubridate::ymd(date)) %>% 
   # Convert numeric
-  mutate(across(.cols=c(lat_dd, long_dd, sst_f, depth_fa, set_number, duration_min, catch_t), .fns=as.numeric)) %>% 
-  # Format latitude
-  mutate(lat_dd=ifelse(lat_dd==0, NA, lat_dd)) %>% 
-  # Format longitude
-  mutate(long_dd=ifelse(long_dd==0, NA, long_dd),
-         long_dd=abs(long_dd) *-1) %>% 
+  mutate(across(.cols=c(lat_dd, long_dd, depth_fa, duration_min), .fns=as.numeric)) %>% 
+  # Recode location2 before steps below
+  mutate(location2=recode(location2, "643, 656"="643/656")) %>% 
+  # Add block ids fron location2 column
+  mutate(block_id=ifelse(grepl("CDFW Block Code", location2), 
+                         gsub("CDFW Block Code ", "", location2), NA)) %>% 
+  # Add more block ids from location2 colum
+  mutate(block_id=ifelse(grepl("/", location2), location2, block_id)) %>% 
   # Arrange
   select(logbook_id,
-         vessel_id, vessel, vessel_permit,
+         vessel_id, vessel, vessel_permit, seiner_id,
          captain_id, captain,
-         date, set_number,
-         limited_yn, lightboat_id,
+         date,
+         location1, location2, location3, lat_dd, long_dd, depth_fa,
+         hours_searching, hours_lighting,
          time_start, time_end, duration_min,
-         position, lat_dd, long_dd, 
-         depth_fa, sst_f, catch_t, bycatch, receipt_ids,
+         birds_yn, mammals_yn,
+         remaining_t, sold_t, bait_t, bycatch_lbs, receipt_ids,
          comments, everything())
 
 # Inspect
@@ -76,8 +84,9 @@ freeR::complete(data)
 # Dates
 range(data$date)
 
-# SST
-boxplot(data$sst_f)
+# Location key
+loc_key <- data %>% 
+  count(location2, location3, block_id)
 
 # Depth
 boxplot(data$depth_fa)
