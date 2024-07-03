@@ -49,14 +49,20 @@ data <- data_orig %>%
          bycatch=by_catch, 
          receipt_ids=landing_receipts) %>% 
   # Format date
-  # mutate(date=lubridate::ymd(date)) %>% 
+  mutate(date=as.numeric(date) %>% as.Date(., origin = "1899-12-30") %>% lubridate::ymd(.)) %>% 
   # Convert numeric
   mutate(across(.cols=c(lat_dd, long_dd, sst_f, depth_fa, set_number, duration_min, catch_t), .fns=as.numeric)) %>% 
+  # Add missing longitudes that are available in POSITION column
+  mutate(long_dd=case_when(position=="33° 41.53' 111° 27."~ -(111+27/60),
+                           position=="34° 02.00' 118° 58."~ -(118+58/60),
+                           T ~ long_dd)) %>% 
   # Format latitude
   mutate(lat_dd=ifelse(lat_dd==0, NA, lat_dd)) %>% 
   # Format longitude
   mutate(long_dd=ifelse(long_dd==0, NA, long_dd),
          long_dd=abs(long_dd) *-1) %>% 
+  # Format captaid id (uppercase some lowercase L's)
+  mutate(captain_id=toupper(captain_id)) %>% 
   # Arrange
   select(logbook_id,
          vessel_id, vessel, vessel_permit,
@@ -89,11 +95,22 @@ boxplot(data$duration_min/60)
 vessel_key <- data %>% 
   count(vessel_id, vessel)
 freeR::which_duplicated(vessel_key$vessel_id)
+freeR::which_duplicated(vessel_key$vessel)
+
+# Other variables
+table(data$set_number) # 0, 20, 99 should not be possible
+table(data$limited_yn)
+table(data$bycatch) # super complicated - could break out into flat table
 
 # Captains
 captain_key <- data %>% 
   count(captain_id, captain)
 freeR::which_duplicated(captain_key$captain_id)
+freeR::which_duplicated(captain_key$captain)
+
+# GPS key
+gps_key <- data %>% 
+  count(position, lat_dd, long_dd)
 
 # Comments
 sort(unique(data$comments))

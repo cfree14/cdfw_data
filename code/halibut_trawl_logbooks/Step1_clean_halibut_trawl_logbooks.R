@@ -70,7 +70,15 @@ data <- data_orig %>%
 # Inspect
 str(data)
 
+table(data$net_type)
+table(data$target_strategy)
+table(data$codend_capacity)
+table(data$region)
 
+# Export data
+################################################################################
 
+# Export data
+saveRDS(data, file=file.path(outdir, "CDFW_1981_2022_halibut_trawl_data.Rds"))
 
 
