@@ -18,8 +18,8 @@ data_orig <- readxl::read_excel(file.path(indir, "MarketSquidLogs_ChrisFree_UCSB
                                 sheet="SquidLightLogs", col_types = "text")
 
 # High priority
-# Date
 # Location cleaning
+# Make location 3 long name, location 2 code (and remove blocks), location1 GPS, and extract blocks from location1/3, and then coords as check
 
 # Low priority
 # Could clean up captain names
@@ -54,9 +54,22 @@ data <- data_orig %>%
          bait_t=amt_for_live_bait,
          receipt_ids=landing_receipt) %>% 
   # Format date
-  # mutate(date=lubridate::ymd(date)) %>% 
+  mutate(date=as.numeric(date) %>% as.Date(., origin = "1899-12-30") %>% lubridate::ymd(.)) %>% 
   # Convert numeric
-  mutate(across(.cols=c(lat_dd, long_dd, depth_fa, duration_min), .fns=as.numeric)) %>% 
+  mutate(across(.cols=c(lat_dd, long_dd, depth_fa, duration_min, 
+                        remaining_t, sold_t, bait_t), .fns=as.numeric)) %>% 
+  # Format captain
+  mutate(captain=case_when(captain=="," ~ NA,
+                           T ~ captain)) %>% 
+  # Format Location3
+  mutate(location3=toupper(location3)) %>% 
+  # Format location1
+  mutate(location1=case_when(location1=="Lat.  Long." ~ NA,
+                             T ~ location1)) %>% 
+  # Add location1 type
+  mutate(location1_type=case_when(grepl("°", location1) ~ "GPS position",
+                                  nchar(location1)==3 ~ 'Block id',
+                                  T ~ NA)) %>% 
   # Recode location2 before steps below
   mutate(location2=recode(location2, "643, 656"="643/656")) %>% 
   # Add block ids fron location2 column
@@ -64,12 +77,31 @@ data <- data_orig %>%
                          gsub("CDFW Block Code ", "", location2), NA)) %>% 
   # Add more block ids from location2 colum
   mutate(block_id=ifelse(grepl("/", location2), location2, block_id)) %>% 
+  # Add blocks from location1 column
+  mutate(block_id=ifelse(location1_type=="Block id", location1, block_id)) %>% 
+  # Convert longitude
+  mutate(long_dd=long_dd * -1) %>% 
+  # Replace lat/long==0 with NA
+  # Overwrite invalid lat/long
+  mutate(lat_dd=case_when(lat_dd==0 ~ NA, 
+                          grepl("Invalid coordina Lat.", location1) ~ NA,
+                          lat_dd > 1000 ~ NA,
+                          lat_dd > 42 ~ NA,
+                          lat_dd < 10 ~ NA,
+                          lat_dd < 30 ~ NA,
+                          T ~ lat_dd),
+         long_dd=case_when(long_dd==0 ~ NA, 
+                           grepl("Invalid coordina Long.", location1) ~ NA,
+                           long_dd < -1000 ~ NA,
+                           long_dd < -125 ~ NA,
+                           long_dd > -10 ~ NA,
+                           T ~ long_dd)) %>%
   # Arrange
   select(logbook_id,
          vessel_id, vessel, vessel_permit, seiner_id,
          captain_id, captain,
          date,
-         location1, location2, location3, lat_dd, long_dd, depth_fa,
+         location1_type, location1, location2, location3, lat_dd, long_dd, depth_fa,
          hours_searching, hours_lighting,
          time_start, time_end, duration_min,
          birds_yn, mammals_yn,
@@ -84,9 +116,20 @@ freeR::complete(data)
 # Dates
 range(data$date)
 
+# Location 2 - 
+sort(unique(data$location2))
+
+
+# Location 3 - long location name
+sort(unique(data$location3))
+
 # Location key
 loc_key <- data %>% 
   count(location2, location3, block_id)
+
+# Location key
+loc_key2 <- data %>% 
+  count(location1_type, location1, location2, location3, block_id, lat_dd, long_dd)
 
 # Depth
 boxplot(data$depth_fa)
@@ -98,6 +141,7 @@ boxplot(data$duration_min/60)
 vessel_key <- data %>% 
   count(vessel_id, vessel)
 freeR::which_duplicated(vessel_key$vessel_id)
+freeR::which_duplicated(vessel_key$vessel)
 
 # Captains
 captain_key <- data %>% 

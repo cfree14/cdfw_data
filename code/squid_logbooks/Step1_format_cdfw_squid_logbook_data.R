@@ -17,11 +17,10 @@ outdir <- "data/confidential/squid_logbooks/processed"
 data_orig <- readxl::read_excel(file.path(indir, "MarketSquidLogs_ChrisFree_UCSB_DSA_240222.xlsx"), 
                                 sheet="SquidVesselLogs", col_types = "text")
 
-# Fix data
-# Numeric outlier handling
-# Accurate GPS handling
-# Set numbers
-
+# TO-DO
+# Add block id from landings receipts
+# Mark reliable GPS points (fall inside block id)
+# VERY LOW PRIORITY: Fill in missing vessel names based on other datasets
 
 # Format data
 ################################################################################
