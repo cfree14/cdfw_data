@@ -18,8 +18,6 @@ data_orig <- readxl::read_excel(file.path(indir, "MarketSquidLogs_ChrisFree_UCSB
                                 sheet="SquidLightLogs", col_types = "text")
 
 # High priority
-# Location cleaning
-# Make location 3 long name, location 2 code (and remove blocks), location1 GPS, and extract blocks from location1/3, and then coords as check
 
 # Low priority
 # Could clean up captain names
@@ -39,9 +37,9 @@ data <- data_orig %>%
          seiner_id=seiner,
          captain=captain_name,
          date=log_date_string,
-         location1=location,
-         location2=general_location, 
-         location3=location_description,
+         gps_position=location,
+         location_code=general_location, 
+         location_long=location_description,
          time_start=start_time,
          time_end=end_time,
          birds_yn=birds_present,
@@ -61,37 +59,46 @@ data <- data_orig %>%
   # Format captain
   mutate(captain=case_when(captain=="," ~ NA,
                            T ~ captain)) %>% 
-  # Format Location3
-  mutate(location3=toupper(location3)) %>% 
-  # Format location1
-  mutate(location1=case_when(location1=="Lat.  Long." ~ NA,
-                             T ~ location1)) %>% 
-  # Add location1 type
-  mutate(location1_type=case_when(grepl("°", location1) ~ "GPS position",
-                                  nchar(location1)==3 ~ 'Block id',
-                                  T ~ NA)) %>% 
-  # Recode location2 before steps below
-  mutate(location2=recode(location2, "643, 656"="643/656")) %>% 
-  # Add block ids fron location2 column
-  mutate(block_id=ifelse(grepl("CDFW Block Code", location2), 
-                         gsub("CDFW Block Code ", "", location2), NA)) %>% 
-  # Add more block ids from location2 colum
-  mutate(block_id=ifelse(grepl("/", location2), location2, block_id)) %>% 
-  # Add blocks from location1 column
-  mutate(block_id=ifelse(location1_type=="Block id", location1, block_id)) %>% 
+  # Format long location
+  mutate(location_long=toupper(location_long),
+         location_long=gsub("\\?", "", location_long)) %>% 
+  # Fix long location
+  mutate(location_long=case_when(location_code=="CA-OR" ~ "SANTA CATALINA ISLAND-ORANGE ROCKS",
+                                 location_code=="CR-BK" ~ "SANTA CRUZ ISLAND-BK",
+                                 T ~ location_long)) %>% 
+  # Format GPS position
+  mutate(gps_position=case_when(gps_position=="Lat.  Long." ~ NA,
+                                T ~ gps_position)) %>% 
+  # Add GPS position type
+  mutate(gps_position_type=case_when(grepl("°", gps_position) ~ "GPS position",
+                                     nchar(gps_position)==3 ~ 'Block id',
+                                     T ~ NA)) %>% 
+  # Format location code (before steps below)
+  mutate(location_code=recode(location_code, "643, 656"="643/656")) %>% 
+  # Extract block ids from location code column
+  mutate(block_id=ifelse(grepl("CDFW Block Code", location_code), 
+                         gsub("CDFW Block Code ", "", location_code), NA)) %>% 
+  mutate(block_id=ifelse(grepl("/", location_code), location_code, block_id)) %>% 
+  # Remove blocks ids from location code column
+  mutate(location_code=ifelse(grepl("CDFW Block Code|/", location_code), NA, location_code)) %>% 
+  # Extract blocks from GPS position
+  mutate(block_id=ifelse(gps_position_type=="Block id", gps_position, block_id)) %>% 
+  # Remove blocks for GPS position
+  mutate(gps_position=ifelse(gps_position_type=="Block id", NA, gps_position)) %>% 
+  select(-gps_position_type) %>% 
   # Convert longitude
   mutate(long_dd=long_dd * -1) %>% 
   # Replace lat/long==0 with NA
   # Overwrite invalid lat/long
   mutate(lat_dd=case_when(lat_dd==0 ~ NA, 
-                          grepl("Invalid coordina Lat.", location1) ~ NA,
+                          grepl("Invalid coordina Lat.", gps_position) ~ NA,
                           lat_dd > 1000 ~ NA,
                           lat_dd > 42 ~ NA,
                           lat_dd < 10 ~ NA,
                           lat_dd < 30 ~ NA,
                           T ~ lat_dd),
          long_dd=case_when(long_dd==0 ~ NA, 
-                           grepl("Invalid coordina Long.", location1) ~ NA,
+                           grepl("Invalid coordina Long.", gps_position) ~ NA,
                            long_dd < -1000 ~ NA,
                            long_dd < -125 ~ NA,
                            long_dd > -10 ~ NA,
@@ -101,7 +108,8 @@ data <- data_orig %>%
          vessel_id, vessel, vessel_permit, seiner_id,
          captain_id, captain,
          date,
-         location1_type, location1, location2, location3, lat_dd, long_dd, depth_fa,
+         gps_position, location_code, location_long, block_id,
+         lat_dd, long_dd, depth_fa,
          hours_searching, hours_lighting,
          time_start, time_end, duration_min,
          birds_yn, mammals_yn,
@@ -112,24 +120,24 @@ data <- data_orig %>%
 str(data)
 head(data)
 freeR::complete(data)
+(freeR::complete(data) / nrow(data) * 100) %>% round(2)
 
 # Dates
 range(data$date)
 
-# Location 2 - 
-sort(unique(data$location2))
+# Location codes
+sort(unique(data$location_code))
 
-
-# Location 3 - long location name
-sort(unique(data$location3))
+# Location long names
+sort(unique(data$location_long))
 
 # Location key
-loc_key <- data %>% 
-  count(location2, location3, block_id)
+loc_key1 <- data %>% 
+  count(location_code, location_long, block_id)
 
 # Location key
 loc_key2 <- data %>% 
-  count(location1_type, location1, location2, location3, block_id, lat_dd, long_dd)
+  count(location_code, location_long, block_id, gps_position, lat_dd, long_dd)
 
 # Depth
 boxplot(data$depth_fa)
@@ -163,6 +171,24 @@ ggplot(data, aes(x=long_dd, y=lat_dd)) +
            ylim=c(range(data$lat_dd, na.rm=T))) +
   # Theme
   theme_bw()
+
+
+# Build location key
+################################################################################
+
+# Build location key
+loc_key <- data %>% 
+  # Unique
+  group_by(location_code, location_long) %>% 
+  summarize(lat_dd=median(lat_dd, na.rm=T),
+            long_dd=median(long_dd, na.rm=T),
+            block_ids=paste(unique(block_id) %>% na.omit(), collapse=", ")) %>% 
+  ungroup() %>% 
+  # Reduce
+  filter(!is.na(location_code))
+
+freeR::which_duplicated(loc_key$location_code)
+freeR::which_duplicated(loc_key$location_long)
 
 
 # Export data

@@ -92,6 +92,7 @@ freeR::complete(data)
 vessel_key <- data %>% 
   count(vessel_id, vessel)
 freeR::which_duplicated(vessel_key$vessel_id)
+freeR::which_duplicated(vessel_key$vessel)
 
 # Ports
 port_key <- data %>% 
