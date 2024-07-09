@@ -76,8 +76,7 @@ data <- data_orig %>%
          time_start, time_end, duration_min,
          gps_position, lat_dd, long_dd, 
          depth_fa, sst_f, catch_t, bycatch, receipt_ids,
-         comments, everything()) %>% 
-  mutate(nchar=nchar(bycatch))
+         comments, everything())
 
 # Inspect
 str(data)

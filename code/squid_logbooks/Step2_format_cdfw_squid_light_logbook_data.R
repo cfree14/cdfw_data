@@ -18,6 +18,7 @@ data_orig <- readxl::read_excel(file.path(indir, "MarketSquidLogs_ChrisFree_UCSB
                                 sheet="SquidLightLogs", col_types = "text")
 
 # High priority
+# Harmonize location codes/names/blocks
 
 # Low priority
 # Could clean up captain names
@@ -49,16 +50,25 @@ data <- data_orig %>%
          bycatch_lbs=by_catch, 
          remaining_t=est_tonnage_remaining,
          sold_t=amount_sold,
-         bait_t=amt_for_live_bait,
+         bait_lbs=amt_for_live_bait,
          receipt_ids=landing_receipt) %>% 
   # Format date
   mutate(date=as.numeric(date) %>% as.Date(., origin = "1899-12-30") %>% lubridate::ymd(.)) %>% 
   # Convert numeric
-  mutate(across(.cols=c(lat_dd, long_dd, depth_fa, duration_min, 
-                        remaining_t, sold_t, bait_t), .fns=as.numeric)) %>% 
+  mutate(across(.cols=c(lat_dd, long_dd, depth_fa, 
+                        hours_searching, hours_lighting, duration_min, 
+                        remaining_t, sold_t, bait_lbs), .fns=as.numeric)) %>% 
+  # Format duration
+  mutate(duration_min=ifelse(duration_min==0, NA, duration_min)) %>% 
   # Format captain
   mutate(captain=case_when(captain=="," ~ NA,
                            T ~ captain)) %>% 
+  # Format permit number
+  mutate(vessel_permit=toupper(vessel_permit) %>% gsub("`", "", .)) %>% 
+  mutate(vessel_permit=ifelse(vessel_permit=="LBT", NA, vessel_permit)) %>% 
+  # Format receipt ids
+  mutate(receipt_ids=toupper(receipt_ids)) %>% 
+  mutate(receipt_ids=ifelse(receipt_ids=="0", NA, receipt_ids)) %>% 
   # Format long location
   mutate(location_long=toupper(location_long),
          location_long=gsub("\\?", "", location_long)) %>% 
@@ -81,6 +91,8 @@ data <- data_orig %>%
   mutate(block_id=ifelse(grepl("/", location_code), location_code, block_id)) %>% 
   # Remove blocks ids from location code column
   mutate(location_code=ifelse(grepl("CDFW Block Code|/", location_code), NA, location_code)) %>% 
+  # Finish location code cleaning
+  mutate(location_code=gsub("_", "-", location_code)) %>% 
   # Extract blocks from GPS position
   mutate(block_id=ifelse(gps_position_type=="Block id", gps_position, block_id)) %>% 
   # Remove blocks for GPS position
@@ -113,7 +125,7 @@ data <- data_orig %>%
          hours_searching, hours_lighting,
          time_start, time_end, duration_min,
          birds_yn, mammals_yn,
-         remaining_t, sold_t, bait_t, bycatch_lbs, receipt_ids,
+         remaining_t, sold_t, bait_lbs, bycatch_lbs, receipt_ids,
          comments, everything())
 
 # Inspect
@@ -151,6 +163,12 @@ vessel_key <- data %>%
 freeR::which_duplicated(vessel_key$vessel_id)
 freeR::which_duplicated(vessel_key$vessel)
 
+# Vessel permit
+sort(unique(data$vessel_permit))
+
+# Seiner id
+sort(unique(data$seiner_id))
+
 # Captains
 captain_key <- data %>% 
   count(captain_id, captain)
@@ -158,6 +176,11 @@ freeR::which_duplicated(captain_key$captain_id)
 
 # Comments
 sort(unique(data$comments))
+
+# Other
+table(data$birds_yn)
+table(data$mammals_yn)
+sort(unique(data$receipt_ids))
 
 # Plot coords
 usa <- rnaturalearth::ne_states(country="United States of America", returnclass = "sf")
@@ -189,6 +212,9 @@ loc_key <- data %>%
 
 freeR::which_duplicated(loc_key$location_code)
 freeR::which_duplicated(loc_key$location_long)
+
+# Export key
+write.csv(loc_key, file=file.path(outdir, "squid_logbook_location_key.csv"), row.names = F)
 
 
 # Export data
