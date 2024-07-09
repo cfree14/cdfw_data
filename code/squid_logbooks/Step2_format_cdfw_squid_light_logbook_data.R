@@ -195,7 +195,7 @@ freeR::which_duplicated(loc_key$location_long)
 ################################################################################
 
 # Export data
-saveRDS(data, file.path(outdir, "CDFW_1994_2023_squid_logbook_data.Rds"))
+saveRDS(data, file.path(outdir, "CDFW_2000_2022_squid_lightboat_logbook_data.Rds"))
 
 
 

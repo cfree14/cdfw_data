@@ -37,7 +37,7 @@ data <- data_orig %>%
          time_start=start_time,
          time_end=end_time,
          duration_min=elapsed_time,
-         position=set_position,
+         gps_position=set_position,
          lat_dd=set_latitude,
          long_dd=set_longitude,
          sst_f=temperature,
@@ -51,9 +51,12 @@ data <- data_orig %>%
   mutate(date=as.numeric(date) %>% as.Date(., origin = "1899-12-30") %>% lubridate::ymd(.)) %>% 
   # Convert numeric
   mutate(across(.cols=c(lat_dd, long_dd, sst_f, depth_fa, set_number, duration_min, catch_t), .fns=as.numeric)) %>% 
+  # Format duration
+  # Assume 0 is NA
+  mutate(duration_min=ifelse(duration_min==0, NA, duration_min)) %>% 
   # Add missing longitudes that are available in POSITION column
-  mutate(long_dd=case_when(position=="33° 41.53' 111° 27."~ -(111+27/60),
-                           position=="34° 02.00' 118° 58."~ -(118+58/60),
+  mutate(long_dd=case_when(gps_position=="33° 41.53' 111° 27."~ -(111+27/60),
+                           gps_position=="34° 02.00' 118° 58."~ -(118+58/60),
                            T ~ long_dd)) %>% 
   # Format latitude
   mutate(lat_dd=ifelse(lat_dd==0, NA, lat_dd)) %>% 
@@ -62,6 +65,8 @@ data <- data_orig %>%
          long_dd=abs(long_dd) *-1) %>% 
   # Format captaid id (uppercase some lowercase L's)
   mutate(captain_id=toupper(captain_id)) %>% 
+  # Format permit number (uppercase some lowercase SVT's)
+  mutate(vessel_permit=toupper(vessel_permit)) %>% 
   # Arrange
   select(logbook_id,
          vessel_id, vessel, vessel_permit,
@@ -69,9 +74,10 @@ data <- data_orig %>%
          date, set_number,
          limited_yn, lightboat_id,
          time_start, time_end, duration_min,
-         position, lat_dd, long_dd, 
+         gps_position, lat_dd, long_dd, 
          depth_fa, sst_f, catch_t, bycatch, receipt_ids,
-         comments, everything())
+         comments, everything()) %>% 
+  mutate(nchar=nchar(bycatch))
 
 # Inspect
 str(data)
@@ -96,10 +102,11 @@ vessel_key <- data %>%
 freeR::which_duplicated(vessel_key$vessel_id)
 freeR::which_duplicated(vessel_key$vessel)
 
-# Other variables
-table(data$set_number) # 0, 20, 99 should not be possible
-table(data$limited_yn)
-table(data$bycatch) # super complicated - could break out into flat table
+# Vessel permits
+table(data$vessel_permit)
+
+# Lightboats
+sort(unique(data$lightboat_id))
 
 # Captains
 captain_key <- data %>% 
@@ -107,9 +114,15 @@ captain_key <- data %>%
 freeR::which_duplicated(captain_key$captain_id)
 freeR::which_duplicated(captain_key$captain)
 
+# Other variables
+table(data$set_number) # 0, 20, 99 should not be possible
+table(data$limited_yn)
+table(data$bycatch) # super complicated - could break out into flat table
+
+
 # GPS key
 gps_key <- data %>% 
-  count(position, lat_dd, long_dd)
+  count(gps_position, lat_dd, long_dd)
 
 # Comments
 sort(unique(data$comments))
@@ -132,7 +145,7 @@ ggplot(data, aes(x=long_dd, y=lat_dd)) +
 ################################################################################
 
 # Export data
-saveRDS(data, file.path(outdir, "CDFW_1994_2023_squid_logbook_data.Rds"))
+saveRDS(data, file.path(outdir, "CDFW_1999_2022_squid_logbook_data.Rds"))
 
 
 
