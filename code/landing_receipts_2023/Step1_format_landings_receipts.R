@@ -10,8 +10,8 @@ rm(list = ls())
 library(tidyverse)
 
 # Directories
-indir <- "data/confidential/gillnet_landings_2023/raw/MLDS"
-outdir <- "data/confidential/gillnet_landings_2023/processed"
+indir <- "data/confidential/landings_receipts_2023/raw/MLDS"
+outdir <- "data/confidential/landings_receipts_2023/processed"
 
 # Things to do
 # Make "invalids" all "unknowns"
