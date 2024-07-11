@@ -49,7 +49,7 @@ p_nas <- 1-n_nas/nrow(data)
 p_nas_df <- tibble(column=colnames(data),
                    prop=p_nas) %>% 
   # Remove uninteresting columns
-  filter(!column %in% c("old_year", "year")) %>% 
+  filter(!column %in% c("old_year", "year", "time_set_num", "time_up_num")) %>% 
   # Mark spatial/not-spatial
   mutate(type=ifelse(grepl("lat|long|loran", column), "Spatial", "Non-spatial")) %>% 
   # Format columns
@@ -148,19 +148,46 @@ ggsave(g, filename=file.path(plotdir, "cucumber_logbook_depth_dists.png"),
 # Duration
 ################################################################################
 
+
+# Plot start/end times
+tdata <- data %>% 
+  select(logbook_id, time_set_num, time_up_num) %>% 
+  gather(key="type", value="time", 2:ncol(.)) %>% 
+  mutate(type=recode(type, 
+                     "time_set_num"="Start",
+                     "time_up_num"="End"))
+
+# Plot times
+g1 <- ggplot(tdata, aes(x=time, fill=type)) +
+  geom_density(alpha=0.5) +
+  # Labels
+  labs(x="Time of day", y="Density", tag="A") +
+  scale_x_continuous(breaks=seq(0,24,4)) +
+  scale_fill_discrete(name="") +
+  # Theme
+  theme_bw() + my_theme +
+  theme(legend.position=c(0.8, 0.8),
+        legend.key.size=unit(0.3, "cm"),
+        axis.text.y = element_text(angle = 90, hjust = 0.5))
+g1
+
 # Plot duration
 range(data$duration_min/60, na.rm=T)
-g <- ggplot(data, aes(x=duration_min/60)) +
+g2 <- ggplot(data, aes(x=duration_min/60)) +
   geom_histogram(breaks=seq(0,20,0.25)) +
   # Labels
-  labs(y="# of logbook entries", x="Duration (hours)") +
-  # Scale
+  labs(y="# of logbook entries", x="Duration (hours)", tag="B") +
+  # Theme
   theme_bw() + my_theme +
   theme(axis.text.y = element_text(angle = 90, hjust = 0.5))
+g2
+
+# Merge
+g <- gridExtra::grid.arrange(g1, g2, nrow=1)
 g
 
 ggsave(g, filename=file.path(plotdir, "cucumber_logbook_duration_dists.png"), 
-       width=3.5, height=3, units="in", dpi=600)
+       width=6.5, height=3, units="in", dpi=600)
 
 # Head rope length
 ################################################################################

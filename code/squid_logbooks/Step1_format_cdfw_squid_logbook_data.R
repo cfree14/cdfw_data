@@ -17,6 +17,9 @@ outdir <- "data/confidential/squid_logbooks/processed"
 data_orig <- readxl::read_excel(file.path(indir, "MarketSquidLogs_ChrisFree_UCSB_DSA_240222.xlsx"), 
                                 sheet="SquidVesselLogs", col_types = "text")
 
+# Read landing receipts
+landings_orig <- readRDS("data/confidential/landing_receipts_2023/processed/1980_2022_landings_receipts.Rds")
+
 # TO-DO
 # Add block id from landings receipts
 # Mark reliable GPS points (fall inside block id)
@@ -67,6 +70,12 @@ data <- data_orig %>%
   mutate(captain_id=toupper(captain_id)) %>% 
   # Format permit number (uppercase some lowercase SVT's)
   mutate(vessel_permit=toupper(vessel_permit)) %>% 
+  # Format set number
+  mutate(set_number=case_when(set_number==99 ~ NA,
+                              T ~ set_number)) %>% 
+  # Format comments
+  mutate(comments=case_when(comments %in% c("0", "-1") ~ NA,
+                            T ~ comments)) %>% 
   # Arrange
   select(logbook_id,
          vessel_id, vessel, vessel_permit,
@@ -103,6 +112,7 @@ freeR::which_duplicated(vessel_key$vessel)
 
 # Vessel permits
 table(data$vessel_permit)
+table(data$vessel_permit %>% substr(., 1, 3))
 
 # Lightboats
 sort(unique(data$lightboat_id))
@@ -140,12 +150,25 @@ ggplot(data, aes(x=long_dd, y=lat_dd)) +
   theme_bw()
 
 
+# Extract port and block id from receipts
+################################################################################
+
+# Build receipt key
+receipt_key <- landings_orig %>% 
+  select(vessel_id, receipt_id, block_id, port) %>% 
+  unique() %>% 
+  mutate(vreceipt_id=paste(vessel_id, receipt_id, sep="-"))
+freeR::which_duplicated(receipt_key$vreceipt_id)
+
+# Add to data
+data1 <- data %>% 
+  left_join()
+
 # Export data
 ################################################################################
 
 # Export data
 saveRDS(data, file.path(outdir, "CDFW_1999_2022_squid_logbook_data.Rds"))
-
 
 
 

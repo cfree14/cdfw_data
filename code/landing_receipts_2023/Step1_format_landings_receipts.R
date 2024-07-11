@@ -10,12 +10,11 @@ rm(list = ls())
 library(tidyverse)
 
 # Directories
-indir <- "data/confidential/landings_receipts_2023/raw/MLDS"
-outdir <- "data/confidential/landings_receipts_2023/processed"
+indir <- "data/confidential/landing_receipts_2023/raw/MLDS"
+outdir <- "data/confidential/landing_receipts_2023/processed"
 
-# Things to do
-# Make "invalids" all "unknowns"
-# Add common names
+# Read species key
+spp_key_orig <- readRDS("data/public/cdfw_keys/processed/CDFW_species_key.Rds")
 
 
 # Merge data
@@ -66,33 +65,38 @@ data1 <- data_orig %>%
   mutate(year=lubridate::year(date)) %>% 
   # Format port
   mutate(port=stringr::str_to_title(port)) %>% 
-  mutate(port_id=ifelse(port_id==-1, 0, port_id)) %>% 
-  mutate(port=case_when(port_id==0 ~ "Invalid Or Unknown Port",
+  mutate(port_id=ifelse(port_id %in% c(0, -1), NA, port_id)) %>% 
+  mutate(port=case_when(is.na(port_id) ~ NA,
                         port_id==452 ~ "Princeton-Half Moon Bay",
                         T ~ port)) %>% 
+  # Format vessel id
+  mutate(vessel_id=ifelse(vessel_id %in% c(0, -1), NA, vessel_id)) %>% 
   # Format species
   mutate(comm_name_orig=stringr::str_squish(comm_name_orig)) %>% 
+  # Add species
+  left_join(spp_key_orig %>% select(spp_code_num, comm_name), by=c("species_id"="spp_code_num")) %>% 
   # Format primary gear
   mutate(primary_gear=stringr::str_to_sentence(primary_gear) %>% stringr::str_squish(.),
-         primary_gear_id=ifelse(is.na(primary_gear_id), 0, primary_gear_id),
-         primary_gear=ifelse(primary_gear_id==0, "Unknown", primary_gear)) %>% 
+         primary_gear_id=ifelse(primary_gear_id==0, NA, primary_gear_id),
+         primary_gear=ifelse(is.na(primary_gear_id), NA, primary_gear)) %>% 
   # Format gear
   mutate(gear=stringr::str_to_sentence(gear) %>% stringr::str_squish(.),
-         gear_id=ifelse(is.na(gear_id) | gear_id==-1, 0, gear_id),
-         gear=ifelse(gear_id==0, "Unknown", gear)) %>% 
+         gear_id=ifelse(gear_id %in% c(-1, 0), NA, gear_id),
+         gear=ifelse(is.na(gear_id), NA, gear)) %>% 
   # Format use
   mutate(use=stringr::str_to_sentence(use),
-         use_id=ifelse(use_id==0 | is.na(use_id), -1, use_id),
-         use=ifelse(use_id==-1, "Invalid", use)) %>% 
+         use_id=ifelse(use_id %in% c(0, -1), NA, use_id),
+         use=ifelse(is.na(use_id), NA, use)) %>% 
   # Format condition
-  mutate(condition=stringr::str_to_sentence(condition),
-         condition=ifelse(condition_id==0, "Dead", condition)) %>% 
+  mutate(condition_id=ifelse(condition_id %in% c(0, -1), NA, condition_id),
+         condition=stringr::str_to_sentence(condition),
+         condition=ifelse(is.na(condition_id), NA, condition)) %>% 
   # Arrange
   select(year, date, receipt_id, 
          vessel_id, fisher_id, permit_state, permit_gf,
          port_id, port, business_id, block_id,
          primary_gear_id, primary_gear, gear_id, gear, 
-         species_id, comm_name_orig, 
+         species_id, comm_name_orig, comm_name,
          condition_id, condition, 
          use_id, use,
          landings_lbs, price_usd, value_usd,
@@ -107,6 +111,13 @@ freeR::complete(data1)
 # Inspect keys
 ################################################################################
 
+# Date
+range(data1$date)
+
+# Vessel key
+vessel_key <- data1 %>% 
+  count(vessel_id)
+
 # Port key
 port_key <- data1 %>% 
   count(port_id, port) %>% 
@@ -115,7 +126,7 @@ freeR::which_duplicated(port_key$port_id)
 
 # Species key
 spp_key <- data1 %>% 
-  count(species_id, comm_name_orig) %>% 
+  count(species_id, comm_name_orig, comm_name) %>% 
   arrange(species_id)
 freeR::which_duplicated(spp_key$species_id)
 

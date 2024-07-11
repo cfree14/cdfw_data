@@ -30,8 +30,7 @@ blocks <- blocks_sf %>%
 # Convert LORAN coordinates
 # Add block id from landing receipts
 # Identify reliable coordinates
-# Format times and derive tow lengths
-# There are negative durations - are the times flipped?
+# Format times and derive tow lengths -- WHEN BOTH MIDNIGHT UNKNOWN. NEGATIVE TIMES SPAN DATE
 
 
 # Helper function
@@ -41,6 +40,34 @@ blocks <- blocks_sf %>%
 replace_zero_with_na <- function(x){
   y <- ifelse(x==0, NA, x)
   return(y)
+}
+
+# Function to calculate the number of minutes between two time strings
+calculate_minutes_diff <- function(time1, time2) {
+  # Parse the time strings
+  parsed_time1 <- parse_date_time(time1, orders = "I:M:S p")
+  parsed_time2 <- parse_date_time(time2, orders = "I:M:S p")
+  
+  # Calculate the difference in minutes
+  diff_minutes <- as.numeric(difftime(parsed_time2, parsed_time1, units = "mins"))
+  
+  return(diff_minutes)
+}
+
+# Function to calculate the decimal hour of a day
+calculate_decimal_hour <- function(time_str) {
+  # Parse the time string
+  parsed_time <- parse_date_time(time_str, orders = "I:M:S p")
+  
+  # Extract the hour, minute, and second components
+  hours <- hour(parsed_time)
+  minutes <- minute(parsed_time)
+  seconds <- second(parsed_time)
+  
+  # Calculate the decimal hour
+  decimal_hour <- hours + minutes / 60 + seconds / 3600
+  
+  return(decimal_hour)
 }
 
 # Format data
@@ -106,7 +133,8 @@ data <- data_orig %>%
          date_tow=recode(date_tow, "5/15/5200"="5/15/2000"),
          date_tow=lubridate::mdy(date_tow)) %>% 
   # Format times
-  # mutate(time_set=chron::chron(times=time_set)) %>% 
+  mutate(time_set_num=calculate_decimal_hour(time_set),
+         time_up_num=calculate_decimal_hour(time_up)) %>%
   # Format tow numbers
   # I figured this out by looking at the logbooks for the high numbers
   mutate(tow_number=case_when(tow_number==1022 ~ 4,
@@ -116,8 +144,11 @@ data <- data_orig %>%
                               T ~ tow_number)) %>% 
   # Format block id
   mutate(block_id=ifelse(block_id==0, NA, block_id)) %>% 
+  # Compute duration
+  mutate(duration_min_calc=calculate_minutes_diff(time_set, time_up)) %>% 
   # Format duration
-  mutate(duration_min=ifelse(duration_min<=0, NA, duration_min)) %>% 
+  mutate(duration_min=ifelse(duration_min<=0, NA, duration_min),
+         duration_min=ifelse(is.na(duration_min), duration_min_calc, duration_min)) %>% 
   # Format depths
   mutate(depth_fa_set=ifelse(depth_fa_set==0, NA, depth_fa_set),
          depth_fa_up=ifelse(depth_fa_up==0, NA, depth_fa_up)) %>% 
@@ -148,7 +179,9 @@ data <- data_orig %>%
          block_id, 
          lat_dd_set, long_dd_set,
          lat_dd_up, long_dd_up,
-         time_set, time_up, duration_min, 
+         time_set, time_up, 
+         time_set_num, time_up_num,
+         duration_min, duration_min_calc, 
          depth_fa_set, depth_fa_up,
          species_id, species, species_orig,
          catch_lbs, comments,
@@ -192,6 +225,13 @@ table(data$net_type)
 # Inspect numeric
 table(data$tow_number)
 
+# Inspect duration calculations
+plot(duration_min_calc ~ duration_min, data)
+
+# Inspect times
+time_key <- data %>% 
+  count(time_set, time_set_num, time_up, time_up_num, )
+
 # Map
 usa <- rnaturalearth::ne_states(country="United States of America", returnclass = "sf")
 ggplot(data, aes(x=long_dd_set, y=lat_dd_set)) +
@@ -207,6 +247,12 @@ ggplot(data, aes(x=long_dd_set, y=lat_dd_set)) +
   theme_bw()
 
 
+# LORAN conversion
+################################################################################
+
+loran_xyz <- data %>% 
+  select(set_loran_cx, set_loran_cy, set_loran_cw) %>% 
+  unique()
 
 # Export data
 ################################################################################
@@ -215,6 +261,7 @@ ggplot(data, aes(x=long_dd_set, y=lat_dd_set)) +
 data_out <- data %>% 
   # Remove useless
   select(-c(species_orig, 
+            duration_min_calc,
             set_lat_deg, set_lat_dec, set_long_deg, set_long_dec, 
             up_lat_deg, up_lat_dec, up_long_deg, up_long_dec))
 
