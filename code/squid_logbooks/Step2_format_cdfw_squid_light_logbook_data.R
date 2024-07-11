@@ -21,7 +21,6 @@ data_orig <- readxl::read_excel(file.path(indir, "MarketSquidLogs_ChrisFree_UCSB
 # Harmonize location codes/names/blocks
 
 # Low priority
-# Could clean up captain names
 # Could fill in missing vessel names
 
 
@@ -36,7 +35,7 @@ data <- data_orig %>%
          vessel=vessel_name,
          vessel_permit=permit_number,
          seiner_id=seiner,
-         captain=captain_name,
+         captain_orig=captain_name,
          date=log_date_string,
          gps_position=location,
          location_code=general_location, 
@@ -61,8 +60,9 @@ data <- data_orig %>%
   # Format duration
   mutate(duration_min=ifelse(duration_min==0, NA, duration_min)) %>% 
   # Format captain
-  mutate(captain=case_when(captain=="," ~ NA,
-                           T ~ captain)) %>% 
+  mutate(captain_orig=case_when(captain_orig=="," ~ NA,
+                           T ~ captain_orig)) %>% 
+  mutate(captain_orig=gsub("SUSIBLAIR|SUSI BLAIR", "SUSI-BLAIR", captain_orig)) %>% 
   # Format permit number
   mutate(vessel_permit=toupper(vessel_permit) %>% gsub("`", "", .)) %>% 
   mutate(vessel_permit=ifelse(vessel_permit=="LBT", NA, vessel_permit)) %>% 
@@ -98,6 +98,19 @@ data <- data_orig %>%
   # Remove blocks for GPS position
   mutate(gps_position=ifelse(gps_position_type=="Block id", NA, gps_position)) %>% 
   select(-gps_position_type) %>% 
+  # Correct a few block ids
+  mutate(block_id=as.numeric(block_id),
+         block_id=case_when(location_code=="CA-OR" ~ 761,
+                            location_code=="CR-CH" ~ 685,
+                            T ~ block_id)) %>% 
+  # Fill missing location codes
+  group_by(location_long) %>% 
+  fill(location_code, .direction="updown") %>% 
+  ungroup() %>% 
+  # Fill missing block ids
+  group_by(location_code) %>% 
+  fill( block_id, .direction="updown") %>% 
+  ungroup() %>% 
   # Convert longitude
   mutate(long_dd=long_dd * -1) %>% 
   # Replace lat/long==0 with NA
@@ -118,7 +131,7 @@ data <- data_orig %>%
   # Arrange
   select(logbook_id,
          vessel_id, vessel, vessel_permit, seiner_id,
-         captain_id, captain,
+         captain_id, captain_orig,
          date,
          gps_position, location_code, location_long, block_id,
          lat_dd, long_dd, depth_fa,
@@ -171,7 +184,7 @@ sort(unique(data$seiner_id))
 
 # Captains
 captain_key <- data %>% 
-  count(captain_id, captain)
+  count(captain_id, captain_orig)
 freeR::which_duplicated(captain_key$captain_id)
 
 # Comments
@@ -206,9 +219,7 @@ loc_key <- data %>%
   summarize(lat_dd=median(lat_dd, na.rm=T),
             long_dd=median(long_dd, na.rm=T),
             block_ids=paste(unique(block_id) %>% na.omit(), collapse=", ")) %>% 
-  ungroup() %>% 
-  # Reduce
-  filter(!is.na(location_code))
+  ungroup()
 
 freeR::which_duplicated(loc_key$location_code)
 freeR::which_duplicated(loc_key$location_long)
@@ -217,11 +228,53 @@ freeR::which_duplicated(loc_key$location_long)
 write.csv(loc_key, file=file.path(outdir, "squid_logbook_location_key.csv"), row.names = F)
 
 
+# Update captain info
+################################################################################
+
+# Captains
+captain_key1 <- data %>% 
+  count(captain_id, captain_orig) %>% 
+  filter(!is.na(captain_orig)) %>% 
+  # Separate last/first
+  separate(captain_orig, into=c("last", "first"), sep=", ") %>% 
+  # Count length of first
+  mutate(first_nchar=nchar(first)) %>% 
+  # Retain longest first name
+  arrange(captain_id, last, desc(first_nchar)) %>% 
+  group_by(captain_id, last) %>% 
+  slice(1) %>% 
+  ungroup() %>% 
+  # Merge names
+  mutate(captain=paste(last, first, sep=", ")) %>% 
+  # Simplify
+  select(captain_id, captain) %>% 
+  # Remove the ID with two names
+  filter(captain_id!="L91239")
+freeR::which_duplicated(captain_key1$captain_id)
+freeR::which_duplicated(captain_key1$captain)
+
+# Add captian name to data
+data2 <- data %>% 
+  # Add corrected captain name
+  left_join(captain_key1, by="captain_id") %>% 
+  # Move captain name
+  relocate(captain, .before=captain_orig) %>% 
+  # Use original if missing
+  mutate(captain=ifelse(is.na(captain), captain_orig, captain)) %>% 
+  select(-captain_orig)
+
+# Check captain key
+captain_check <-  data2 %>% 
+  count(captain_id, captain)
+freeR::which_duplicated(captain_check$captain_id)
+freeR::which_duplicated(captain_check$captain)
+
+
 # Export data
 ################################################################################
 
 # Export data
-saveRDS(data, file.path(outdir, "CDFW_2000_2022_squid_lightboat_logbook_data.Rds"))
+saveRDS(data2, file.path(outdir, "CDFW_2000_2022_squid_lightboat_logbook_data.Rds"))
 
 
 

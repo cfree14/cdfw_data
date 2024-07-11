@@ -160,9 +160,16 @@ receipt_key <- landings_orig %>%
   mutate(vreceipt_id=paste(vessel_id, receipt_id, sep="-"))
 freeR::which_duplicated(receipt_key$vreceipt_id)
 
+# Data vessel-receipt key
+key <- data %>% 
+  select(vessel_id, receipt_ids) %>% 
+  unique() %>% 
+  mutate(vessel_id=as.numeric(vessel_id)) %>% 
+  left_join(receipt_key, by=c("vessel_id", "receipt_ids"="receipt_id"))
+
 # Add to data
-data1 <- data %>% 
-  left_join()
+# data1 <- data %>% 
+#   left_join()
 
 # Export data
 ################################################################################

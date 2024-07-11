@@ -71,6 +71,12 @@ data1 <- data_orig %>%
                         T ~ port)) %>% 
   # Format vessel id
   mutate(vessel_id=ifelse(vessel_id %in% c(0, -1), NA, vessel_id)) %>% 
+  # Format fisher id
+  mutate(fisher_id=ifelse(fisher_id=="L00000", NA, fisher_id)) %>% 
+  # Format business id
+  mutate(business_id=ifelse(business_id %in% c(-1), NA, business_id)) %>% 
+  # Format block id
+  mutate(block_id=ifelse(block_id %in% c(-1,0), NA, block_id)) %>% 
   # Format species
   mutate(comm_name_orig=stringr::str_squish(comm_name_orig)) %>% 
   # Add species
