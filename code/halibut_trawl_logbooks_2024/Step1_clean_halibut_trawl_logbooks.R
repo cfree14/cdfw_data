@@ -18,6 +18,7 @@ keydir <- "data/public/cdfw_keys/processed"
 spp_key_orig <- readRDS(file.path(keydir, "CDFW_species_key.Rds"))
 port_key_orig <- readRDS(file.path(keydir, "CDFW_port_key.Rds"))
 
+
 # Merge data
 ################################################################################
 

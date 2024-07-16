@@ -17,11 +17,52 @@ outdir <- "data/confidential/squid_logbooks/processed"
 data_orig <- readxl::read_excel(file.path(indir, "MarketSquidLogs_ChrisFree_UCSB_DSA_240222.xlsx"), 
                                 sheet="SquidLightLogs", col_types = "text")
 
-# High priority
-# Harmonize location codes/names/blocks
+# Read block key from Katie Grady at CDFW
+block_key_orig <- readxl::read_excel(file.path(indir, "FishingBlockLocationNames_Reference.xlsx"), sheet=2, na="0")
 
 # Low priority
 # Could fill in missing vessel names
+
+
+# Build block key
+################################################################################
+  
+# Format data
+block_key1 <- block_key_orig %>% 
+  # Rename
+  janitor::clean_names("snake") %>% 
+  rename(location_long=location,
+         location_code=code) %>% 
+  # Convert to numeric
+  mutate_at(vars(block_id1:block_id6), as.numeric) %>% 
+  # Clean names
+  mutate(location_long=toupper(location_long), # COASTAL-ELEPHANT ROCk
+         location_long=gsub(" - ", "-", location_long), # COASTAL - PISMO BEACH
+         location_long=recode(location_long, 
+                              "SAN CLEMENT ISLAND-WHITE ROCK"="SAN CLEMENTE ISLAND-WHITE ROCK",
+                              "SANTA CATALINA ISLAND-BLUE CAVERNS"="SANTA CATALINA ISLAND-BLUE CAVERN",
+                              "SAN CLEMENTE ISLAND-MAIL POINT"="SANTA CATALINA ISLAND-MAIL POINT",
+                              "SANTA BARBARA ISLAND-F"="SANTA BARBARA ISLAND-EAST END")) %>% 
+  # Clean codes
+  mutate(location_code=gsub("_", "-", location_code),
+         location_code=make.unique(location_code)) # "CO-PR" was duplicated
+
+# Read locations missing GPD
+block_key_missing <- readxl::read_excel(file.path(indir, "missing_squid_blocks.xlsx")) %>% 
+  # Add block id
+  mutate(block_id1=wcfish::block_from_gps(long_dd=long_dd, lat_dd=lat_dd)) %>% 
+  # Simplify
+  select(location_code, location_long, block_id1)
+
+# Merge
+block_key <- bind_rows(block_key1 %>% filter(!location_long %in% block_key_missing$location_long), 
+                       block_key_missing) %>% 
+  arrange(location_long)
+
+freeR::which_duplicated(block_key$location_code) 
+freeR::which_duplicated(block_key$location_long)
+
+write.csv(block_key, file=file.path(outdir, "squid_logbook_location_key.csv"), row.names = F)
 
 
 # Format data
@@ -103,14 +144,33 @@ data <- data_orig %>%
          block_id=case_when(location_code=="CA-OR" ~ 761,
                             location_code=="CR-CH" ~ 685,
                             T ~ block_id)) %>% 
+  # Format a few locations
+  mutate(location_code=recode(location_code,
+                              "CO-EL"="CO-EC",
+                              "MN-PP"="CO-PP")) %>% 
+  mutate(location_long=gsub("PT\\.", "POINT", location_long),
+         # location_long=gsub("BARABAR", "BARBARA", location_long),
+         location_long=recode(location_long,
+                              "MONTEREY BAY-POINT PINOS"="COASTAL-POINT PINOS",
+                              "COASTAL-PT REYES"="COASTAL-POINT REYES",
+                              "SANTA CATALINA ISLAND-JEWFISH PT"="SANTA CATALINA ISLAND-JEWFISH POINT",
+                              "SAN CLEMENT ISLAND-WHITE ROCK"="SAN CLEMENTE ISLAND-WHITE ROCK",
+                              "SANTA ROSA ISLAND-BEACHERS BAY"="SANTA ROSA ISLAND-BECHERS BAY",
+                              "COASTAL-BIXBY BRIDGE"="COASTAL-BIXBY CREEK/BRIDGE",
+                              "SANTA BARABAR ISLAND-SUTIL ISLAND"="SANTA BARBARA ISLAND-SUTIL ISLAND",
+                              "COASTAL-CONDOS"="COASTAL-CONDOS (SOUTH OF PT DUME)",
+                              "COASTAL-EL CAPITAN STATE BEACH"="COASTAL-EL CAPITAN",
+                              "SANTA CRUZ-EAST END"="SANTA CRUZ ISLAND-EAST END",
+                              "MONTERY BAY-MARINA STATE BEACH"="MONTEREY BAY-MARINA STATE BEACH",
+                              "SANTA CATALINA ISLAND-MAIL POINT"="SANTA CATALINA ISLAND-MAIL POINT")) %>% 
   # Fill missing location codes
   group_by(location_long) %>% 
   fill(location_code, .direction="updown") %>% 
   ungroup() %>% 
-  # Fill missing block ids
-  group_by(location_code) %>% 
-  fill( block_id, .direction="updown") %>% 
-  ungroup() %>% 
+  # Add block id from key
+  rename(block_id_rep=block_id) %>%
+  left_join(block_key %>% select(location_long, block_id1), by="location_long") %>%
+  rename(block_id_loc=block_id1) %>% 
   # Convert longitude
   mutate(long_dd=long_dd * -1) %>% 
   # Replace lat/long==0 with NA
@@ -128,12 +188,15 @@ data <- data_orig %>%
                            long_dd < -125 ~ NA,
                            long_dd > -10 ~ NA,
                            T ~ long_dd)) %>%
+  # Extract GPS block id
+  mutate(block_id_gps=wcfish::block_from_gps(long_dd=long_dd, lat_dd=lat_dd)) %>% 
   # Arrange
   select(logbook_id,
          vessel_id, vessel, vessel_permit, seiner_id,
          captain_id, captain_orig,
          date,
-         gps_position, location_code, location_long, block_id,
+         gps_position, location_code, location_long, 
+         block_id_rep, block_id_loc, block_id_gps,
          lat_dd, long_dd, depth_fa,
          hours_searching, hours_lighting,
          time_start, time_end, duration_min,
@@ -157,12 +220,17 @@ sort(unique(data$location_code))
 sort(unique(data$location_long))
 
 # Location key
-loc_key1 <- data %>% 
-  count(location_code, location_long, block_id)
+loc_key <- data %>% 
+  count(location_code, location_long)
+freeR::which_duplicated(loc_key$location_code)
+freeR::which_duplicated(loc_key$location_long)
+loc_key$location_code[!loc_key$location_code %in% block_key$location_code]
+loc_key$location_long[!loc_key$location_long %in% block_key$location_long]
 
 # Location key
-loc_key2 <- data %>% 
-  count(location_code, location_long, block_id, gps_position, lat_dd, long_dd)
+loc_key2 <- data %>%
+  count(location_code, location_long, block_id_rep, block_id_loc) %>% 
+  mutate(check=block_id_rep==block_id_loc)
 
 # Depth
 boxplot(data$depth_fa)
@@ -213,19 +281,19 @@ ggplot(data, aes(x=long_dd, y=lat_dd)) +
 ################################################################################
 
 # Build location key
-loc_key <- data %>% 
+loc_key3 <- data %>% 
   # Unique
   group_by(location_code, location_long) %>% 
   summarize(lat_dd=median(lat_dd, na.rm=T),
             long_dd=median(long_dd, na.rm=T),
-            block_ids=paste(unique(block_id) %>% na.omit(), collapse=", ")) %>% 
+            block_ids=paste(unique(block_id_use) %>% na.omit(), collapse=", ")) %>% 
   ungroup()
 
-freeR::which_duplicated(loc_key$location_code)
-freeR::which_duplicated(loc_key$location_long)
+freeR::which_duplicated(loc_key3$location_code)
+freeR::which_duplicated(loc_key3$location_long)
 
 # Export key
-write.csv(loc_key, file=file.path(outdir, "squid_logbook_location_key.csv"), row.names = F)
+#write.csv(loc_key, file=file.path(outdir, "squid_logbook_location_key.csv"), row.names = F)
 
 
 # Update captain info
