@@ -10,14 +10,14 @@ rm(list = ls())
 library(tidyverse)
 
 # Directories
-indir <- "data/confidential/lobster_logbooks/raw"
-outdir <- "data/confidential/lobster_logbooks/processed"
+indir <- "data/confidential/lobster_logbooks_2024/raw"
+outdir <- "data/confidential/lobster_logbooks_2024/processed"
 keydir <- "data/public/cdfw_keys/processed"
-plotdir <- "figures/lobster_logbooks"
+plotdir <- "figures/lobster_logbooks_2024"
 
 # Read data
 blocks_sf <- wcfish::blocks
-data <- readRDS(file=file.path(outdir, "CDFW_2000_2020_logbook_data.Rds"))
+data <- readRDS(file=file.path(outdir, "CDFW_1980_2022_lobster_logbook_data.Rds"))
 
 
 # Themes
@@ -69,14 +69,63 @@ map_theme <- theme(axis.text=element_text(size=7),
                    legend.background = element_rect(fill=alpha('blue', 0)))
 
 
+# Completeness
+################################################################################
+
+# Percent NAs
+n_nas <- freeR::complete(data)
+p_nas <- 1-n_nas/nrow(data)
+
+# Build data
+p_nas_df <- tibble(column=colnames(data),
+                   prop=p_nas) %>% 
+  # Format columns
+  mutate(column=gsub("_", " ", column) %>% stringr::str_to_sentence()) %>%
+  mutate(column=recode(column,
+                       "Vessel"="Vessel name",
+                       "Fisher last"="Fisher last name",
+                       "Fisher first"="Fisher first name",
+                       "Depth ft"="Depth (ft)",
+                       "Multi day yn"="Multi-day trip? (y/n)",
+                       "N traps pulled"="Number of traps pulled",
+                       "N nights"="Number of nights",
+                       "N kept"="Number of lobsters kept",
+                       "N released"="Number of shorts released", 
+                       "N traps set"="Number of traps set",
+                       "Ncrew"="Number of crew",
+                       "Long dd"="Longitude (°W)",
+                       "Lat dd"="Latitude (°N)")) %>% 
+  # Remove uninteresting columns
+  filter(!column %in% c("Location type", "Block state", "Block type", "Location orig", "Block id gps", "Gps reliable yn")) %>% 
+  # Color
+  mutate(complete_yn=prop==1)
+
+# Plot data
+g <- ggplot(p_nas_df, aes(x=prop, y=reorder(column, desc(prop)), fill=complete_yn)) +
+  geom_bar(stat="identity") +
+  # Labels
+  labs(x="% complete", y="") +
+  scale_x_continuous(labels=scales::percent) +
+  scale_fill_discrete(name="100% complete?", guide=guide_legend(reverse=T)) +
+  # Theme
+  theme_bw() + bar_theme +
+  theme(legend.position = "bottom")
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "lobster_logbook_completeness.png"), 
+       width=5.5, height=5.5, units="in", dpi=600)
+
+
 # Effort
 ################################################################################
 
 # Plot nights on water
+range(data$n_nights, na.rm=T)
 g1 <- ggplot(data, aes(y=n_nights)) +
   geom_boxplot(outlier.color = NA) +
   # Scale
-  scale_y_continuous(trans="log2", breaks=c(1,2,5,10, 20, 50, 100)) +
+  scale_y_continuous(trans="log10", breaks=c(1,2,5,10, 20, 50, 100, 200)) +
   # Labels
   labs(y="Number of nights", tag="A",
        subtitle="Outliers hidden to comply with rule-of-three") +
@@ -88,10 +137,12 @@ g1
 # Plot of traps pulled
 g2 <- ggplot(data, aes(y=n_traps_pulled)) +
   geom_boxplot(outlier.color = NA) +
+  # Scale
+  scale_y_continuous(trans="log10", breaks=c(1, 5, 10, 50, 100, 500, 1000, 5000)) +
   # Labels
   labs(y="Number of traps pulled", tag="B",
        subtitle="Outliers hidden to comply with rule-of-three") +
-  # Thene
+  # Theme
   theme_bw() + box_theme
 g2
 
@@ -121,7 +172,7 @@ ggsave(g, filename=file.path(plotdir, "lobster_logbook_effort.png"),
 g1 <- ggplot(data, aes(y=n_kept)) +
   geom_boxplot(outlier.color = NA) +
   # Scale
-  scale_y_continuous(trans="log2", breaks=c(1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000)) +
+  scale_y_continuous(trans="log10", breaks=c(1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000)) +
   # Labels
   labs(y="Number of lobsters retained", tag="A",
        subtitle="Outliers hidden to comply with rule-of-three") +
@@ -195,7 +246,7 @@ g <- ggplot(data, aes(y=depth_ft)) +
   # Labels
   labs(y="Depth (ft)",
        subtitle="Outliers hidden to comply with rule-of-three") +
-  scale_y_continuous(trans="log2", breaks=c(1, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000)) +
+  scale_y_continuous(trans="log10", breaks=c(1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000)) +
   # Thene
   theme_bw() + box_theme
 g
@@ -270,8 +321,8 @@ g <- ggplot() +
   # Legend
   scale_fill_gradientn(name="Number of logbooks", 
                        colors=RColorBrewer::brewer.pal(9, "YlOrRd"), trans="log10",
-                       breaks=c(1, 5, 10, 50, 100, 500, 1000,  5000)) +
-  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black")) +
+                       breaks=c(1, 10, 100, 1000, 10000)) +
+  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black", frame.linewidth=0.2)) +
   # Theme
   theme_bw() + map_theme +
   theme(legend.position = c(0.8, 0.8),
@@ -304,7 +355,7 @@ xy_ras <- data %>%
   mutate(lat_dd_bin=cut(lat_dd, breaks=lat_breaks, labels=lat_mids) %>% as.character() %>%  as.numeric(),
          long_dd_bin=cut(long_dd, breaks=long_breaks, labels=long_mids) %>% as.character() %>% as.numeric()) %>% 
   # Summarize
-  group_by(comm_name, lat_dd_bin, long_dd_bin) %>% 
+  group_by(lat_dd_bin, long_dd_bin) %>% 
   summarize(nvessels=n_distinct(vessel_id),
             nlogbooks=n_distinct(logbook_id)) %>% 
   ungroup() %>% 
@@ -313,8 +364,6 @@ xy_ras <- data %>%
 
 # Plot
 g <- ggplot() +
-  # Facet
-  facet_wrap(~comm_name, ncol=3) +
   # Plot reference line
   geom_hline(yintercept=34.5) +
   # Plot land
@@ -330,7 +379,7 @@ g <- ggplot() +
   scale_fill_gradientn(name="Number of logbooks", 
                        colors=RColorBrewer::brewer.pal(9, "YlOrRd"), trans="log10",
                        breaks=c(1, 5, 10, 50, 100, 500, 1000,  5000)) +
-  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black")) +
+  guides(fill = guide_colorbar(ticks.colour = "black", frame.colour = "black", frame.linewidth=0.2)) +
   # Theme
   theme_bw() + map_theme +
   theme(legend.position = c(0.8, 0.8),

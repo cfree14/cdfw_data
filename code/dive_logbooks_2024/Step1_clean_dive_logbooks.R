@@ -68,10 +68,17 @@ data <- data_orig %>%
   mutate(vessel_id=gsub("-", "", vessel_id) %>% stringr::str_trim(.)) %>% 
   # Format vessel
   mutate(vessel=stringr::str_squish(vessel)) %>% 
-  # Format fisher id
-  mutate(fisher_id=ifelse(!is.na(fisher_id), gsub("L", "", fisher_id) %>% paste0("L", .), fisher_id)) %>% 
   # Format fisher
   mutate(fisher=toupper(fisher) %>% stringr::str_squish(.)) %>% 
+  # Move fisher ids in fisher name column into id column
+  mutate(fisher_id=case_when(grepl("^[0-9]+$", fisher) ~ fisher,
+                             fisher %in% c("L07191", "L10669", "L94862") ~ fisher,
+                             T ~ fisher_id),
+         fisher=case_when(grepl("^[0-9]+$", fisher) ~ NA,
+                          fisher %in% c("L07191", "L10669", "L94862") ~ NA,
+                          T ~ fisher)) %>% 
+  # Format fisher id
+  mutate(fisher_id=ifelse(!is.na(fisher_id), gsub("L", "", fisher_id) %>% paste0("L", .), fisher_id)) %>% 
   # Format block id
   mutate(block_id=as.numeric(block_id)) %>% 
   # Format port id
@@ -93,6 +100,9 @@ data <- data_orig %>%
   mutate(dealer=dealer %>% stringr::str_squish() %>% stringr::str_to_upper() ) %>% 
   # Format location
   mutate(landmark=toupper(landmark)) %>% 
+  # Format lat/long
+  mutate(lat_dd_orig=ifelse(lat_dd_orig==0, NA, lat_dd_orig),
+         long_dd_orig=ifelse(long_dd_orig==0, NA, long_dd_orig)) %>% 
   # Arrange
   select(year, month, date,
          logbook_id, 
@@ -196,17 +206,98 @@ freeR::uniq(loc_key$lat_dms)
 freeR::uniq(loc_key$long_dms)
 
 
+# Fisher key
+################################################################################
+
+# Fix fisher key
+fishery_key1 <- fisher_key %>% 
+  # Fix some fisher combos
+  mutate(fisher=recode(fisher,
+                       "DAVID - ABERNATHY"="DAVID BRUCE - ABERNATHY",
+                       "ABERNATHY - DAVID BRUCE"="DAVID BRUCE - ABERNATHY",
+                       "MARCOS - A ABAN"="MARCOS - ABAN",
+                       "BOWIE - BRYAN"="BRYAN - BOWIE",
+                       "JIM - EBERNARDT"="JIM - EBERHARDT",
+                       "D - MARTINO"="DANNY - DEMARTINO",
+                       "C - KAVANAGH"="CHARLES - KAVANAUGH",
+                       "J - BUTTLER"="JACK - BUTLER",
+                       "J - MCCLELLAND"="JAMES P - MECLELLAND",
+                       "N - KHENSOUVANN"="NOY - KHENSOUVAN",
+                       "JAMES - MCCLELLAND"="JAMES P - MECLELLAND",
+                       "KENNETH - BOEHCHER"="KENNETH - BOETTCHER", 
+                       "RASMUSSEN - ALEX"="ALEX - RASMUSSEN",
+                       "MICHAEL, P - KELLY"="MICHAEL P - KELLY",
+                       "T - LEWSADDER"="TOM - LEWSADDER")) %>% 
+  # Split
+  filter(!is.na(fisher)) %>% 
+  separate(fisher, into=c("first", "last"), sep=" - ", remove=F) %>% 
+  # Format
+  mutate(first=stringr::str_trim(first),
+         last=stringr::str_trim(last)) %>% 
+  # Number of character
+  mutate(first_nchar=nchar(first)) %>% 
+  # Get longest first name
+  arrange(fisher_id, last, desc(first_nchar)) %>% 
+  group_by(fisher_id, last) %>% 
+  slice(1) %>% 
+  ungroup() %>% 
+  # Rename
+  rename(fisher_orig=fisher) %>% 
+  mutate(fisher=paste(last, first, sep=", "))
+  
+# Inspect
+freeR::which_duplicated(fishery_key1$fisher_id)
+
+
 # Finalize
 ################################################################################
 
 # Finalize
 data_out <- data %>% 
-  # Remove useless
-  select(-c(landmark, lat_dd_orig, long_dd_orig)) %>% 
+  # Add fisher
+  select(-fisher) %>% 
+  left_join(fishery_key1 %>% select(fisher_id, fisher), by="fisher_id") %>% 
+  relocate(fisher, .after=fisher_id) %>% 
   # Add lat/long
   left_join(loc_key %>% select(location_orig, lat_dd, long_dd), by="location_orig") %>% 
   # Relocate
-  relocate(lat_dd, long_dd, .after=location_orig)
+  relocate(lat_dd, long_dd, .after=location_orig) %>% 
+  # Use reported when derived is is missing
+  mutate(lat_dd=ifelse(is.na(lat_dd), lat_dd_orig, lat_dd),
+         long_dd=ifelse(is.na(long_dd), long_dd_orig, long_dd)) %>% 
+  # Erase invalid
+  mutate(long_dd=ifelse(abs(long_dd)>180, NA, long_dd),
+         lat_dd=ifelse(abs(lat_dd)>90, NA, lat_dd)) %>% 
+  # Get GPS block id
+  mutate(block_id_gps=wcfish::block_from_gps(long_dd=long_dd, lat_dd=lat_dd)) %>% 
+  relocate(block_id_gps, .after=block_id) %>% 
+  # Mark reliable points
+  mutate(latlong_good_yn=block_id==block_id_gps) %>% 
+  relocate(latlong_good_yn, .after=long_dd) %>% 
+  # Remove a few
+  select(-c(vessel_combo, lat_dd_orig, long_dd_orig))
+
+# Inspect
+freeR::complete(data_out)
+
+# Plot coords
+usa <- rnaturalearth::ne_states(country="United States of America", returnclass = "sf")
+ggplot(data_out, aes(x=long_dd, y=lat_dd)) +
+  geom_sf(data=usa, color="white", fill="grey85", inherit.aes = F) +
+  geom_point(shape=1) +
+  # Labels
+  labs(x="", y="") +
+  # Crop
+  coord_sf(xlim=c(-116,-128),
+           ylim=c(32,42)) +
+  # coord_sf(xlim=c(range(data_out$long_dd, na.rm=T)),
+  #          ylim=c(range(data_out$lat_dd, na.rm=T))) +
+  # Theme
+  theme_bw()
+
+fisher_check <- data_out %>% 
+  count(fisher_id, fisher)
+freeR::which_duplicated(fisher_check$fisher_id)
 
 
 # Export
