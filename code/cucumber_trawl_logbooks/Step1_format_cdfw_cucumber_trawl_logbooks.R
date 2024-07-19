@@ -24,13 +24,12 @@ port_key <- readRDS(file.path(keydir, "CDFW_port_key.Rds"))
 species_key <- readRDS(file.path(keydir, "CDFW_species_key.Rds"))
 blocks_sf <- wcfish::blocks
 blocks <- blocks_sf %>% 
-  sf::st_drop_geometry()
+sf::st_drop_geometry()
 
 # TO-DO LIST
 # Convert LORAN coordinates
 # Add block id from landing receipts
 # Identify reliable coordinates
-# Format times and derive tow lengths -- WHEN BOTH MIDNIGHT UNKNOWN. NEGATIVE TIMES SPAN DATE
 
 
 # Helper function
@@ -42,16 +41,22 @@ replace_zero_with_na <- function(x){
   return(y)
 }
 
-# Function to calculate the number of minutes between two time strings
-calculate_minutes_diff <- function(time1, time2) {
-  # Parse the time strings
-  parsed_time1 <- parse_date_time(time1, orders = "I:M:S p")
-  parsed_time2 <- parse_date_time(time2, orders = "I:M:S p")
+# Calculate durations
+hr1 <- 6.2; hr2 <- 12.5
+hr1 <- 23; hr2 <- 2
+calc_duration <- function(hr1, hr2){
   
-  # Calculate the difference in minutes
-  diff_minutes <- as.numeric(difftime(parsed_time2, parsed_time1, units = "mins"))
+  # Duration when hour2 is on the same day
+  duration1 <- (hr2 - hr1) * 60
   
-  return(diff_minutes)
+  # Duration when hour2 is on the next day
+  duration2 <- (24-hr1) + hr2
+  
+  # Select the right one
+  out <- ifelse(hr2>hr1, duration1, duration2)
+  
+  return(out)
+  
 }
 
 # Function to calculate the decimal hour of a day
@@ -145,10 +150,9 @@ data <- data_orig %>%
   # Format block id
   mutate(block_id=ifelse(block_id==0, NA, block_id)) %>% 
   # Compute duration
-  mutate(duration_min_calc=calculate_minutes_diff(time_set, time_up)) %>% 
+  mutate(duration_min_calc=calc_duration(time_set_num, time_up_num),) %>% 
   # Format duration
-  mutate(duration_min=ifelse(duration_min<=0, NA, duration_min),
-         duration_min=ifelse(is.na(duration_min), duration_min_calc, duration_min)) %>% 
+  mutate(duration_min=ifelse(duration_min<=0, duration_min_calc, duration_min)) %>% 
   # Format depths
   mutate(depth_fa_set=ifelse(depth_fa_set==0, NA, depth_fa_set),
          depth_fa_up=ifelse(depth_fa_up==0, NA, depth_fa_up)) %>% 
@@ -250,9 +254,7 @@ ggplot(data, aes(x=long_dd_set, y=lat_dd_set)) +
 # LORAN conversion
 ################################################################################
 
-loran_xyz <- data %>% 
-  select(set_loran_cx, set_loran_cy, set_loran_cw) %>% 
-  unique()
+
 
 # Export data
 ################################################################################
