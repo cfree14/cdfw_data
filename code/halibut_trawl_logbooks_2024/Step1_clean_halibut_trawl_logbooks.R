@@ -18,6 +18,9 @@ keydir <- "data/public/cdfw_keys/processed"
 spp_key_orig <- readRDS(file.path(keydir, "CDFW_species_key.Rds"))
 port_key_orig <- readRDS(file.path(keydir, "CDFW_port_key.Rds"))
 
+# PACFIN species
+pacfin_spp <- wcfish::pacfin_species
+
 
 # Merge data
 ################################################################################
@@ -34,7 +37,8 @@ data_orig <- purrr::map_df(files2merge, function(x){
 # Helper functions
 ################################################################################
 
-convert_time <- function(time){
+# Convert 500 to 05:00
+format_time <- function(time){
   
   # Pad strings
   time1 <- time %>% as.character() %>% stringr::str_pad(., width=4, pad="0", side = "left")
@@ -46,33 +50,43 @@ convert_time <- function(time){
   
 }
 
-calc_duration <- function(time1, time2) {
- 
-   # Convert time strings to lubridate period objects
-  time1a <- hm(time1)
-  time2a <- hm(time2)
+convert_to_decimal_hours <- function(time_str) {
+  # Split the time string into hours and minutes
+  time_parts <- strsplit(time_str, ":")[[1]]
   
-  # Calculate duration for times on the same day
-  same_day_diff <- as.numeric(as.duration(time2a - time1a)) / 60 / 60
+  # Convert hours and minutes to numeric
+  hours <- as.numeric(time_parts[1])
+  minutes <- as.numeric(time_parts[2])
   
-  # Handle cases where time2 is the next day
-  date1 <- ymd_hm(paste("2020-01-01", time1))
-  date2 <- ymd_hm(paste("2020-01-02", time2))
-  next_day_diff <- as.numeric(as.duration(date2 - date1)) / 60 / 60
-  
-  # Combine the results using ifelse to determine if time2 is after time1
-  diff_hr <- ifelse(time2a > time1a, same_day_diff, next_day_diff)
-  
-  return(diff_hr)
+  # Calculate decimal hours
+  decimal_hours <- hours + minutes / 60
+  return(decimal_hours)
+}
+
+# Convert a vector of times to decimal hours
+convert_time <- function(time_vector) {
+  sapply(time_vector, convert_to_decimal_hours, USE.NAMES=F)
 }
 
 # Example usage
-time1 <- c("23:00", "12:30", "23:59")
-time2 <- c("01:00", "13:00", "00:10")
-calc_duration(time1, time2)  # Should return c(2, 0.5, 0.1833333)
+time_vector <- c("08:30", "14:45", "23:15", "00:00")
+decimal_hours <- convert_time(time_vector)
 
 
-
+calc_duration_hr <- function(hr1, hr2){
+  
+  # Duration when hour2 is on the same day
+  duration1 <- (hr2 - hr1)
+  
+  # Duration when hour2 is on the next day
+  duration2 <- (24-hr1) + hr2
+  
+  # Select the right one
+  out <- ifelse(hr2>hr1, duration1, duration2)
+  
+  return(out)
+  
+}
 
 
 # Format data
@@ -113,7 +127,7 @@ data <- data_orig %>%
          spp_code_pacfin=pac_fin_species_code,
          # Catch
          catch_lbs_est=estimated_pounds, 
-         catch_lbs_reciept=ticket_pounds,
+         catch_lbs_receipt=ticket_pounds,
          revenue_usd=revenue,
          # Receipts
          receipt_ids=landing_receipt,
@@ -135,46 +149,52 @@ data <- data_orig %>%
   rename(port_depart=port) %>% 
   left_join(port_key_orig %>% select(port_code, port), by=c("port_code_return"="port_code")) %>% 
   rename(port_return=port) %>% 
+  # Add target species
+  left_join(pacfin_spp %>% select(spp_code, comm_name), by=c("target_spp_code"="spp_code")) %>% 
+  rename(target_spp=comm_name) %>% 
+  # Fill in target species with unmatched codes with codes
+  mutate(target_spp=ifelse(is.na(target_spp), target_spp_code, target_spp)) %>% 
   # Fill in missing species codes
   mutate(spp_code=case_when(is.na(spp_code) & spp_code_pacfin=="ARTH" ~ 201,
-                            is.na(spp_code) & spp_code_pacfin=="BCAC" ~ 253, 
-                            is.na(spp_code) & spp_code_pacfin=="BLGL" ~ 667, 
-                            is.na(spp_code) & spp_code_pacfin=="CBZN" ~ 261, 
-                            is.na(spp_code) & spp_code_pacfin=="DBRK" ~ 257, 
-                            is.na(spp_code) & spp_code_pacfin=="DOVR" ~ 211, 
-                            is.na(spp_code) & spp_code_pacfin=="DUSK" ~ 250, 
-                            is.na(spp_code) & spp_code_pacfin=="EGLS" ~ 206, 
-                            is.na(spp_code) & spp_code_pacfin=="GRDR" ~ 198, 
-                            is.na(spp_code) & spp_code_pacfin=="GREN" ~ 198, 
-                            is.na(spp_code) & spp_code_pacfin=="LCOD" ~ 195, 
-                            is.na(spp_code) & spp_code_pacfin=="LSKT" ~ 147, 
-                            is.na(spp_code) & spp_code_pacfin=="LSPN" ~ 678, 
-                            is.na(spp_code) & spp_code_pacfin=="MISC" ~ 999, 
-                            is.na(spp_code) & spp_code_pacfin=="MSC2" ~ 999, 
-                            is.na(spp_code) & spp_code_pacfin=="OCRB" ~ 802, 
-                            is.na(spp_code) & spp_code_pacfin=="OFLT" ~ 230, 
-                            is.na(spp_code) & spp_code_pacfin=="PTRL" ~ 209, 
-                            is.na(spp_code) & spp_code_pacfin=="PWHT" ~ 495, 
-                            is.na(spp_code) & spp_code_pacfin=="RATF" ~ 166, 
+                            is.na(spp_code) & spp_code_pacfin=="BCAC" ~ 253,
+                            is.na(spp_code) & spp_code_pacfin=="BLGL" ~ 667,
+                            is.na(spp_code) & spp_code_pacfin=="CBZN" ~ 261,
+                            is.na(spp_code) & spp_code_pacfin=="DBRK" ~ 257,
+                            is.na(spp_code) & spp_code_pacfin=="DOVR" ~ 211,
+                            is.na(spp_code) & spp_code_pacfin=="DUSK" ~ 250,
+                            is.na(spp_code) & spp_code_pacfin=="EGLS" ~ 206,
+                            is.na(spp_code) & spp_code_pacfin=="GRDR" ~ 198,
+                            is.na(spp_code) & spp_code_pacfin=="GREN" ~ 198,
+                            is.na(spp_code) & spp_code_pacfin=="LCOD" ~ 195,
+                            is.na(spp_code) & spp_code_pacfin=="LSKT" ~ 147,
+                            is.na(spp_code) & spp_code_pacfin=="LSPN" ~ 678,
+                            is.na(spp_code) & spp_code_pacfin=="MISC" ~ 999,
+                            is.na(spp_code) & spp_code_pacfin=="MSC2" ~ 999,
+                            is.na(spp_code) & spp_code_pacfin=="OCRB" ~ 802,
+                            is.na(spp_code) & spp_code_pacfin=="OFLT" ~ 230,
+                            is.na(spp_code) & spp_code_pacfin=="PTRL" ~ 209,
+                            is.na(spp_code) & spp_code_pacfin=="PWHT" ~ 495,
+                            is.na(spp_code) & spp_code_pacfin=="RATF" ~ 166,
                             is.na(spp_code) & spp_code_pacfin=="RCRB" ~ 801,
-                            is.na(spp_code) & spp_code_pacfin=="REDS" ~ 250, 
-                            is.na(spp_code) & spp_code_pacfin=="REX"  ~ 207, 
-                            is.na(spp_code) & spp_code_pacfin=="RPRW" ~ 813, 
-                            is.na(spp_code) & spp_code_pacfin=="SABL" ~ 190, 
-                            is.na(spp_code) & spp_code_pacfin=="SHAD" ~ 325, 
-                            is.na(spp_code) & spp_code_pacfin=="SKCR" ~ 804, 
-                            is.na(spp_code) & spp_code_pacfin=="SLNS" ~ 210, 
-                            is.na(spp_code) & spp_code_pacfin=="SPRW" ~ 815, 
-                            is.na(spp_code) & spp_code_pacfin=="SSPN" ~ 679, 
-                            is.na(spp_code) & spp_code_pacfin=="UCRB" ~ 802, 
-                            is.na(spp_code) & spp_code_pacfin=="UFLT" ~ 230, 
-                            is.na(spp_code) & spp_code_pacfin=="USCU" ~ 755, 
-                            is.na(spp_code) & spp_code_pacfin=="USHR" ~ 973, 
-                            is.na(spp_code) & spp_code_pacfin=="USKT" ~ 175, 
-                            is.na(spp_code) & spp_code_pacfin=="USMN" ~ 300)) %>% 
+                            is.na(spp_code) & spp_code_pacfin=="REDS" ~ 250,
+                            is.na(spp_code) & spp_code_pacfin=="REX"  ~ 207,
+                            is.na(spp_code) & spp_code_pacfin=="RPRW" ~ 813,
+                            is.na(spp_code) & spp_code_pacfin=="SABL" ~ 190,
+                            is.na(spp_code) & spp_code_pacfin=="SHAD" ~ 325,
+                            is.na(spp_code) & spp_code_pacfin=="SKCR" ~ 804,
+                            is.na(spp_code) & spp_code_pacfin=="SLNS" ~ 210,
+                            is.na(spp_code) & spp_code_pacfin=="SPRW" ~ 815,
+                            is.na(spp_code) & spp_code_pacfin=="SSPN" ~ 679,
+                            is.na(spp_code) & spp_code_pacfin=="UCRB" ~ 802,
+                            is.na(spp_code) & spp_code_pacfin=="UFLT" ~ 230,
+                            is.na(spp_code) & spp_code_pacfin=="USCU" ~ 755,
+                            is.na(spp_code) & spp_code_pacfin=="USHR" ~ 973,
+                            is.na(spp_code) & spp_code_pacfin=="USKT" ~ 175,
+                            is.na(spp_code) & spp_code_pacfin=="USMN" ~ 300,
+                            T ~ spp_code)) %>%
   # Add species
-  left_join(spp_key_orig %>% select(spp_code_num, comm_name), by=c("spp_code"="spp_code_num")) %>% 
-  rename(species=comm_name) %>% 
+  left_join(spp_key_orig %>% select(spp_code_num, comm_name), by=c("spp_code"="spp_code_num")) %>%
+  rename(species=comm_name) %>%
   # Format net type
   mutate(net_type=recode(net_type,
                          "B" = "bottom", 
@@ -197,10 +217,16 @@ data <- data_orig %>%
   mutate(time_set=ifelse(time_set==0 & time_up==0, NA, time_set),
          time_up=ifelse(is.na(time_set) & time_up==0, NA, time_up)) %>%
   # Convert times
-  mutate(time_set=convert_time(time_set),
-         time_up=convert_time(time_up)) %>% 
+  mutate(time_set=format_time(time_set),
+         time_up=format_time(time_up)) %>% 
+  # Convert times to numeric
+  mutate(time_set_num=convert_time(time_set),
+         time_up_num=convert_time(time_up)) %>% 
   # Calculate duration
-  mutate(duration_hrs=calc_duration(time_set, time_up),
+  mutate(duration_hrs=calc_duration_hr(time_set_num, time_up_num),
+         # Use our duration if available (matches time)
+         duration_hrs=ifelse(is.na(duration_hrs), duration_hrs_orig, duration_hrs),
+         # Calculate difference
          duration_diff=duration_hrs-duration_hrs_orig) %>%
   # Convert longitudes
   mutate(long_dd_set=long_dd_set *-1,
@@ -216,11 +242,13 @@ data <- data_orig %>%
          lat_dd_set, long_dd_set,
          lat_dd_up, long_dd_up,
          depth_fa_avg,
-         net_type, target_spp_code, 
-         tow_number,  duration_hrs_orig, duration_hrs, duration_diff,
-         date_set, time_set_orig, time_up_orig, time_set, time_up,
+         net_type, target_spp_code, target_spp,
+         tow_number,  
+         date_set, 
+         time_set_orig, time_up_orig, time_set, time_up, time_set_num, time_up_num,
+         duration_hrs_orig, duration_hrs, duration_diff,
          spp_code, spp_code_pacfin, species, 
-         catch_lbs_est, catch_lbs_reciept, revenue_usd,
+         catch_lbs_est, catch_lbs_receipt, revenue_usd,
          receipt_ids, receipt_dates, comments,
          observed_trip_yn, em_trip_yn,  efp_trip_yn,
          signed_yn, void_yn,
@@ -234,12 +262,6 @@ freeR::complete(data)
 range(data$date_depart, na.rm=T)
 range(data$date_return, na.rm=T)
 range(data$date_set, na.rm=T)
-
-# Times
-plot(duration_hrs ~ duration_hrs_orig, data)
-duration_check <- data %>% 
-  count(time_set, time_up, duration_hrs) %>% 
-  unique()
 
 # Port keys
 port_key1 <- data %>% 
@@ -266,12 +288,26 @@ table(data$region)
 table(data$net_type)
 
 # Target strategy
-table(data$target_strategy)
+targ_spp_key <- data %>% 
+  count(target_spp_code, target_spp)
+table(data$target_spp_code)
+
+# Time key
+time_key1 <- data %>% 
+  count(time_set_orig, time_set, time_set_num)
+time_key2 <- data %>% 
+  count(time_up_orig, time_up, time_up_num)
+
+# Times - fix druation
+# plot(duration_hrs ~ duration_hrs_orig, data)
+duration_check <- data %>% 
+  count(time_set, time_up, duration_hrs) %>% 
+  unique()
 
 # Yes/no questions
-table(data$observed_trip_yn) 
+table(data$observed_trip_yn) # N and Y
 table(data$em_trip_yn)  # 0s and 1s
-table(data$efp_trip_yn)
+table(data$efp_trip_yn) # N and Y
 table(data$signed_yn) # 1 only
 table(data$void_yn) # 0 only
 
@@ -284,17 +320,44 @@ ggplot(gdata, aes(x=long_dd_set, y=lat_dd_set)) +
   geom_point()
 
 
+# Build vessel key
+################################################################################
+
+# Vessel key use
+vessel_key_use <- data %>% 
+  # Correct names
+  mutate(vessel=recode(vessel, 
+                       "F/V NORTHERN LIGHT"="NORTHERN LIGHT",
+                       "SEAHAWK"="SEA HAWK")) %>% 
+  # Unique
+  count(vessel_id, vessel) %>% 
+  # Ones with names
+  filter(!is.na(vessel)) %>% 
+  # Remove ones with two names
+  filter(!vessel_id %in% c(13549, 20026, 28019, 37902))
+  
+freeR::which_duplicated(vessel_key_use$vessel_id)
+
 # Export data
 ################################################################################
 
 # Simplify
 data_out <- data %>% 
+  # Remove useless
   select(-c(spp_code_pacfin, 
             time_set_orig, time_up_orig, 
             duration_hrs_orig, duration_diff,
-            set_month, set_day, set_year))
+            set_month, set_day, set_year)) %>% 
+  # Add in harmonized vessel name
+  rename(vessel_orig=vessel) %>% 
+  left_join(vessel_key_use %>% select(vessel_id, vessel), by="vessel_id") %>% 
+  relocate(vessel, .after=vessel_id) %>%
+  # Use original name when harmonized name missing (for ones with two names associated with id)
+  mutate(vessel=ifelse(is.na(vessel), vessel_orig, vessel)) %>% 
+  select(-vessel_orig)
 
 str(data_out)
+freeR::complete(data_out)
 
 # Export data
 saveRDS(data_out, file=file.path(outdir, "CDFW_1981_2022_halibut_trawl_data.Rds"))
