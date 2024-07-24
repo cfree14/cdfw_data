@@ -298,11 +298,18 @@ time_key1 <- data %>%
 time_key2 <- data %>% 
   count(time_up_orig, time_up, time_up_num)
 
+# Tow number
+table(data$tow_number)
+
 # Times - fix druation
 # plot(duration_hrs ~ duration_hrs_orig, data)
 duration_check <- data %>% 
   count(time_set, time_up, duration_hrs) %>% 
   unique()
+
+# Depth key
+depth_key <- data %>% 
+  count(depth_fa_avg)
 
 # Yes/no questions
 table(data$observed_trip_yn) # N and Y

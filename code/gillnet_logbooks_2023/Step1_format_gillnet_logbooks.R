@@ -22,7 +22,6 @@ spp_key <- read.csv("data/public/cdfw_keys/processed/CDFW_species_key.csv", as.i
   mutate(spp_code_chr=as.character(spp_code_chr))
 
 
-
 # Format data
 ################################################################################
 
@@ -63,22 +62,37 @@ data1 <- data_orig %>%
   # Format block id
   mutate(block_id=gsub("/", ", ", block_id)) %>% 
   # Format depth
-  mutate(depth_fa_num=as.numeric(depth_fa)) %>% 
+  mutate(depth_fa_num=as.numeric(depth_fa),
+         # Set 0 to NA
+         depth_fa=ifelse(depth_fa=="0", NA, depth_fa),
+         depth_fa_num=ifelse(depth_fa_num==0, NA, depth_fa_num)) %>%
   # Format net length
   mutate(net_length_fa=case_when(net_length_fa=="Halibut" ~ NA_character_,
                                  net_length_fa=="1 Mile" ~ "880",
                                  T ~ net_length_fa),
-         net_length_fa_num=as.numeric(net_length_fa)) %>% 
+         net_length_fa_num=as.numeric(net_length_fa),
+         # Set 0 to NA
+         net_length_fa=ifelse(net_length_fa=="0", NA, net_length_fa),
+         net_length_fa_num=ifelse(net_length_fa_num==0, NA, net_length_fa_num)) %>% 
   # Format mesh size
   mutate(mesh_size_in=gsub("/", ", ", mesh_size_in),
-         mesh_size_in_num=as.numeric(mesh_size_in)) %>% 
+         mesh_size_in_num=as.numeric(mesh_size_in),
+         # Set 0 to NA
+         mesh_size_in=ifelse(mesh_size_in=="0", NA, mesh_size_in),
+         mesh_size_in_num=ifelse(mesh_size_in_num==0, NA, mesh_size_in_num)) %>% 
   # Format buoy line depth
   mutate(buoy_line_depth_ft=ifelse(buoy_line_depth_ft=="SM Mesh", NA, buoy_line_depth_ft),
-         buoy_line_depth_ft_num=as.numeric(buoy_line_depth_ft)) %>% 
+         buoy_line_depth_ft_num=as.numeric(buoy_line_depth_ft),
+         # Set 0 to NA
+         buoy_line_depth_ft=ifelse(buoy_line_depth_ft=="0", NA, buoy_line_depth_ft),
+         buoy_line_depth_ft_num=ifelse(buoy_line_depth_ft_num==0, NA, buoy_line_depth_ft_num)) %>% 
   # Format soak hour
   mutate(soak_hr=recode(soak_hr,
                         "20 mins"="0.33"),
-         soak_hr_num=as.numeric(soak_hr)) %>% 
+         soak_hr_num=as.numeric(soak_hr),
+         # Set 0 to NA
+         soak_hr=ifelse(soak_hr=="0", NA, soak_hr),
+         soak_hr_num=ifelse(soak_hr_num==0, NA, soak_hr_num)) %>% 
   # Format original net type 1
   mutate(net_type_orig1=recode(net_type_orig1,
                                "67"="Set", # Large Mesh Set Gn based on gear codes
