@@ -153,7 +153,12 @@ data <- data_orig %>%
   left_join(pacfin_spp %>% select(spp_code, comm_name), by=c("target_spp_code"="spp_code")) %>% 
   rename(target_spp=comm_name) %>% 
   # Fill in target species with unmatched codes with codes
-  mutate(target_spp=ifelse(is.na(target_spp), target_spp_code, target_spp)) %>% 
+  # Update a few of these based on Travis Tanaka official confirmation
+  mutate(target_spp=ifelse(is.na(target_spp), target_spp_code, target_spp),
+         target_spp=recode(target_spp,
+                           "DTS"="Dover sole, thornyhead, sablefish",
+                           "DWD"="Deep-water dover sole",
+                           "NSM"="Nearshore mix")) %>% 
   # Fill in missing species codes
   mutate(spp_code=case_when(is.na(spp_code) & spp_code_pacfin=="ARTH" ~ 201,
                             is.na(spp_code) & spp_code_pacfin=="BCAC" ~ 253,
