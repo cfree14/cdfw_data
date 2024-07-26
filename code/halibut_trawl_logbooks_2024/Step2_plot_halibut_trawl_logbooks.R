@@ -184,7 +184,7 @@ g <- ggplot(data, aes(x=depth_fa_avg)) +
                      breaks=seq(0, 300, 25),
                      labels=c(breaks=seq(0, 275, 25), "≥300")) +
   # Labels
-  labs(x="Start depth (fathoms)", y="# of logbook entries", tag="A") +
+  labs(x="Start depth (fathoms)", y="# of logbook entries") +
   # Theme
   theme_bw() + my_theme +
   theme(axis.text.y = element_text(angle = 90, hjust = 0.5))

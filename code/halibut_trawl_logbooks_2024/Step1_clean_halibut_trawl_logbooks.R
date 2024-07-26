@@ -158,7 +158,14 @@ data <- data_orig %>%
          target_spp=recode(target_spp,
                            "DTS"="Dover sole, thornyhead, sablefish",
                            "DWD"="Deep-water dover sole",
-                           "NSM"="Nearshore mix")) %>% 
+                           "NSM"="Nearshore mix",
+                           "BRSH"="Bottom rockfish-shelf",
+                           "BRSL"="Bottom rockfish-slope",
+                           "THHD"="Thornyheads (mixed)")) %>% 
+  # Format target species
+  mutate(target_spp=gsub("Unsp.", "Unspecified", target_spp),
+         target_spp=gsub("Misc.", "Miscellaneous", target_spp),
+         target_spp=stringr::str_to_sentence(target_spp)) %>% 
   # Fill in missing species codes
   mutate(spp_code=case_when(is.na(spp_code) & spp_code_pacfin=="ARTH" ~ 201,
                             is.na(spp_code) & spp_code_pacfin=="BCAC" ~ 253,
