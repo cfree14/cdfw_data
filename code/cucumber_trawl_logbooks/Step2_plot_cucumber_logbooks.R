@@ -250,7 +250,7 @@ g <- ggplot(landings, aes(x=year, y=landings_lbs/1000)) +
 g
 
 # Export
-ggsave(g, filename=file.path(plotdir, "dive_logbook_vs_reciepts_catch.png"), 
+ggsave(g, filename=file.path(plotdir, "prawn_shrimp_logbook_vs_reciepts_catch.png"), 
        width=6.5, height=3, units="in", dpi=600)
 
 

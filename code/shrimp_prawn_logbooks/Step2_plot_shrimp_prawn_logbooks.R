@@ -19,6 +19,10 @@ plotdir <- "figures/shrimp_prawn_logbooks"
 data <- readRDS(file=file.path(outdir, "CDFW_1982_2023_shrimp_prawn_logbook_data.Rds"))
 blocks_sf <- wcfish::blocks
 
+# Read landings data
+landings_orig <- readRDS("data/confidential/landing_receipts_2023/processed/1980_2022_landings_receipts.Rds")
+
+
 
 # Themes
 ################################################################################
@@ -168,6 +172,116 @@ g
 ggsave(g, filename=file.path(plotdir, "shrimp_prawn_logbook_nlogs.png"), 
        width=5.5, height=3.5, units="in", dpi=600)
 
+# Completeness through time
+################################################################################
+
+# Build stats
+stats <- data %>% 
+  mutate(row_id=1:n()) %>% 
+  select(year, row_id, everything()) %>% 
+  gather(key="variable", value="value", 3:ncol(.)) %>% 
+  # Summarize availability
+  group_by(year, variable) %>% 
+  summarize(n=n(),
+            ndata=sum(!is.na(value))) %>% 
+  ungroup() %>% 
+  # Calculate prop
+  mutate(prop=ndata/n)
+
+# Format stats
+stats1 <- stats %>% 
+  # Format variable name
+  mutate(variable=gsub("_", " ", variable) %>% stringr::str_to_sentence(),
+         variable=recode(variable,
+                         "Vessel"="Vessel name",
+                         "Spp code"="Species id",
+                         "Port code"="Port id",
+                         "Date tow"="Date of tow",
+                         "Date landing"="Date of landing",
+                         "Date depart"="Date of departure",
+                         "Depth fa set"="Start depth (fa)",
+                         "Depth fa up"="End depth (fa)",
+                         "Duration min"="Duration (min)",
+                         "Time set"="Start time",
+                         "Time up"="End time",
+                         "Headrope ft"="Head rope length (ft)",
+                         "Catch lbs"="Catch (lbs)",
+                         "Comments1"="Comments 1",
+                         "Comments2"="Comments 2",
+                         # Spatial
+                         "Long dd set"="Start longitude (°W)",
+                         "Lat dd set"="Start latitude (°N)",
+                         "Long dd up"="End longitude (°W)",
+                         "Lat dd up"="End latitude (°N)",
+                         "Set loran y"="Start LORAN-C Y-value",
+                         "Set loran x"="Start LORAN-C X-value",
+                         "Set loran w"="Start LORAN-C W-value",
+                         # "Up loran y"="End LORAN-C Y-value",
+                         "Up loran x"="End LORAN-C X-value",
+                         "Up loran w"="End LORAN-C W-value",
+                         # "Up loran cy"="End LORAN-C Y-value",
+                         "Up loran cx"="End LORAN-C X-value",
+                         "Up loran cw"="End LORAN-C W-value")) %>% 
+  # Remove
+  filter(!variable %in% c("Old year", "Time set num", "Time up num"))
+
+# Plot data
+g <- ggplot(stats1, aes(x=year, y=prop)) +
+  facet_wrap(~variable, ncol=6) +
+  geom_vline(xintercept=2002, linetype="dotted", color="grey60") +
+  geom_line() +
+  # Labels
+  labs(x="Year", y="Percent complete") +
+  scale_y_continuous(labels=scales::percent) +
+  # Theme
+  theme_bw() + my_theme +
+  theme(strip.text=element_text(size=6),
+        axis.text=element_text(size=6),
+        axis.title=element_text(size=7))
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "shrimp_prawn_trawl_logbook_completeness_over_time.png"), 
+       width=6.5, height=6.5, units="in", dpi=600)
+
+
+# Catch: logbooks vs. receipts
+################################################################################
+
+# Summarize landings
+landings <- landings_orig %>% 
+  # Trawl fishery for shrimps/prawns
+  filter(comm_name %in% c("Pacific pink shrimp", "Ridgeback prawn", "Spot prawn")) %>% 
+  filter(grepl("trawl", tolower(gear))) %>% 
+  # Summarize
+  group_by(year, comm_name) %>% 
+  summarize(landings_lbs=sum(landings_lbs, na.rm=T)) %>% 
+  ungroup()
+
+# Summarize logged landings
+logged_lbs <- data %>% 
+  filter(species %in% c("Pacific pink shrimp", "Ridgeback prawn", "Spot prawn")) %>% 
+  group_by(year) %>% 
+  summarize(landings_lbs=sum(catch_lbs, na.rm=T)) %>% 
+  ungroup()
+
+# Plot data
+g <- ggplot(landings, aes(x=year, y=landings_lbs/1000)) +
+  facet_wrap(~comm_name, scale="free_y") +
+  # Plot landings
+  geom_bar(stat="identity", fill="grey80") +
+  # Plot logbooks
+  geom_line(data=logged_lbs) +
+  geom_point(data=logged_lbs, size=0.8) +
+  # Labels
+  labs(x="Year", y="Landings (1000s lbs)") +
+  # Theme
+  theme_bw() + bar_theme
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "dive_logbook_vs_reciepts_catch.png"), 
+       width=6.5, height=3, units="in", dpi=600)
 
 # Depth
 ################################################################################

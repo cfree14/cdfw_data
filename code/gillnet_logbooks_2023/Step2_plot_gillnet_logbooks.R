@@ -19,6 +19,9 @@ data <- readRDS(file=file.path(outdir, "CDFW_1981_2020_gillnet_logbook_data.Rds"
   mutate(net_type=ifelse(net_type=="Unknown", NA, net_type))
 blocks_sf <- wcfish::blocks
 
+# Read landings data
+landings_orig <- readRDS("data/confidential/landing_receipts_2023/processed/1980_2022_landings_receipts.Rds")
+
 
 # Themes
 ################################################################################
@@ -170,6 +173,45 @@ g
 # Export
 ggsave(g, filename=file.path(plotdir, "gillnet_logbook_nlogs.png"), 
        width=5.5, height=3.5, units="in", dpi=600)
+
+
+# Catch: logs vs. receipts
+################################################################################
+
+# Summarize landings
+landings <- landings_orig %>% 
+  # Trawl fishery for halibut
+  filter(comm_name %in% c("California halibut")) %>% 
+  filter(grepl("gn|gill net", tolower(gear))) %>% 
+  # Summarize
+  group_by(year, comm_name) %>% 
+  summarize(landings_lbs=sum(landings_lbs, na.rm=T)) %>% 
+  ungroup()
+
+# Summarize logged landings
+logged_lbs <- data %>% 
+  filter(comm_name %in% c("California halibut")) %>% 
+  group_by(year) %>% 
+  summarize(landings_lbs=sum(catch_lb, na.rm=T)) %>% 
+  ungroup()
+
+# Plot data
+g <- ggplot(landings, aes(x=year, y=landings_lbs/1000)) +
+  facet_wrap(~comm_name, scale="free_y") +
+  # Plot landings
+  geom_bar(stat="identity", fill="grey80") +
+  # Plot logbooks
+  geom_line(data=logged_lbs) +
+  geom_point(data=logged_lbs, size=0.8) +
+  # Labels
+  labs(x="Year", y="Landings (1000s lbs)") +
+  # Theme
+  theme_bw() + bar_theme
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "halibut_trawl_logbook_vs_reciepts_catch.png"), 
+       width=6.5, height=3, units="in", dpi=600)
 
 
 # Depth

@@ -221,6 +221,9 @@ data1 <- data_orig %>%
   # Vessel identifier
   mutate(vessel_id_use=ifelse(!is.na(vessel_id), vessel_id, boat_num),
          vessel_id_use_type=ifelse(!is.na(vessel_id), "Vessel id", "Boat number")) %>% 
+  # Format catch
+  mutate(catch_n=as.numeric(catch_n),
+         catch_lb=ifelse(catch_lb="Sea Lion", NA, catch_lb) %>% as.numeric(catch_lb)) %>% 
   # Arrange
   select(logbook_id, year, date, 
          vessel_id_use, vessel_id_use_type, 
@@ -295,6 +298,10 @@ target_spp_key <- data1 %>%
 spp_key_orig <- data1 %>% 
   select(spp_code, comm_name_orig1, comm_name_orig2, comm_name) %>% unique()
 spp_key_orig$comm_name_orig1[is.na(spp_key_orig$comm_name)] %>% unique()
+
+# Catch
+freeR::uniq(data_orig$NUM_CATCH)
+check1 <- tibble(lbs=freeR::uniq(data_orig$WEIGHTS))
 
 
 # Export data

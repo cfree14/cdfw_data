@@ -18,6 +18,9 @@ plotdir <- "figures/halibut_trawl_logbooks_2024"
 data <- readRDS(file=file.path(outdir, "CDFW_1981_2022_halibut_trawl_data.Rds"))
 blocks_sf <- wcfish::blocks
 
+# Read landings data
+landings_orig <- readRDS("data/confidential/landing_receipts_2023/processed/1980_2022_landings_receipts.Rds")
+
 
 # Themes
 ################################################################################
@@ -157,8 +160,7 @@ stats <- data %>%
   summarize(nlogs=n_distinct(logbook_id)) %>% 
   ungroup()
 
-# Plot
-# 2008, 2011, 2012 no data
+# Plot logs through time
 g <- ggplot(stats, aes(x=year, y=nlogs/1000)) +
   geom_bar(stat="identity") +
   # Labels
@@ -171,6 +173,45 @@ g
 ggsave(g, filename=file.path(plotdir, "halibut_trawl_logbook_nlogs.png"), 
        width=5.5, height=3.5, units="in", dpi=600)
 
+
+# Catch: logs vs. receipts
+################################################################################
+
+# Summarize landings
+landings <- landings_orig %>% 
+  # Trawl fishery for halibut
+  filter(comm_name %in% c("California halibut")) %>% 
+  filter(grepl("trawl", tolower(gear))) %>% 
+  # Summarize
+  group_by(year, comm_name) %>% 
+  summarize(landings_lbs=sum(landings_lbs, na.rm=T)) %>% 
+  ungroup()
+
+# Summarize logged landings
+logged_lbs <- data %>% 
+  filter(species %in% c("California halibut")) %>% 
+  mutate(year=lubridate::year(date_set)) %>% 
+  group_by(year) %>% 
+  summarize(landings_lbs=sum(catch_lbs_est, na.rm=T)) %>% 
+  ungroup()
+
+# Plot data
+g <- ggplot(landings, aes(x=year, y=landings_lbs/1000)) +
+  facet_wrap(~comm_name, scale="free_y") +
+  # Plot landings
+  geom_bar(stat="identity", fill="grey80") +
+  # Plot logbooks
+  geom_line(data=logged_lbs) +
+  geom_point(data=logged_lbs, size=0.8) +
+  # Labels
+  labs(x="Year", y="Landings (1000s lbs)") +
+  # Theme
+  theme_bw() + bar_theme
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "halibut_trawl_logbook_vs_reciepts_catch.png"), 
+       width=6.5, height=3, units="in", dpi=600)
 
 # Depth
 ################################################################################
