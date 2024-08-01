@@ -117,6 +117,31 @@ ggsave(g, filename=file.path(plotdir, "lobster_logbook_completeness.png"),
        width=5.5, height=5.5, units="in", dpi=600)
 
 
+# Number of log entries
+################################################################################
+
+# Stats
+stats <- data %>% 
+  group_by(year) %>% 
+  summarize(nlogs=n()) %>% 
+  ungroup()
+
+# Plot data
+g <- ggplot(stats, aes(x=year, y=nlogs/1000)) +
+  geom_bar(stat="identity") +
+  # Labels
+  labs(x="Year", y="Thousands of logbook entries") +
+  scale_x_continuous(breaks=seq(1980,2025, 5)) +
+  # Theme
+  theme_bw() + bar_theme
+g
+
+
+# Export
+ggsave(g, filename=file.path(plotdir, "lobster_logbook_nlogs.png"), 
+       width=5.5, height=3.5, units="in", dpi=600)
+
+
 # Effort
 ################################################################################
 

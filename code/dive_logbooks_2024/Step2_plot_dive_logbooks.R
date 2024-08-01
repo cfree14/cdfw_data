@@ -19,6 +19,9 @@ plotdir <- "figures/dive_logbooks_2024"
 data <- readRDS(file=file.path(outdir, "CDFW_1980_2023_dive_logbooks.Rds"))
 blocks_sf <- wcfish::blocks
 
+# Read landings data
+landings_orig <- readRDS("data/confidential/landing_receipts_2023/processed/1980_2022_landings_receipts.Rds")
+
 
 # Themes
 ################################################################################
@@ -99,6 +102,71 @@ g
 ggsave(g, filename=file.path(plotdir, "dive_logbook_completeness.png"), 
        width=4.5, height=4.5, units="in", dpi=600)
 
+
+# Number of log entries
+################################################################################
+
+# Stats
+stats <- data %>% 
+  group_by(year, comm_name) %>% 
+  summarize(nlogs=n()) %>% 
+  ungroup()
+
+# Plot data
+g <- ggplot(stats, aes(x=year, y=nlogs/1000, fill=comm_name)) +
+  geom_bar(stat="identity") +
+  # Labels
+  labs(x="Year", y="Thousands of logbook entries") +
+  scale_x_continuous(breaks=seq(1980,2025, 5)) +
+  scale_fill_discrete(name="Species") +
+  # Theme
+  theme_bw() + bar_theme +
+  theme(legend.key.size = unit(0.3, "cm"))
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "dive_logbook_nlogs.png"), 
+       width=6.5, height=3.5, units="in", dpi=600)
+
+
+# Catch
+################################################################################
+
+# Summarize landings
+landings <- landings_orig %>% 
+  # Dive fishery for red sea urchin and warty sea cucumer
+  filter(comm_name %in% c("Red sea urchin", "Warty sea cucumber")) %>% 
+  filter(grepl("Diving", gear) | gear %in% c("Hand take")) %>% 
+  # Summarize
+  group_by(year, comm_name) %>% 
+  summarize(landings_lbs=sum(landings_lbs, na.rm=T)) %>% 
+  ungroup()
+table(landings_orig$gear)
+
+# Summarize logged landings
+logged_lbs <- data %>% 
+  filter(comm_name %in% c("Red sea urchin", "Warty sea cucumber")) %>% 
+  group_by(year, comm_name) %>% 
+  summarize(landings_lbs=sum(catch_lbs, na.rm=T)) %>% 
+  ungroup()
+
+# Plot data
+g <- ggplot(landings, aes(x=year, y=landings_lbs/1000)) +
+  facet_wrap(~comm_name, scale="free_y") +
+  # Plot landings
+  geom_bar(stat="identity", fill="grey80") +
+  # Plot logbooks
+  geom_line(data=logged_lbs) +
+  geom_point(data=logged_lbs, size=0.8) +
+  # Labels
+  labs(x="Year", y="Landings (1000s lbs)") +
+  # Theme
+  theme_bw() + bar_theme
+g
+
+# Export
+ggsave(g, filename=file.path(plotdir, "dive_logbook_vs_reciepts_catch.png"), 
+       width=6.5, height=3, units="in", dpi=600)
 
 
 # Depth (ft)
