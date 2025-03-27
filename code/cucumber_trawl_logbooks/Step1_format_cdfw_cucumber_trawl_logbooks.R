@@ -47,13 +47,15 @@ hr1 <- 23; hr2 <- 2
 calc_duration <- function(hr1, hr2){
   
   # Duration when hour2 is on the same day
-  duration1 <- (hr2 - hr1) * 60
+  duration1_hr <- (hr2 - hr1)
+  duration1_min <- duration1_hr * 60
   
   # Duration when hour2 is on the next day
-  duration2 <- (24-hr1) + hr2
+  duration2_hr <- (24-hr1) + hr2
+  duration2_min <- duration2_hr * 60
   
   # Select the right one
-  out <- ifelse(hr2>hr1, duration1, duration2)
+  out <- ifelse(hr2>hr1, duration1_min, duration2_min)
   
   return(out)
   
@@ -73,6 +75,7 @@ calculate_decimal_hour <- function(time_str) {
   decimal_hour <- hours + minutes / 60 + seconds / 3600
   
   return(decimal_hour)
+  
 }
 
 # Format data

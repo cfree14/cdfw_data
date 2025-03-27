@@ -16,6 +16,9 @@ outdir <- "data/confidential/landing_receipts_2023/processed"
 # Read species key
 spp_key_orig <- readRDS("data/public/cdfw_keys/processed/CDFW_species_key.Rds")
 
+# Read gear key
+gear_key_orig <- readRDS("data/public/cdfw_keys/processed/CDFW_gear_key.Rds")
+
 
 # Merge data
 ################################################################################
@@ -46,12 +49,12 @@ data1 <- data_orig %>%
          permit_gf=gf_permit_num,  
          port=port_name, 
          block_id=cdfw_block_id,   
-         primary_gear=primary_gear_name,
+         primary_gear_orig=primary_gear_name,
          comm_name_orig=species_name,    
          landings_lbs=pounds,           
          price_usd=unit_price,         
          value_usd=total_price,        
-         gear=gear_name,        
+         gear_orig=gear_name,        
          condition_id=fish_condition_id,
          condition=fish_condition_name,
          use=use_name) %>% 
@@ -82,13 +85,19 @@ data1 <- data_orig %>%
   # Add species
   left_join(spp_key_orig %>% select(spp_code_num, comm_name), by=c("species_id"="spp_code_num")) %>% 
   # Format primary gear
-  mutate(primary_gear=stringr::str_to_sentence(primary_gear) %>% stringr::str_squish(.),
+  mutate(primary_gear_orig=stringr::str_to_sentence(primary_gear_orig) %>% stringr::str_squish(.),
          primary_gear_id=ifelse(primary_gear_id==0, NA, primary_gear_id),
-         primary_gear=ifelse(is.na(primary_gear_id), NA, primary_gear)) %>% 
+         primary_gear_orig=ifelse(is.na(primary_gear_id), NA, primary_gear_orig)) %>% 
+  # Add primary gear meta-data
+  left_join(gear_key_orig %>% select(gear_code, gear, gear_type), by=c("primary_gear_id"="gear_code")) %>% 
+  rename(primary_gear=gear,
+         primary_gear_type=gear_type) %>% 
   # Format gear
-  mutate(gear=stringr::str_to_sentence(gear) %>% stringr::str_squish(.),
+  mutate(gear_orig=stringr::str_to_sentence(gear_orig) %>% stringr::str_squish(.),
          gear_id=ifelse(gear_id %in% c(-1, 0), NA, gear_id),
-         gear=ifelse(is.na(gear_id), NA, gear)) %>% 
+         gear_orig=ifelse(is.na(gear_id), NA, gear_orig)) %>% 
+  # Add gear meta-data
+  left_join(gear_key_orig %>% select(gear_code, gear, gear_type), by=c("gear_id"="gear_code")) %>% 
   # Format use
   mutate(use=stringr::str_to_sentence(use),
          use_id=ifelse(use_id %in% c(0, -1), NA, use_id),
@@ -101,7 +110,8 @@ data1 <- data_orig %>%
   select(year, date, receipt_id, 
          vessel_id, fisher_id, permit_state, permit_gf,
          port_id, port, business_id, block_id,
-         primary_gear_id, primary_gear, gear_id, gear, 
+         primary_gear_id, primary_gear_orig, primary_gear, primary_gear_type,
+         gear_id, gear_orig, gear, gear_type,
          species_id, comm_name_orig, comm_name,
          condition_id, condition, 
          use_id, use,
@@ -150,13 +160,13 @@ freeR::which_duplicated(condition_key$condition_id)
 
 # Primary gear key (75 is unknown)
 primary_gear_key <- data1 %>% 
-  count(primary_gear_id, primary_gear) %>% 
+  count(primary_gear_id, primary_gear_orig, primary_gear, primary_gear_type) %>% 
   arrange(primary_gear_id)
 freeR::which_duplicated(primary_gear_key$primary_gear_id)
 
 # Gear key
 gear_key <- data1 %>% 
-  count(gear_id, gear) %>% 
+  count(gear_id, gear_orig, gear, gear_type) %>% 
   arrange(gear_id)
 freeR::which_duplicated(gear_key$gear_id)
 
@@ -164,6 +174,10 @@ freeR::which_duplicated(gear_key$gear_id)
 # Export data
 ################################################################################
 
+# Prep for export
+data2 <- data1 %>% 
+  select(-c(primary_gear_orig, gear_orig))
+
 # Export data
-saveRDS(data1, file=file.path(outdir, "1980_2022_landings_receipts.Rds"))
+saveRDS(data2, file=file.path(outdir, "1980_2022_landings_receipts.Rds"))
 

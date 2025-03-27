@@ -1,79 +1,79 @@
-﻿GearCode,GearDescription,DiscontinueDate,GearTypeChris
-73,DRUM SEINE,,Beach seine
-78,BEACH SEINE,,Beach seine
-14,DIVING - ABALONE IRON,4/1/96,"Diving, spear, hand"
-15,DIVING /HOOKS (SEA URCHINS),4/1/96,"Diving, spear, hand"
-18,DIVING,,"Diving, spear, hand"
-11,SPEAR,4/1/96,"Diving, spear, hand"
-12,HARPOON/SPEAR,,"Diving, spear, hand"
-90,HAND TAKE,,"Diving, spear, hand"
-63,LARGE MESH DRIFT GN,,Gillnet
-64,SMALL MESH DRIFT GN,,Gillnet
-65,DRIFT GILL NET,2/1/16,Gillnet
-66,SET GILL NET,2/1/16,Gillnet
-67,LARGE MESH SET GN,,Gillnet
-68,SMALL MESH SET GN,,Gillnet
-69,HERRING GN,,Gillnet
-1,HOOK & LINE,,Hook & Line
-30,HORIZONTAL SET LINE,4/1/96,Longline
-82,PELAGIC DEEP-SET LONGLINE,,Longline
-81,PELAGIC SHALLOW-SET LONGLINE,,Longline
-5,SET LONGLINE,,Longline
-32,TROLL LONG LINE,4/1/96,Longline
-3,VERTICAL HOOK & LINE/PORTUGUESE LONGLINE,,Longline
-31,VERTICAL SET LINE,4/1/96,Longline
-0,UNKNOWN,4/1/96,Other
-2,LIVE BAIT,4/1/96,Other
-4,MOOCHING (SALMON),,Other
-6,JIG/BAIT (ALBACORE),,Other
-10,MISCELLANEOUS,4/1/96,Other
-13,"RAKES, FORKS",4/1/96,Other
-17,"KELP BARGE, SHEARING",4/1/96,Other
-19,DREDGE,4/1/96,Other
-95,RAFT/LINES FOR HERRING ROE ON KELP,,Other
-35,DAINISH/SCOTTISH SEINE,,Other
-36,JIG/BAIT,4/1/96,Other
-42,FISH PUMP,4/1/96,Other
-52,PARANZELLA,4/1/96,Other
-72,HALF RING,4/1/96,Other
-83,"STANDARD BUOY GEAR, DEEP-SET",,Other
-84,"LINKED BUOY GEAR, DEEP-SET",,Other
-91,HAND PUMP,,Other
-99,OTHER,,Other
-16,CAST NET,4/1/96,Other net
-23,"SHRIMP NET, CHINESE TYPE",4/1/96,Other net
-24,FYKE NET,4/1/96,Other net
-26,"HOOP NET, CRAB-RINGS",4/1/96,Other net
-28,LIFT NET,4/1/96,Other net
-40,BRAIL/DIP NET OR A-FRAME,,Other net
-41,"DIP NET, ""A"" FRAME",4/1/96,Other net
-60,ENTANGLING NETS,4/1/96,Other net
-61,TRAMMEL NET,4/1/96,Other net
-70,ENCIRCLING NETS,4/1/96,Other net
-74,LAMPARA NET,,Other net
-80,NET,4/1/96,Other net
-71,PURSE SEINE,,Purse seine
-20,ENTRAPPING,4/1/96,Trap
-21,FISH TRAP,,Trap
-22,PRAWN TRAP,,Trap
-25,"TRAPS, SEATTLE TYPE (SABLEFISH)",4/1/96,Trap
-27,CRAB OR LOBSTER TRAP,,Trap
-37,BUCKET TRAP,,Trap
-38,BARREL TRAP,,Trap
-33,PELAGIC TRAWL,4/1/96,Trawl
-34,PAIR TRAWL 2,4/1/96,Trawl
-47,"SELECTIVE FLATFISH TRAWL, SMALL FOOTROPE",,Trawl
-48,TRAWL - FOOTROPE LESS THAN 8 INCHES IN DIAMETER,,Trawl
-49,TRAWL - FOOTROPE GREATER THAN 8 INCHES IN DIAMETER,,Trawl
-50,TRAWL NET,4/1/96,Trawl
-51,TRAWL WITH ROLLER GEAR,4/1/96,Trawl
-53,PAIR TRAWL,,Trawl
-54,MIDWATER TRAWL,,Trawl
-55,BEAM TRAWL,,Trawl
-56,BOTTOM TRAWL,,Trawl
-57,BALLOON TRAWL,4/1/96,Trawl
-58,SINGLE-RIGGED TRAWL,,Trawl
-59,DOUBLE-RIGGED TRAWL,,Trawl
-7,TROLL (ALBACORE),,Troll
-8,TROLL (GROUNDFISH OR OTHER FISH),,Troll
-9,TROLL (SALMON),,Troll
+﻿GearCode,GearDescription,DiscontinueDate,GearTypeChris,GearNameChris
+73,DRUM SEINE,,Beach seine,Drum seine
+78,BEACH SEINE,,Beach seine,Beach seine
+14,DIVING - ABALONE IRON,4/1/96,"Diving, spear, hand",Diving - abalone iron
+15,DIVING /HOOKS (SEA URCHINS),4/1/96,"Diving, spear, hand",Diving - hooks (sea urchins)
+18,DIVING,,"Diving, spear, hand",Diving
+11,SPEAR,4/1/96,"Diving, spear, hand",Spear
+12,HARPOON/SPEAR,,"Diving, spear, hand","Harpoon, spear"
+90,HAND TAKE,,"Diving, spear, hand",Hand take
+63,LARGE MESH DRIFT GN,,Gillnet,Large-mesh drift gillnet
+64,SMALL MESH DRIFT GN,,Gillnet,Small-mesh drift gillnet
+65,DRIFT GILL NET,2/1/16,Gillnet,Drift gillnet
+66,SET GILL NET,2/1/16,Gillnet,Set gillnet
+67,LARGE MESH SET GN,,Gillnet,Large-mesh set gillnet
+68,SMALL MESH SET GN,,Gillnet,Small-mesh set gillnet
+69,HERRING GN,,Gillnet,Herring gillnet
+1,HOOK & LINE,,Hook and line,Hook and line
+30,HORIZONTAL SET LINE,4/1/96,Longline,Horizontal set line
+82,PELAGIC DEEP-SET LONGLINE,,Longline,Pelagic deep-set longline
+81,PELAGIC SHALLOW-SET LONGLINE,,Longline,Pelagic shallow-set longline
+5,SET LONGLINE,,Longline,Set longline
+32,TROLL LONG LINE,4/1/96,Longline,Troll longline
+3,VERTICAL HOOK & LINE/PORTUGUESE LONGLINE,,Longline,"Vertical hook and line, Portuguese longline"
+31,VERTICAL SET LINE,4/1/96,Longline,Vertical set line
+0,UNKNOWN,4/1/96,Other,Unknown
+2,LIVE BAIT,4/1/96,Other,Live bait
+4,MOOCHING (SALMON),,Other,Mooching (salmon)
+6,JIG/BAIT (ALBACORE),,Other,Jig/bait (albacore)
+10,MISCELLANEOUS,4/1/96,Other,Miscellaneous
+13,"RAKES, FORKS",4/1/96,Other,"Rakes, forks"
+17,"KELP BARGE, SHEARING",4/1/96,Other,"Kelp barge, shearing"
+19,DREDGE,4/1/96,Other,Dredge
+95,RAFT/LINES FOR HERRING ROE ON KELP,,Other,Raft/lines for herring roe on kelp
+35,DAINISH/SCOTTISH SEINE,,Other,Dainish/Scottish seine
+36,JIG/BAIT,4/1/96,Other,Jig/bait
+42,FISH PUMP,4/1/96,Other,Fish pump
+52,PARANZELLA,4/1/96,Other,Paranzella
+72,HALF RING,4/1/96,Other,Half ring
+83,"STANDARD BUOY GEAR, DEEP-SET",,Other,"Standard buoy gear, deep-set"
+84,"LINKED BUOY GEAR, DEEP-SET",,Other,"Linked buoy gear, deep-set"
+91,HAND PUMP,,Other,Hand pump
+99,OTHER,,Other,Other
+16,CAST NET,4/1/96,Other net,Cast net
+23,"SHRIMP NET, CHINESE TYPE",4/1/96,Other net,"Shrimp net, Chinese type"
+24,FYKE NET,4/1/96,Other net,Fyke net
+26,"HOOP NET, CRAB-RINGS",4/1/96,Other net,"Hoop net, crab-rings"
+28,LIFT NET,4/1/96,Other net,Lift net
+40,BRAIL/DIP NET OR A-FRAME,,Other net,Brail/dip net or A-frame
+41,"DIP NET, ""A"" FRAME",4/1/96,Other net,"Dip net, A-frame"
+60,ENTANGLING NETS,4/1/96,Other net,Entangling nets
+61,TRAMMEL NET,4/1/96,Other net,Trammel net
+70,ENCIRCLING NETS,4/1/96,Other net,Encircling nets
+74,LAMPARA NET,,Other net,Lampara net
+80,NET,4/1/96,Other net,Net
+71,PURSE SEINE,,Purse seine,Purse seine
+20,ENTRAPPING,4/1/96,Trap,Entrapping
+21,FISH TRAP,,Trap,Fish trap
+22,PRAWN TRAP,,Trap,Prawn trap
+25,"TRAPS, SEATTLE TYPE (SABLEFISH)",4/1/96,Trap,"Traps, Seattle type (sablefish)"
+27,CRAB OR LOBSTER TRAP,,Trap,Crab or lobster trap
+37,BUCKET TRAP,,Trap,Bucket trap
+38,BARREL TRAP,,Trap,Barrel trap
+33,PELAGIC TRAWL,4/1/96,Trawl,Pelagic trawl
+34,PAIR TRAWL 2,4/1/96,Trawl,Pair trawl 2
+47,"SELECTIVE FLATFISH TRAWL, SMALL FOOTROPE",,Trawl,"Selective flatfish trawl, small footrope"
+48,TRAWL - FOOTROPE LESS THAN 8 INCHES IN DIAMETER,,Trawl,Trawl - footrope less than 8 inches in diameter
+49,TRAWL - FOOTROPE GREATER THAN 8 INCHES IN DIAMETER,,Trawl,Trawl - footrope greater than 8 inches in diameter
+50,TRAWL NET,4/1/96,Trawl,Trawl net
+51,TRAWL WITH ROLLER GEAR,4/1/96,Trawl,Trawl with roller gear
+53,PAIR TRAWL,,Trawl,Pair trawl
+54,MIDWATER TRAWL,,Trawl,Midwater trawl
+55,BEAM TRAWL,,Trawl,Beam trawl
+56,BOTTOM TRAWL,,Trawl,Bottom trawl
+57,BALLOON TRAWL,4/1/96,Trawl,Balloon trawl
+58,SINGLE-RIGGED TRAWL,,Trawl,Single-rigged trawl
+59,DOUBLE-RIGGED TRAWL,,Trawl,Double-rigged trawl
+7,TROLL (ALBACORE),,Troll,Troll (albacore)
+8,TROLL (GROUNDFISH OR OTHER FISH),,Troll,Troll (groundfish or other fish)
+9,TROLL (SALMON),,Troll,Troll (salmon)

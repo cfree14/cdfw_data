@@ -20,7 +20,6 @@ outdir <- "data/public/cdfw_keys/processed"
 # Read port key
 port_key_orig <- read.csv(file.path(indir, "PortCodesExtract.csv"), as.is=T)
 
-
 # Format port key
 port_key <- port_key_orig %>%
   # Rename
@@ -48,20 +47,20 @@ write.csv(port_key, file=file.path(outdir, "CDFW_port_key.csv"), row.names=F)
 # Format gear key
 ################################################################################
 
-# Read port key
+# Read key
 gear_key_orig <- read.csv(file.path(indir, "GearCodesExtract.csv"), as.is=T)
 
-# Format port key
+# Format key
 gear_key <- gear_key_orig %>%
   # Rename
   janitor::clean_names("snake") %>%
-  rename(gear=gear_description,
+  rename(gear=gear_name_chris,
          discontinued_date=discontinue_date,
          gear_type=gear_type_chris) %>%
-  # Format gear
-  mutate(gear=stringr::str_to_title(gear)) %>%
   # Format date
-  mutate(discontinued_date=lubridate::mdy(discontinued_date))
+  mutate(discontinued_date=lubridate::mdy(discontinued_date)) %>% 
+  # Simplify
+  select(gear_code, gear, gear_type, discontinued_date)
 
 # Inspect
 str(gear_key)
