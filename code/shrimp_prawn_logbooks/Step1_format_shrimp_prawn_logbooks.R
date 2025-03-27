@@ -54,13 +54,15 @@ hr1 <- 23; hr2 <- 2
 calc_duration <- function(hr1, hr2){
   
   # Duration when hour2 is on the same day
-  duration1 <- (hr2 - hr1) * 60
+  duration1_hr <- (hr2 - hr1)
+  duration1_min <- duration1_hr * 60
   
   # Duration when hour2 is on the next day
-  duration2 <- (24-hr1) + hr2
+  duration2_hr <- (24-hr1) + hr2
+  duration2_min <- duration2_hr * 60
   
   # Select the right one
-  out <- ifelse(hr2>hr1, duration1, duration2)
+  out <- ifelse(hr2>hr1, duration1_min, duration2_min)
   
   return(out)
   
@@ -167,7 +169,7 @@ data <- data_orig %>%
   # Arrange
   select(logbook_id, vessel_id, vessel, port_code, port, 
          year, year_orig, date_depart, date_return, 
-         date_tow, tow_number, tow_id,
+         date_tow, tow_number, #tow_id,
          block_id,
          lat_dd_set, long_dd_set,
          lat_dd_up, long_dd_up,
