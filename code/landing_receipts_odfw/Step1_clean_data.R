@@ -132,6 +132,8 @@ table(data$use_code)
 table(data$grd)
 table(data$legal_status)
 
+# Vessel key
+
 
 
 # Export data
