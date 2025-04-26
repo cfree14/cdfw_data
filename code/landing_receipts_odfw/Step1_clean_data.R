@@ -18,8 +18,14 @@ spp_key_orig <- readxl::read_excel(file.path(indir, "ODFW_Fishery_Logbook_Codes.
 gear_key_orig <- readxl::read_excel(file.path(indir, "ODFW_Fishery_Logbook_Codes.xls"), sheet="Gear")
 port_key_orig <- readxl::read_excel(file.path(indir, "ODFW_Fishery_Logbook_Codes.xls"), sheet="Ports")
 target_key_orig <- readxl::read_excel(file.path(indir, "ODFW_Fishery_Logbook_Codes.xls"), sheet="Trawl Strategy Target Code")
+grade_key_orig <- readxl::read_excel(file.path(indir, "codes_from_mark_freeman.xlsx"), sheet="Grades")
+use_key_orig <- readxl::read_excel(file.path(indir, "codes_from_mark_freeman.xlsx"), sheet="Use")
+condition_key_orig <- readxl::read_excel(file.path(indir, "codes_from_mark_freeman.xlsx"), sheet="Condition")
+legality_key_orig <- readxl::read_excel(file.path(indir, "codes_from_mark_freeman.xlsx"), sheet="Legal status")
 
-
+# To-do list
+# Understand vessel identifiers
+  
 # Format keys
 ################################################################################
 
@@ -51,13 +57,42 @@ port_key <- port_key_orig %>%
   rename(port=port_name) %>% 
   mutate(port_code=as.numeric(port_code))
 
+# Uses
+use_key <- use_key_orig %>% 
+  # Rename
+  janitor::clean_names("snake") %>% 
+  rename(use_code=code) %>% 
+  mutate(use_code=as.numeric(use_code))
+
+# Grades
+grade_key <- grade_key_orig %>% 
+  # Rename
+  janitor::clean_names("snake") %>% 
+  rename(grade=size) %>% 
+  mutate(grade_code=as.numeric(grade_code))
+
+# Conditions
+condition_key <- condition_key_orig %>% 
+  # Rename
+  janitor::clean_names("snake") %>% 
+  rename(condition_code=code) %>% 
+  mutate(condition_code=as.numeric(condition_code))
+
+# Conditions
+legality_key <- legality_key_orig %>% 
+  # Rename
+  janitor::clean_names("snake") %>% 
+  rename(legality_code=legal_status_code,
+         legality=legal_status_description) %>% 
+  mutate(legality_code=as.numeric(legality_code))
+
 
 
 # Merge data
 ################################################################################
 
 # List files
-files2merge <- list.files(file.path(indir, "fish_tickets"), pattern = ".xlsx")[2:8]
+files2merge <- list.files(file.path(indir, "fish_tickets"), pattern = ".xlsx")
 data_orig <- purrr::map_df(files2merge, function(x){
   
   df <- readxl::read_excel(file.path(indir, "fish_tickets", x), skip=1)
@@ -68,8 +103,6 @@ data_orig <- purrr::map_df(files2merge, function(x){
 # Format data
 ################################################################################
 
-# 705/295 missing common names
-
 # Format data
 data <- data_orig %>% 
   # Clean names
@@ -77,9 +110,10 @@ data <- data_orig %>%
   rename(revenues_usd=landed_value,
          use_code=use,
          condition_code=cond,
+         grade_code=grd,
          landings_n=number_of_fish,
-         landings_lbs1=ticket_lbs,
-         landings_lbs2=round_lbs,
+         landings_lbs=ticket_lbs,
+         landings_lbs_round=round_lbs,
          receipt_id=ticket_no, 
          date=landed,
          date_modified=modified,
@@ -87,6 +121,7 @@ data <- data_orig %>%
          dealer_id=dlr,
          gear_code=gear, 
          port_code=port,
+         legality_code=legal_status,
          price_usd_lb=price_per_pound, 
          receipt_status=ticket_status) %>% 
   # Format date
@@ -101,16 +136,30 @@ data <- data_orig %>%
   # Add port
   mutate(port_code=as.numeric(port_code)) %>% 
   left_join(port_key) %>% 
+  # Add use
+  mutate(use_code=as.numeric(use_code)) %>% 
+  left_join(use_key) %>% 
+  # Add grade
+  mutate(grade_code=as.numeric(grade_code)) %>% 
+  left_join(grade_key %>% select(-typical_species)) %>%
+  # Add condition
+  mutate(condition_code=as.numeric(condition_code)) %>% 
+  left_join(condition_key %>% select(-typical_species)) %>%
+  # Add legality
+  mutate(legality_code=as.numeric(legality_code)) %>% 
+  left_join(legality_key %>% select(-legacy_code)) %>%
   # Arrange
   select(receipt_id, receipt_status, 
          year, date, date_modified,
          dealer_id, license, permit, doc_no, 
          port_code, port, area_code, 
-         grd, legal_status, 
          gear_code, gear, days_fished, 
          species_code, comm_name, 
-         condition_code, use_code, 
-         landings_n, landings_lbs1, landings_lbs2, 
+         legality_code, legality,
+         condition_code, condition,
+         use_code, use,
+         grade_code, grade,
+         landings_n, landings_lbs, landings_lbs_round, 
          price_usd_lb, revenues_usd,
          everything())
 
@@ -124,16 +173,14 @@ table(data$receipt_status)
 # Areas include multiple areas
 table(data$area_code)
 
-# What do these codes mean?
-table(data$condition_code)
-table(data$use_code)
+# Time
+range(data$year)
+range(data$date)
 
-# What do these variables and their codes mean?
-table(data$grd)
-table(data$legal_status)
-
-# Vessel key
-
+# Landings
+ggplot(data %>% sample_frac(0.3), aes(x=landings_lbs, y= landings_lbs_round)) +
+  geom_point() +
+  geom_abline(slope=1)
 
 
 # Export data
